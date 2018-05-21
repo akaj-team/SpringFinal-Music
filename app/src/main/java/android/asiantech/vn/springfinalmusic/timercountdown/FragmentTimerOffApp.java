@@ -2,6 +2,7 @@ package android.asiantech.vn.springfinalmusic.timercountdown;
 
 import android.asiantech.vn.springfinalmusic.R;
 import android.asiantech.vn.springfinalmusic.timercountdown.modle.Timer;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,7 +17,9 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentTimerOffApp extends Fragment {
+public class FragmentTimerOffApp extends Fragment implements IListenerTimer {
+    public static final String ACTION_START_COUNT_DOWN = "start_count_down";
+    public static final String KEY_TIME="key_time";
     private RecyclerView mRvTimerOffApp;
     private RecyclerView.Adapter mAdapter;
     private List<Timer> mTimerList;
@@ -52,9 +55,18 @@ public class FragmentTimerOffApp extends Fragment {
     private void initRecyclerView(View view) {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(view.getContext());
         mRvTimerOffApp.setLayoutManager(mLayoutManager);
-        mAdapter = new TimerAdapter(mTimerList);
+        mAdapter = new TimerAdapter(mTimerList, this);
         mRvTimerOffApp.setAdapter(mAdapter);
         DividerItemDecoration dividerHorizontal = new DividerItemDecoration(view.getContext(), DividerItemDecoration.VERTICAL);
         mRvTimerOffApp.addItemDecoration(dividerHorizontal);
+    }
+
+    @Override
+    public void onCommand(int timer) {
+        sendActionCountDown();
+    }
+
+    private void sendActionCountDown() {
+        getContext().sendBroadcast(new Intent().setAction(ACTION_START_COUNT_DOWN).putExtra(KEY_TIME,1000));
     }
 }
