@@ -1,4 +1,4 @@
-package loading;
+package springfinalmusic.loading;
 
 import android.app.Activity;
 import android.asiantech.vn.springfinalmusic.R;
