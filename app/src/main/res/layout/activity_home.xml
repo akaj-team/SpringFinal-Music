@@ -34,7 +34,6 @@
                 android:src="@drawable/custom_icon_search" />
         </android.support.v7.widget.Toolbar>
 
-
         <ImageView
             android:id="@+id/imgHomeTheme"
             android:layout_width="match_parent"
@@ -205,7 +204,6 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorWhite"
                 android:text="@string/home_drawerlayout_setting" />
-
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>
 
