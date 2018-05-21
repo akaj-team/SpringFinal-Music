@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">SpringFinal-Music</string>
+    <string name="home_minibar_test_name_song">Chinh Em</string>
+    <string name="home_minibar_test_name_author">Luong Bang Quang</string>
     <string name="loading_description_background">Loading Background</string>
     <string name="loading_decription_logo">Loading Logo</string>
     <string name="loading_name_app">NhacCuaTui</string>
@@ -7,4 +9,13 @@
     <string name="loading_progress2">Loading Progress 2</string>
     <string name="loading_progress3">Loading Progress 3</string>
     <string name="loading_progress4">Loading Progress 4</string>
+    <string name="home_drawerlayout_text_Login">Đăng Nhập</string>
+    <string name="home_drawerlayout_wifi">Chỉ đồng bộ qua wifi</string>
+    <string name="home_drawerlayout_time_off">Hẹn giờ</string>
+    <string name="home_drawerlayout_theme">Theme</string>
+    <string name="home_drawerlayout_app_review">Đánh giá ứng dụng</string>
+    <string name="home_drawerlayout_app_infomation">Thông tin ứng dụng</string>
+    <string name="home_drawerlayout_more_app">Ứng dụng khác</string>
+    <string name="home_drawerlayout_help">Hướng dẫn và hỗ trợ</string>
+    <string name="home_drawerlayout_setting">Cài đặt</string>
 </resources>
