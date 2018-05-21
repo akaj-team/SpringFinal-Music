@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imgLoadingBg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_loading"
+        android:contentDescription="@string/loading_description_background" />
+
+    <ImageView
+        android:id="@+id/imgLoadingIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/loading_decription_logo"
+        android:src="@drawable/img_logo"
+        app:layout_constraintBottom_toTopOf="@id/tvNameApp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/tvNameApp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="@string/loading_name_app"
+        app:layout_constraintBottom_toTopOf="@+id/imgLoadingProgress1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgLoadingProgress1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:contentDescription="@string/loading_progress1"
+        android:src="@drawable/bt_progress_nor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imgLoadingProgress2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imgLoadingBg" />
+
+    <ImageView
+        android:id="@+id/imgLoadingProgress2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/loading_progress2"
+        android:src="@drawable/bt_progress_nor"
+        app:layout_constraintBottom_toBottomOf="@+id/imgLoadingProgress1"
+        app:layout_constraintEnd_toStartOf="@+id/imgLoadingProgress3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imgLoadingProgress1" />
+
+    <ImageView
+        android:id="@+id/imgLoadingProgress3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/loading_progress3"
+        android:src="@drawable/bt_progress_nor"
+        app:layout_constraintBottom_toBottomOf="@+id/imgLoadingProgress2"
+        app:layout_constraintEnd_toStartOf="@+id/imgLoadingProgress4"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imgLoadingProgress2" />
+
+    <ImageView
+        android:id="@+id/imgLoadingProgress4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/loading_progress4"
+        android:src="@drawable/bt_progress_nor"
+        app:layout_constraintBottom_toBottomOf="@+id/imgLoadingProgress3"
+        app:layout_constraintEnd_toStartOf="@+id/imgLoadingBg"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imgLoadingProgress3" />
+
+</android.support.constraint.ConstraintLayout>
