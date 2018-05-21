@@ -47,7 +47,7 @@ public class TimerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         @SuppressLint("SetTextI18n")
         void onBind(Timer timer) {
-            mTvTimer.setText("Sau " + timer.getTimer() + " phút");
+            mTvTimer.setText("Sau " + timer.getTimeCount() + " phút");
         }
     }
 }

@@ -1,13 +1,13 @@
 package android.asiantech.vn.springfinalmusic.timercountdown.modle;
 
 public class Timer {
-    private int timer;
+    private int timeCount;
 
-    public int getTimer() {
-        return timer;
+    public int getTimeCount() {
+        return timeCount;
     }
 
-    public Timer(int timer) {
-        this.timer = timer;
+    public Timer(int timeCount) {
+        this.timeCount = timeCount;
     }
 }
