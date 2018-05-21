@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dp18_tvTimer">18dp</dimen>
+    <dimen name="dp2_padding">2dp</dimen>
+</resources>

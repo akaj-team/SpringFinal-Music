@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">SpringFinal-Music</string>
+    <string name="loading_description_background">Loading Background</string>
+    <string name="loading_decription_logo">Loading Logo</string>
+    <string name="loading_name_app">NhacCuaTui</string>
+    <string name="loading_progress1">Loading Progress 1</string>
+    <string name="loading_progress2">Loading Progress 2</string>
+    <string name="loading_progress3">Loading Progress 3</string>
+    <string name="loading_progress4">Loading Progress 4</string>
 </resources>
