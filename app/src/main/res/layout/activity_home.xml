@@ -16,22 +16,65 @@
 
         <ImageView
             android:id="@+id/imgHomeQuickplayer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:src="@drawable/ic_quickplayer_blue"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            />
-        <ImageView
-            android:id="@+id/imgHomePlayingList"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btnPlayingListMiniBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_btn_minibar_playinglist"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/imgHomeQuickplayer"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginRight="15dp"
-            />
+            android:background="@color/colorWhite"
+            android:src="@drawable/ic_btn_minibar_playinglist"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/imgHomeQuickplayer" />
+
+        <ImageButton
+            android:id="@+id/btnNextMiniBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:background="@color/colorWhite"
+            android:src="@drawable/ic_btn_minibar_next_normal"
+            app:layout_constraintRight_toLeftOf="@id/btnPlayingListMiniBar"
+            app:layout_constraintTop_toTopOf="@id/btnPlayingListMiniBar" />
+
+        <ImageButton
+            android:id="@+id/btnPlayMiniBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:background="@color/colorWhite"
+            android:src="@drawable/ic_btn_minibar_play_normal"
+            app:layout_constraintRight_toLeftOf="@id/btnNextMiniBar"
+            app:layout_constraintTop_toTopOf="@id/btnPlayingListMiniBar" />
+
+        <TextView
+            android:id="@+id/tvNameSongMiniBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/home_minibar_test_name_song"
+            android:textColor="@color/colorBlack"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@id/imgHomeQuickplayer"
+            app:layout_constraintRight_toLeftOf="@id/btnPlayMiniBar"
+            app:layout_constraintTop_toTopOf="@id/imgHomeQuickplayer" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/home_minibar_test_name_author"
+            app:layout_constraintLeft_toLeftOf="@+id/tvNameSongMiniBar"
+            app:layout_constraintRight_toRightOf="@id/tvNameSongMiniBar"
+            app:layout_constraintTop_toBottomOf="@id/tvNameSongMiniBar" />
     </android.support.constraint.ConstraintLayout>
 
     <android.support.design.widget.NavigationView

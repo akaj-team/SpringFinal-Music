@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SpringFinal-Music</string>
+    <string name="home_minibar_test_name_song">Chinh Em</string>
+    <string name="home_minibar_test_name_author">Luong Bang Quang</string>
 </resources>
