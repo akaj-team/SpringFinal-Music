@@ -7,4 +7,6 @@
     <string name="loading_progress2">Loading Progress 2</string>
     <string name="loading_progress3">Loading Progress 3</string>
     <string name="loading_progress4">Loading Progress 4</string>
+    <string name="notification_test_name_singer">Son Tung MTP</string>
+    <string name="notification_test_name_song">Con mua ngang qua</string>
 </resources>

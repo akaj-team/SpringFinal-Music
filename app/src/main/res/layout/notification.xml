@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp">
+
+    <ImageView
+        android:id="@+id/imgNotificationThumnail"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/theme_default" />
+
+    <TextView
+        android:id="@+id/tvNotificationNameSong"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_toRightOf="@+id/imgNotificationThumnail"
+        android:text="@string/notification_test_name_song"
+        android:textSize="19dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvNotificationNameSinger"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tvNotificationNameSong"
+        android:layout_alignRight="@id/tvNotificationNameSong"
+        android:layout_below="@id/tvNotificationNameSong"
+        android:layout_marginTop="2dp"
+        android:text="@string/notification_test_name_singer" />
+
+    <ProgressBar
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/tvNotificationNameSinger"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="4dp"
+        android:layout_toRightOf="@id/imgNotificationThumnail"
+        android:progress="15" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>
