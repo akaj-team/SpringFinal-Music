@@ -4,15 +4,18 @@ import android.asiantech.vn.springfinalmusic.model.Song;
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ResourcesManager {
+    private static final String TAG = ResourcesManager.class.getSimpleName();
+
     private List<Song> mListSong = new ArrayList<>();
     private Context mContext;
 
-    ResourcesManager(Context context) {
+    public ResourcesManager(Context context) {
         mContext = context;
     }
 
@@ -31,11 +34,9 @@ public class ResourcesManager {
         cursor = mContext.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, project, selection, null, null);
         if (cursor != null) {
             while (cursor.moveToNext()) {
-                int id = Integer.valueOf(cursor.getString(0));
-                int duration = Integer.valueOf(cursor.getString(5));
-                Song song = new Song(id, cursor.getString(1)
+                Song song = new Song(cursor.getInt(0), cursor.getString(1)
                         , cursor.getString(2), cursor.getString(3), cursor.getString(4)
-                        , duration, cursor.getString(6));
+                        , cursor.getInt(5), cursor.getString(6));
                 mListSong.add(song);
             }
             cursor.close();
