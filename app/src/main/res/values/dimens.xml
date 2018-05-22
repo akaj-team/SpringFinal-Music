@@ -2,4 +2,6 @@
 <resources>
     <dimen name="dp18_tvTimer">18dp</dimen>
     <dimen name="dp2_padding">2dp</dimen>
+    <dimen name="button_size">30dp</dimen>
+    <dimen name="size_notification_height">100dp</dimen>
 </resources>
