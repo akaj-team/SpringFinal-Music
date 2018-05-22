@@ -20,4 +20,14 @@
     <string name="home_drawerlayout_more_app">Ứng dụng khác</string>
     <string name="home_drawerlayout_help">Hướng dẫn và hỗ trợ</string>
     <string name="home_drawerlayout_setting">Cài đặt</string>
+    <string name="minibar_item_text_playlist">playlist</string>
+    <string name="minibar_textview_edit">Chỉnh sửa</string>
+    <string name="minibar_textview_complete">Hoàn Thành</string>
+    <string name="minibar_text_create">Tạo mới</string>
+    <string name="minibar_text_random_music">Nghe ngẫu nhiên</string>
+    <string name="minibar_text_num_of_song">bài hát</string>
+    <string name="toolbar_text_libary">Thư viện nhạc</string>
+    <string name="toolbar_button_cancel">Huỷ</string>
+    <string name="toolbar_text_hint_search">Nhập tên bài hát, nghệ sĩ, album</string>
+    <string name="minibar_time_default">00:00</string>
 </resources>
