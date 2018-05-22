@@ -16,7 +16,7 @@ public class ResourcesManager {
         mContext = context;
     }
 
-    public void LoadAllSong() {
+    public void loadAllSong() {
         String selection = MediaStore.Audio.Media.IS_MUSIC + " !=0";
         String[] project = {
                 MediaStore.Audio.Media._ID,
@@ -31,13 +31,15 @@ public class ResourcesManager {
         cursor = mContext.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, project, selection, null, null);
         if (cursor != null) {
             while (cursor.moveToNext()) {
-                Song song = new Song(Integer.valueOf(cursor.getString(0)), cursor.getString(1)
+                int id = Integer.valueOf(cursor.getString(0));
+                int duration = Integer.valueOf(cursor.getString(5));
+                Song song = new Song(id, cursor.getString(1)
                         , cursor.getString(2), cursor.getString(3), cursor.getString(4)
-                        , Integer.valueOf(cursor.getString(5)), cursor.getString(6));
+                        , duration, cursor.getString(6));
                 mListSong.add(song);
             }
+            cursor.close();
         }
-        cursor.close();
     }
 
     public List<Song> getAllSongFromDevice() {
