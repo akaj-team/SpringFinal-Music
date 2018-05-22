@@ -2,4 +2,10 @@
 <resources>
     <dimen name="dp18_tvTimer">18dp</dimen>
     <dimen name="dp2_padding">2dp</dimen>
+    <dimen name="minibar_size_button">20dp</dimen>
+    <dimen name="minibar_size_height">40dp</dimen>
+    <dimen name="minibar_text_size">17dp</dimen>
+    <dimen name="playlist_item_size_height">65dp</dimen>
+    <dimen name="minibar_size_thumbnail_playlist_item">50dp</dimen>
+    <dimen name="toolbar_text_size">18dp</dimen>
 </resources>

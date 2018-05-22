@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/playlist_item_size_height">
+
+    <ImageButton
+        android:id="@+id/btnMiniBarButtonClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/ic_btn_skin_delete"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgMiniBarPlaylistItemThumbnail"
+        android:layout_width="@dimen/minibar_size_thumbnail_playlist_item"
+        android:layout_height="@dimen/minibar_size_thumbnail_playlist_item"
+        android:layout_marginLeft="15dp"
+        android:src="@color/colorBlack"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/btnMiniBarButtonClose"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvMiniBarNameOfPlaylist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/minibar_item_text_playlist"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/minibar_text_size"
+        app:layout_constraintLeft_toRightOf="@id/imgMiniBarPlaylistItemThumbnail"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvMiniBarPlaylistNumOfSong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/minibar_text_num_of_song"
+        android:textSize="15dp"
+        app:layout_constraintLeft_toLeftOf="@id/tvMiniBarNameOfPlaylist"
+        app:layout_constraintTop_toBottomOf="@id/tvMiniBarNameOfPlaylist" />
+
+    <Button
+        android:layout_width="@dimen/minibar_size_button"
+        android:layout_height="@dimen/minibar_size_button"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/bt_mymusic_edit_rename_nor"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@color/black_50"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+</android.support.constraint.ConstraintLayout>
