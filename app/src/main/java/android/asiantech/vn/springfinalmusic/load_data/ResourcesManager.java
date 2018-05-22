@@ -4,7 +4,6 @@ import android.asiantech.vn.springfinalmusic.model.Song;
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.MediaStore;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;

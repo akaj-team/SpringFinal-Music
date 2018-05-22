@@ -2,7 +2,6 @@ package android.asiantech.vn.springfinalmusic.home;
 
 import android.app.Activity;
 import android.asiantech.vn.springfinalmusic.R;
-import android.asiantech.vn.springfinalmusic.load_data.ResourcesManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
