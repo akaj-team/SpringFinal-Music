@@ -28,7 +28,6 @@ public class CircleProgressBar extends View {
     private Paint mThumbnail;
     private Bitmap mBitmap = null;
 
-
     public CircleProgressBar(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
