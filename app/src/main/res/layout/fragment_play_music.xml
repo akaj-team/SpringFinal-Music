@@ -135,10 +135,9 @@
     <SeekBar
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:progress="25"
         app:layout_constraintBottom_toBottomOf="@id/tvPlayMusicTotalTime"
         app:layout_constraintLeft_toRightOf="@id/tvPlayMusicCurrentTime"
         app:layout_constraintRight_toLeftOf="@id/tvPlayMusicTotalTime"
-        app:layout_constraintTop_toTopOf="@id/tvPlayMusicTotalTime"
-        android:progress="25"/>
-
+        app:layout_constraintTop_toTopOf="@id/tvPlayMusicTotalTime" />
 </android.support.constraint.ConstraintLayout>
