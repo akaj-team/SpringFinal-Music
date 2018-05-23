@@ -40,6 +40,49 @@
             android:layout_height="wrap_content"
             android:background="@drawable/theme_default" />
 
+        <TextView
+            android:id="@+id/tvHomeOffline"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/playlist_item_size_height"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:text="@string/home_text_offline"
+            android:textColor="@color/colorBlack"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/imgHomeTheme" />
+
+        <View
+            android:id="@+id/viewLineOfflineText"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black_50"
+            app:layout_constraintTop_toBottomOf="@id/tvHomeOffline" />
+
+        <Button
+            android:id="@+id/btnHomeButtonLibrary"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/playlist_item_size_height"
+            android:background="@color/colorWhite"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:text="@string/home_button_text_library"
+            android:textAlignment="gravity"
+            android:textAllCaps="false"
+            android:textSize="18dp"
+            android:textStyle="normal"
+            app:layout_constraintTop_toBottomOf="@id/viewLineOfflineText" />
+
+        <Button
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/btn_more_left_arrow_nor"
+            app:layout_constraintBottom_toBottomOf="@id/btnHomeButtonLibrary"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnHomeButtonLibrary"
+            android:clickable="false"/>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
