@@ -2,6 +2,7 @@ package android.asiantech.vn.springfinalmusic.home
 
 import android.app.Activity
 import android.asiantech.vn.springfinalmusic.R
+import android.asiantech.vn.springfinalmusic.library.LibraryActivity
 import android.content.Intent
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_home.*

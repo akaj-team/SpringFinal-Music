@@ -1,4 +1,4 @@
-package android.asiantech.vn.springfinalmusic.home
+package android.asiantech.vn.springfinalmusic.library
 
 object LibraryType {
     val SONGS = 0
