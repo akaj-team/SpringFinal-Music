@@ -27,6 +27,7 @@ class MusicService : Service(), IListenesHPhoneChanger {
         const val NOTI_BTN_PAUSE_CLICK = "pause_on_click"
         const val ERROR_NULL = "null"
     }
+
     private var mBroadcastReceiver = HeadPhoneChangerReceiver(this)
     private var mIntentFilter = IntentFilter()
     private var mMediaPlayer: MediaPlayer? = null
@@ -35,6 +36,7 @@ class MusicService : Service(), IListenesHPhoneChanger {
     private var mRemoteViews: RemoteViews? = null
     private var mNotificationManager: NotificationManager? = null
     private var mNotification: Notification? = null
+    private var countHeadPhoneDisconnect = 0
 
     override fun onCreate() {
         super.onCreate()
@@ -77,9 +79,10 @@ class MusicService : Service(), IListenesHPhoneChanger {
                 }
             }
             HeadPhoneChangerReceiver.PHONE_ISDICONNECTED -> {
-                if (mMediaPlayer != null) {
+                if (mMediaPlayer != null && countHeadPhoneDisconnect != 0) {
                     mMediaPlayer?.pause()
                 }
+                countHeadPhoneDisconnect++;
             }
         }
     }
