@@ -113,7 +113,7 @@ class MusicService : Service(), IListenesHPhoneChanger {
                     .build()
         } else {
             mNotification = Notification.Builder(this)
-                    .setSmallIcon(R.drawable.img_logo)
+                    .setSmallIcon(R.drawable.ic_music_note_black_24dp)
                     .setContentIntent(callBackService())
                     .build()
             this.mNotification?.bigContentView = mRemoteViews
