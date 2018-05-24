@@ -10,11 +10,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@id/cbTimer"
+        android:layout_toLeftOf="@id/rbTimerChecked"
         android:textSize="@dimen/dp18_tvTimer" />
 
     <RadioButton
-        android:id="@+id/cbTimer"
+        android:id="@+id/rbTimerChecked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
