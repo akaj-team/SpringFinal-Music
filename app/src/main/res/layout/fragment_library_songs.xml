@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/clLibrarySongsMiniBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/minibar_size_height">
+
+        <Button
+            android:id="@+id/btnMiniBarButtonPlay"
+            android:layout_width="@dimen/minibar_size_button"
+            android:layout_height="@dimen/minibar_size_button"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/bt_playpage_play_press_new"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@string/minibar_text_random_music"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/minibar_text_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/btnMiniBarButtonPlay"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnMiniBarEditSong"
+            android:layout_width="@dimen/minibar_size_button"
+            android:layout_height="@dimen/minibar_size_button"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/bt_mymusic_edit_rename_nor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:layout_width="@dimen/minibar_size_button"
+            android:layout_height="@dimen/minibar_size_button"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/ic_sort"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/btnMiniBarEditSong"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/black_50"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycleViewSongs"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clLibrarySongsMiniBar">
+
+    </android.support.v7.widget.RecyclerView>
+</android.support.constraint.ConstraintLayout>

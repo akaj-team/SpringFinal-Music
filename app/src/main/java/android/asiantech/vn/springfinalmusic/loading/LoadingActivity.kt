@@ -2,9 +2,10 @@ package android.asiantech.vn.springfinalmusic.loading
 
 import android.app.Activity
 import android.asiantech.vn.springfinalmusic.R
+import android.asiantech.vn.springfinalmusic.home.HomeActivity
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 
 class LoadingActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,10 +15,11 @@ class LoadingActivity : Activity() {
 
     override fun onStart() {
         super.onStart()
-        var handler : Handler = Handler()
-        var runnable : Runnable = Runnable {
-            Log.e("xxx","xxx")
-        }
+        val handler = Handler()
+        handler.postDelayed({
+            val intent = Intent(this@LoadingActivity, HomeActivity::class.java)
+            startActivity(intent)
+        }, 2000)
     }
 
 }
