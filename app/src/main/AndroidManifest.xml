@@ -19,6 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".home.HomeActivity" />
+
+        <service android:name=".service.MusicService" />
     </application>
 
 </manifest>

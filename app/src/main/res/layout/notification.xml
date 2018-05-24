@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/size_notification_height">
+    android:layout_height="100dp"
+    android:padding="@dimen/dp2_padding">
 
     <ImageView
         android:id="@+id/imgNotificationThumnail"
-        android:layout_width="@dimen/size_notification_height"
+        android:layout_width="100dp"
         android:layout_height="match_parent"
         android:background="@drawable/theme_default" />
 
