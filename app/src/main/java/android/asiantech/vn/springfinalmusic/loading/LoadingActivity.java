@@ -32,8 +32,7 @@ public class LoadingActivity extends Activity {
         //activeHome();
     }
 
-    private void activeHome()
-    {
+    private void activeHome() {
         Intent intentHome = new Intent(this, HomeActivity.class);
         startActivity(intentHome);
     }
