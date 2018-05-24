@@ -75,5 +75,4 @@
         app:layout_constraintEnd_toStartOf="@+id/imgLoadingBg"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/imgLoadingProgress3" />
-
 </android.support.constraint.ConstraintLayout>
