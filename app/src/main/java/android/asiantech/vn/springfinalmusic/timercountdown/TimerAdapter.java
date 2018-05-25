@@ -15,11 +15,11 @@ import java.util.List;
 
 public class TimerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Timer> mTimerList;
-    private IListenerTimer mIListenerTimer;
+    private IListenerApdapterTimer mIListener;
 
-    TimerAdapter(List<Timer> timerList, IListenerTimer iListenerTimer) {
+    TimerAdapter(List<Timer> timerList, IListenerApdapterTimer iListenerApdapterTimer) {
         this.mTimerList = timerList;
-        this.mIListenerTimer = iListenerTimer;
+        this.mIListener = iListenerApdapterTimer;
     }
 
     @NonNull
@@ -53,7 +53,7 @@ public class TimerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         @SuppressLint("SetTextI18n")
         void onBind(int position) {
-            mTvTimer.setText("Sau " + mTimerList.get(position).getTimeCount() + " phút");
+            mTvTimer.setText("Sau " + mTimerList.get(position).getMinute() + " phút");
         }
 
         @Override
@@ -63,7 +63,7 @@ public class TimerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 mRbChecked.setChecked(true);
                 mTimerList.get(position).setTimeChecked(true);
             }
-            mIListenerTimer.onCommand(30);
+            mIListener.onItemClick(mTimerList.get(position).getMinute());
         }
     }
 }

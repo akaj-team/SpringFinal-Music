@@ -1,12 +1,13 @@
 package android.asiantech.vn.springfinalmusic.timercountdown;
 
 import android.asiantech.vn.springfinalmusic.R;
+import android.asiantech.vn.springfinalmusic.service.MusicService;
 import android.asiantech.vn.springfinalmusic.timercountdown.modle.Timer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,10 +17,10 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class FragmentTimerOffApp extends Fragment implements IListenerTimer {
-    public static final String ACTION_START_COUNT_DOWN = "start_count_down";
-    public static final String KEY_TIME="key_time";
+public class FragmentTimerOffApp extends DialogFragment implements IListenerApdapterTimer {
+    public static final String KEY_TIME = "key_time_minutes";
     private RecyclerView mRvTimerOffApp;
     private RecyclerView.Adapter mAdapter;
     private List<Timer> mTimerList;
@@ -62,11 +63,15 @@ public class FragmentTimerOffApp extends Fragment implements IListenerTimer {
     }
 
     @Override
-    public void onCommand(int timer) {
-        sendActionCountDown();
+    public void onItemClick(int minutes) {
+        sendActionCountDownToServeice(minutes);
     }
 
-    private void sendActionCountDown() {
-        getContext().sendBroadcast(new Intent().setAction(ACTION_START_COUNT_DOWN).putExtra(KEY_TIME,1000));
+    private void sendActionCountDownToServeice(int minutes) {
+        Intent intent = new Intent(getActivity(), MusicService.class)
+                .setAction(MusicService.ACTION_TIMER)
+                .putExtra(KEY_TIME, minutes);
+
+        Objects.requireNonNull(getActivity()).startService(intent);
     }
 }
