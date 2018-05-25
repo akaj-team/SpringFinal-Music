@@ -7,11 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import kotlinx.android.synthetic.main.fragment_item_song.*
 
-class SongsAdapter(val dataset: List<Song>) : RecyclerView.Adapter<SongsAdapter.ViewHolder>() {
+class SongsAdapter(dataset: List<Song>) : RecyclerView.Adapter<SongsAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        var view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_item_song, parent, false) as View
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_item_song, parent, false) as View
         return ViewHolder(view)
     }
 
@@ -24,7 +23,6 @@ class SongsAdapter(val dataset: List<Song>) : RecyclerView.Adapter<SongsAdapter.
     override fun getItemCount(): Int {
         return mListData.size
     }
-
 
     /*
      *  class viewholder in recycleview
