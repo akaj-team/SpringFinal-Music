@@ -38,6 +38,7 @@ dependencies {
 }
 
 apply from: "../ci-java.gradle"
+apply plugin: 'kotlin-android-extensions'
 repositories {
     mavenCentral()
 }

@@ -12,7 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-public class LoadingActivity extends AppCompatActivity {
+public class LoadingActivityTest extends AppCompatActivity {
     Button button;
     Button btnTestTimer;
 
@@ -30,7 +30,7 @@ public class LoadingActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoadingActivity.this, MusicService.class).setAction(MusicService.NOTI_BTN_PLAY_CLICK);
+                Intent intent = new Intent(LoadingActivityTest.this, MusicService.class).setAction(MusicService.NOTI_BTN_PLAY_CLICK);
                 startService(intent);
             }
         });
