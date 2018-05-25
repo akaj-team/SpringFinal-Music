@@ -37,7 +37,7 @@
     <View
         android:layout_width="1dp"
         android:layout_height="0dp"
-        android:background="@color/black_50"
+        android:background="@color/colorLightBlue40"
         app:layout_constraintBottom_toTopOf="@id/viewItemSongLineEnd"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

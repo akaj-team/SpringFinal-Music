@@ -59,7 +59,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="0dp"
-            android:background="@color/black_50"
+            android:background="@color/colorLightBlue40"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintBottom_toTopOf="@id/viewMiniBarSongEndLine"
             app:layout_constraintRight_toRightOf="parent"

@@ -2,6 +2,7 @@ package android.asiantech.vn.springfinalmusic.library
 
 import android.asiantech.vn.springfinalmusic.R
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import kotlinx.android.synthetic.main.activity_library.*
@@ -19,6 +20,8 @@ class LibraryActivity : AppCompatActivity() {
     private fun initViews() {
         mPagerAdapter = LibraryPagerAdapter(supportFragmentManager, this)
         vpMusicLibrary.adapter = mPagerAdapter
+        tabLayoutLibrary.setTabTextColors(ContextCompat.getColor(this, R.color.black_800), ContextCompat.getColor(this, R.color.colorLightBlue))
+        tabLayoutLibrary.setSelectedTabIndicatorColor(ContextCompat.getColor(this, R.color.colorLightBlue))
         tabLayoutLibrary.setupWithViewPager(vpMusicLibrary)
     }
 
