@@ -3,7 +3,7 @@ package android.asiantech.vn.springfinalmusic.library
 import android.support.v4.app.Fragment
 import android.asiantech.vn.springfinalmusic.R
 import android.asiantech.vn.springfinalmusic.library.adapter.SongsAdapter
-import android.asiantech.vn.springfinalmusic.load_data.ResourcesManager
+import android.asiantech.vn.springfinalmusic.manager.ResourcesManager
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView

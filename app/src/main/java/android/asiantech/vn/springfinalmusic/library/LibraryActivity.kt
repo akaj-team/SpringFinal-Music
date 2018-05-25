@@ -20,7 +20,7 @@ class LibraryActivity : AppCompatActivity() {
     private fun initViews() {
         mPagerAdapter = LibraryPagerAdapter(supportFragmentManager, this)
         vpMusicLibrary.adapter = mPagerAdapter
-        tabLayoutLibrary.setTabTextColors(ContextCompat.getColor(this, R.color.black_800), ContextCompat.getColor(this, R.color.colorLightBlue))
+        tabLayoutLibrary.setTabTextColors(ContextCompat.getColor(this, R.color.colorBlack), ContextCompat.getColor(this, R.color.colorLightBlue))
         tabLayoutLibrary.setSelectedTabIndicatorColor(ContextCompat.getColor(this, R.color.colorLightBlue))
         tabLayoutLibrary.setupWithViewPager(vpMusicLibrary)
     }

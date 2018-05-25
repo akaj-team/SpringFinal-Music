@@ -75,8 +75,8 @@
             app:layout_constraintTop_toBottomOf="@id/viewLineOfflineText" />
 
         <Button
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
+            android:layout_width="@dimen/size_button_item"
+            android:layout_height="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/btn_more_left_arrow_nor"
             android:clickable="false"

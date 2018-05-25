@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 
 class SongsAdapter(dataset: List<Song>) : RecyclerView.Adapter<SongsAdapter.ViewHolder>() {
+    private var mListData: List<Song> = dataset
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_item_song, parent, false) as View
         return ViewHolder(view)
@@ -18,7 +20,6 @@ class SongsAdapter(dataset: List<Song>) : RecyclerView.Adapter<SongsAdapter.View
         viewHolder.onBind(mListData.get(position))
     }
 
-    private var mListData: List<Song> = dataset
 
     override fun getItemCount(): Int {
         return mListData.size
