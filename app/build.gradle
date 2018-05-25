@@ -22,7 +22,6 @@ android {
         lintConfig file('lint.xml')
         xmlOutput file("${buildDir}/reports/lint-results.xml")
     }
-
 }
 
 dependencies {
