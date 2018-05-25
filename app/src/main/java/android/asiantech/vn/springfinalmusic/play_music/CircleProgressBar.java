@@ -30,10 +30,10 @@ public class CircleProgressBar extends View {
 
     public CircleProgressBar(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init(context, attrs);
+        init(context);
     }
 
-    private void init(Context context, AttributeSet attrs) {
+    private void init(Context context) {
         mRectF = new RectF();
         mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBackgroundPaint.setColor(adjustColor(mColor, 0.3f));
