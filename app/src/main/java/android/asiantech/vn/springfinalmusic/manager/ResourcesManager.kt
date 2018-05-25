@@ -4,7 +4,6 @@ import android.asiantech.vn.springfinalmusic.model.Song
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
-import android.util.Log
 import java.util.ArrayList
 
 class ResourcesManager private constructor() {
@@ -20,7 +19,7 @@ class ResourcesManager private constructor() {
 
     private var mListSong = ArrayList<Song>()
     private var mListArtist = mutableListOf<String>()
-
+    private var mListAlbum = mutableListOf<String>()
     fun getallSongFromDevice(): List<Song> {
         return mListSong
     }
@@ -52,14 +51,24 @@ class ResourcesManager private constructor() {
 
     fun loadListArtist() {
         for (song in mListSong) {
-            mListArtist.add(song.artist)
+            mListArtist.add(song.artist.toString())
+            mListAlbum.add(song.album.toString())
+
         }
-        mListArtist.toSet();
-        mListArtist.toMutableList()
+        var set: Set<String> = mListAlbum.toSet()
+        mListAlbum = set.toMutableList()
+        set = mListArtist.toSet()
+        mListArtist = set.toMutableList()
+        mListArtist.sort()
+        mListAlbum.sort()
     }
 
     fun getListArtist(): MutableList<String> {
         return mListArtist
+    }
+
+    fun getListAlbum(): MutableList<String> {
+        return mListAlbum
     }
 
     fun reloadAllSong(context: Context) {
@@ -82,5 +91,4 @@ class ResourcesManager private constructor() {
             cursor.close()
         }
     }
-
 }

@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/item_song_height">
 
+    <RadioButton
+        android:id="@+id/rbItemPlaylistChoice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="@color/colorLightBlue80"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UnusedAttribute" />
+
     <TextView
         android:id="@+id/tvItemNameSong"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
@@ -14,7 +24,8 @@
         android:maxLines="1"
         android:text="@string/notification_test_name_song"
         android:textColor="@color/colorBlack"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/rbItemPlaylistChoice"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -31,7 +42,7 @@
         android:id="@+id/viewItemSongLineEnd"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/black_30"
+        android:background="@color/black_10"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <View

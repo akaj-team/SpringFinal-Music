@@ -22,6 +22,10 @@ class SongsFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        initRecycleView()
+    }
+
+    fun initRecycleView() {
         mViewManager = LinearLayoutManager(activity)
         mAdapter = SongsAdapter(ResourcesManager.getInstance().getallSongFromDevice())
         recycleViewSongs.setHasFixedSize(true)

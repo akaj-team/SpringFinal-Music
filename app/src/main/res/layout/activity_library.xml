@@ -43,7 +43,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:backgroundTint="@color/black_50"
+            android:backgroundTint="@color/black_30"
             android:hint="@string/toolbar_text_hint_search"
             android:inputType="text"
             android:maxLines="1"

@@ -36,4 +36,6 @@
     <string name="library_text_playlist">Playlist</string>
     <string name="library_text_singer">Nghệ sĩ</string>
     <string name="library_text_album">Album</string>
+    <string name="toolbar_text_choice">Thao tác</string>
+    <string name="playlist_choice_text_add">Thêm vào</string>
 </resources>
