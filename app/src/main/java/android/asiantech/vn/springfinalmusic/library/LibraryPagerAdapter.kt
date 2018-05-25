@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentStatePagerAdapter
 
 class LibraryPagerAdapter(fm: FragmentManager?, context: Context) : FragmentStatePagerAdapter(fm) {
     private var mContext: Context = context
-    override fun getItem(position: Int): Fragment {
+    override fun getItem(position: Int): Fragment? {
         when (position) {
             LibraryType.SONGS -> {
                 return SongsFragment()
@@ -23,12 +23,9 @@ class LibraryPagerAdapter(fm: FragmentManager?, context: Context) : FragmentStat
             LibraryType.ALBUM -> {
                 return AlbumFragment()
             }
-            else -> {
-                return SongsFragment()
-            }
         }
+        return null
     }
-
 
     override fun getCount(): Int {
         return 4

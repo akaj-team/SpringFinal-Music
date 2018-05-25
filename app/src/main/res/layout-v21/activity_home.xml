@@ -44,11 +44,12 @@
             android:id="@+id/tvHomeOffline"
             android:layout_width="match_parent"
             android:layout_height="@dimen/playlist_item_size_height"
+            android:background="@color/colorTransparent"
             android:gravity="center_vertical"
             android:paddingLeft="15dp"
             android:text="@string/home_text_offline"
             android:textColor="@color/colorBlack"
-            android:textSize="20dp"
+            android:textSize="18dp"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/imgHomeTheme" />
 
@@ -63,7 +64,7 @@
             android:id="@+id/btnHomeButtonLibrary"
             android:layout_width="match_parent"
             android:layout_height="@dimen/playlist_item_size_height"
-            android:background="@color/colorWhite"
+            android:background="@color/colorTransparent"
             android:gravity="center_vertical"
             android:paddingLeft="15dp"
             android:text="@string/home_button_text_library"
@@ -78,10 +79,10 @@
             android:layout_height="@dimen/button_size"
             android:layout_marginRight="10dp"
             android:background="@drawable/btn_more_left_arrow_nor"
+            android:clickable="false"
             app:layout_constraintBottom_toBottomOf="@id/btnHomeButtonLibrary"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/btnHomeButtonLibrary"
-            android:clickable="false"/>
+            app:layout_constraintTop_toTopOf="@id/btnHomeButtonLibrary" />
 
         <View
             android:layout_width="match_parent"

@@ -4,13 +4,10 @@ import android.asiantech.vn.springfinalmusic.model.Song
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
-import android.util.Log
-
 import java.util.ArrayList
 
 class ResourcesManager private constructor() {
     init {
-        Log.e("123", "init")
     }
 
     companion object {
@@ -67,7 +64,4 @@ class ResourcesManager private constructor() {
         }
     }
 
-    fun setReferenceData(data: ArrayList<Song>) {
-
-    }
 }
