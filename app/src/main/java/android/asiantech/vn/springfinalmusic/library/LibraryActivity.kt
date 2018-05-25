@@ -25,25 +25,25 @@ class LibraryActivity : AppCompatActivity() {
     private fun setListeners() {
         showSearch()
         btnToolBarButtonBack.setOnClickListener {
-            onBackPressed();
+            onBackPressed()
         }
         btnToolBarButtonSearch.setOnClickListener {
-            mIsShowSearch = !mIsShowSearch;
-            showSearch(mIsShowSearch);
+            mIsShowSearch = !mIsShowSearch
+            showSearch(mIsShowSearch)
         }
     }
 
     private fun showSearch(isShow: Boolean = false) {
         if (isShow) {
-            edtToolBarSearch.visibility = View.VISIBLE;
-            tvToolBarName.visibility = View.GONE;
-            btnToolBarButtonBack.visibility = View.GONE;
-            btnToolBarButtonSearch.setBackgroundResource(R.drawable.custom_notification_icon_close);
+            edtToolBarSearch.visibility = View.VISIBLE
+            tvToolBarName.visibility = View.GONE
+            btnToolBarButtonBack.visibility = View.GONE
+            btnToolBarButtonSearch.setBackgroundResource(R.drawable.custom_notification_icon_close)
         } else {
-            edtToolBarSearch.visibility = View.GONE;
-            tvToolBarName.visibility = View.VISIBLE;
-            btnToolBarButtonBack.visibility = View.VISIBLE;
-            btnToolBarButtonSearch.setBackgroundResource(R.drawable.custom_notification_button_search);
+            edtToolBarSearch.visibility = View.GONE
+            tvToolBarName.visibility = View.VISIBLE
+            btnToolBarButtonBack.visibility = View.VISIBLE
+            btnToolBarButtonSearch.setBackgroundResource(R.drawable.custom_notification_button_search)
         }
     }
 }

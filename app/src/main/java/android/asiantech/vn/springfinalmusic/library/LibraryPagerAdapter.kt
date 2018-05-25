@@ -48,10 +48,8 @@ class LibraryPagerAdapter(fm: FragmentManager?, context: Context) : FragmentStat
             LibraryType.ALBUM -> {
                 return mContext.resources.getString(R.string.library_text_album)
             }
-            else -> {
-                return ""
-            }
         }
+        return null
     }
 
 }
