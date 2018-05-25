@@ -5,8 +5,11 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.asiantech.vn.springfinalmusic.R
+import android.asiantech.vn.springfinalmusic.headphone.HeadPhoneChangerReceiver
+import android.asiantech.vn.springfinalmusic.headphone.IListenesHPhoneChanger
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Handler
@@ -16,7 +19,7 @@ import android.widget.RemoteViews
 
 import java.util.concurrent.TimeUnit
 
-class MusicService : Service() {
+class MusicService : Service(), IListenesHPhoneChanger {
     companion object {
         private val TAG = MusicService::class.java.simpleName
         const val ID_NOTIFICATION = 1010
@@ -25,12 +28,15 @@ class MusicService : Service() {
         const val ERROR_NULL = "null"
     }
 
+    private var mBroadcastReceiver = HeadPhoneChangerReceiver(this)
+    private var mIntentFilter = IntentFilter()
     private var mMediaPlayer: MediaPlayer? = null
     private val mHandler = Handler()
     private var mUpdateSongPlaying: UpdateSongPlaying? = null
     private var mRemoteViews: RemoteViews? = null
     private var mNotificationManager: NotificationManager? = null
     private var mNotification: Notification? = null
+    private var countHeadPhoneDisconnect = 0
 
     override fun onCreate() {
         super.onCreate()
@@ -54,9 +60,31 @@ class MusicService : Service() {
 
     private fun init() {
         mUpdateSongPlaying = UpdateSongPlaying()
+        initBroadCast()
         initMedia()
         iniitRemoteViews()
         initNotification()
+    }
+
+    private fun initBroadCast() {
+        mIntentFilter.addAction(Intent.ACTION_HEADSET_PLUG)
+        registerReceiver(mBroadcastReceiver, mIntentFilter)
+    }
+
+    override fun onCommand(state: Int) {
+        when (state) {
+            HeadPhoneChangerReceiver.PHONE_ISCONNECTED -> {
+                if (mMediaPlayer != null) {
+                    mMediaPlayer?.start()
+                }
+            }
+            HeadPhoneChangerReceiver.PHONE_ISDICONNECTED -> {
+                if (mMediaPlayer != null && countHeadPhoneDisconnect != 0) {
+                    mMediaPlayer?.pause()
+                }
+                countHeadPhoneDisconnect++;
+            }
+        }
     }
 
     private fun iniitRemoteViews() {
@@ -137,5 +165,11 @@ class MusicService : Service() {
             //mRemoteViews?.setTextViewText(R.id.tvNotificationNameSinger, )
             mNotificationManager!!.notify(ID_NOTIFICATION, mNotification)
         }
+    }
+
+    override fun onDestroy() {
+        mMediaPlayer?.stop()
+        unregisterReceiver(mBroadcastReceiver)
+        super.onDestroy()
     }
 }

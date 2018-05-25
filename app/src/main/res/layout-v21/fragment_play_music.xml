@@ -143,5 +143,4 @@
         app:layout_constraintLeft_toRightOf="@id/tvPlayMusicCurrentTime"
         app:layout_constraintRight_toLeftOf="@id/tvPlayMusicTotalTime"
         app:layout_constraintTop_toTopOf="@id/tvPlayMusicTotalTime" />
-
 </android.support.constraint.ConstraintLayout>
