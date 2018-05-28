@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clPlaylistChoice"
     android:layout_width="match_parent"
     android:layout_height="@dimen/item_song_height">
 
@@ -12,7 +13,9 @@
         android:buttonTint="@color/colorLightBlue80"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="UnusedAttribute" />
+        tools:ignore="UnusedAttribute"
+        android:focusable="false"
+        android:clickable="false"/>
 
     <TextView
         android:id="@+id/tvItemNameSong"

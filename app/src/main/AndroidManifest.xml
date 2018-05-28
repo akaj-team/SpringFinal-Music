@@ -24,7 +24,7 @@
         <service android:name=".service.MusicService" />
 
         <activity android:name=".library.LibraryActivity" />
-        <activity android:name=".playlistchoice.PlaylistChoiceActivity" />
+        <activity android:name="android.asiantech.vn.springfinalmusic.library.playlistchoice.PlaylistChoiceActivity" />
     </application>
 
 </manifest>

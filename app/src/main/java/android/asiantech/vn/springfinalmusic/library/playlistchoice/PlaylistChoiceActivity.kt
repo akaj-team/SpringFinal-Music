@@ -1,4 +1,4 @@
-package android.asiantech.vn.springfinalmusic.playlistchoice
+package android.asiantech.vn.springfinalmusic.library.playlistchoice
 
 import android.app.Activity
 import android.asiantech.vn.springfinalmusic.R
@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_playlist_choice_song.*
-import kotlinx.android.synthetic.main.fragment_library_songs.*
 
 class PlaylistChoiceActivity : Activity() {
     private lateinit var mAdapter: PlaylistChoiceAdapter
@@ -16,6 +15,7 @@ class PlaylistChoiceActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playlist_choice_song)
         initRecycleView()
+        initListeners()
     }
 
     fun initRecycleView() {
@@ -24,5 +24,11 @@ class PlaylistChoiceActivity : Activity() {
         recycleViewPlaylistChoice.setHasFixedSize(true)
         recycleViewPlaylistChoice.layoutManager = mLayoutwManager
         recycleViewPlaylistChoice.adapter = mAdapter
+    }
+
+    fun initListeners() {
+        btnToolBarButtonDown.setOnClickListener {
+            onBackPressed()
+        }
     }
 }
