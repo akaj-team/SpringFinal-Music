@@ -5,8 +5,9 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.asiantech.vn.springfinalmusic.R
+import android.asiantech.vn.springfinalmusic.library.adapter.SongsAdapter
+import android.asiantech.vn.springfinalmusic.model.ListSong
 import android.asiantech.vn.springfinalmusic.model.Song
-import android.asiantech.vn.springfinalmusic.model.SongParcelable
 import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
@@ -17,13 +18,15 @@ import android.widget.RemoteViews
 
 import java.util.concurrent.TimeUnit
 
-class MusicService : Service() ,MediaPlayer.OnCompletionListener{
+class MusicService : Service(), MediaPlayer.OnCompletionListener {
     companion object {
         private val TAG = MusicService::class.java.simpleName
         const val ID_NOTIFICATION = 1010
-        const val NOTI_BTN_PLAY_CLICK = "play_on_click"
-        const val NOTI_BTN_PAUSE_CLICK = "pause_on_click"
+        const val PLAY_MUSIC = "play"
+        const val PAUSE_MUSIC = "pause"
         const val ERROR_NULL = "null"
+        const val NEXT_MUSIC = "next"
+        const val BACK_MUSIC = "back"
     }
 
     private var mMediaPlayer: MediaPlayer? = null
@@ -32,8 +35,9 @@ class MusicService : Service() ,MediaPlayer.OnCompletionListener{
     private var mRemoteViews: RemoteViews? = null
     private var mNotificationManager: NotificationManager? = null
     private var mNotification: Notification? = null
-    private lateinit var mListSong: List<Song>
-    private lateinit var mSong: SongParcelable
+    private lateinit var mSongList: ListSong
+    private var mPositionCurrent: Int = -1
+    private var mSongCurrent: Song? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -44,13 +48,20 @@ class MusicService : Service() ,MediaPlayer.OnCompletionListener{
         val action = intent.action
         if (action != null) {
             when (action) {
-                NOTI_BTN_PLAY_CLICK -> {
-                    mSong = intent.getParcelableExtra<SongParcelable>("a")
-                    Log.e(TAG, "")
-                    playMusic(Uri.parse(mSong.data))
+                PLAY_MUSIC -> {
+                    mSongList = intent.getParcelableExtra(SongsAdapter.KEY_LIST_SONG)
+                    mPositionCurrent = mSongList.songCurrent
+                    mSongCurrent = mSongList.songList[mPositionCurrent]
+                    playMusic(Uri.parse(mSongCurrent?.data))
                 }
-                NOTI_BTN_PAUSE_CLICK -> {
+                PAUSE_MUSIC -> {
                     pauseMusic()
+                }
+                NEXT_MUSIC -> {
+                    next()
+                }
+                BACK_MUSIC -> {
+                    back()
                 }
             }
         }
@@ -60,13 +71,24 @@ class MusicService : Service() ,MediaPlayer.OnCompletionListener{
     private fun init() {
         mUpdateSongPlaying = UpdateSongPlaying()
         initMedia()
-        iniitRemoteViews()
+        initRemoteViews()
         initNotification()
     }
 
-    private fun iniitRemoteViews() {
+    private fun initRemoteViews() {
         mRemoteViews = RemoteViews(this.packageName, R.layout.notification)
-        mRemoteViews!!.setOnClickPendingIntent(R.id.imgNotificationButtonPlay, setActionEventClick(NOTI_BTN_PAUSE_CLICK))
+        mRemoteViews?.setOnClickPendingIntent(R.id.imgNotificationButtonPlay
+                , setActionEventClick(PAUSE_MUSIC))
+        mRemoteViews?.setOnClickPendingIntent(R.id.imgNotificationButtonNext
+                , setActionEventClick(NEXT_MUSIC))
+        mRemoteViews?.setOnClickPendingIntent(R.id.imgNotificationButtonBack
+                , setActionEventClick(BACK_MUSIC))
+    }
+
+    private fun setNoti() {
+        mRemoteViews?.setTextViewText(R.id.tvNotificationNameSong, mSongCurrent?.title)
+        mRemoteViews?.setTextViewText(R.id.tvNotificationNameSinger, mSongCurrent?.artist)
+        mNotificationManager?.notify(ID_NOTIFICATION, mNotification)
     }
 
     private fun callBackService(): PendingIntent {
@@ -101,6 +123,7 @@ class MusicService : Service() ,MediaPlayer.OnCompletionListener{
 
     private fun initMedia() {
         mMediaPlayer = MediaPlayer.create(applicationContext, R.raw.cogaim52)
+        mMediaPlayer?.setOnCompletionListener(this)
     }
 
     private fun playMusic() {
@@ -111,6 +134,7 @@ class MusicService : Service() ,MediaPlayer.OnCompletionListener{
     }
 
     private fun playMusic(uri: Uri) {
+        setNoti()
         mMediaPlayer?.reset()
         mHandler.removeCallbacks(mUpdateSongPlaying)
         mMediaPlayer = MediaPlayer.create(applicationContext, uri)
@@ -120,8 +144,26 @@ class MusicService : Service() ,MediaPlayer.OnCompletionListener{
         }
     }
 
-    override fun onCompletion(mp: MediaPlayer?) {
+    private fun next() {
+        val nextSong: Int = mPositionCurrent + 1
+        if (nextSong >= 0 && nextSong < mSongList.songList.size) {
+            mSongCurrent = mSongList.songList[nextSong]
+            mPositionCurrent++
+            playMusic(Uri.parse(mSongCurrent?.data))
+        }
+    }
 
+    private fun back() {
+        val nextSong: Int = mPositionCurrent - 1
+        if (nextSong >= 0 && nextSong < mSongList.songList.size) {
+            mSongCurrent = mSongList.songList[nextSong]
+            mPositionCurrent--
+            playMusic(Uri.parse(mSongCurrent?.data))
+        }
+    }
+
+    override fun onCompletion(mp: MediaPlayer?) {
+        Log.e(TAG, "onCompletiosn")
     }
 
     private fun pauseMusic() {
@@ -145,18 +187,16 @@ class MusicService : Service() ,MediaPlayer.OnCompletionListener{
 
     internal inner class UpdateSongPlaying : Runnable {
         override fun run() {
-            if(mMediaPlayer?.isPlaying==false){
-                mHandler.removeCallbacks(mUpdateSongPlaying)
-            }
             Log.e(TAG, "run: " + miliSecondsToString(mMediaPlayer?.currentPosition))
             upDateRemote()
             mHandler.postDelayed(mUpdateSongPlaying, 1000)
         }
 
         private fun upDateRemote() {
-            mRemoteViews?.setProgressBar(R.id.progressBarNotification, mMediaPlayer!!.duration, mMediaPlayer!!.currentPosition, false)
-            mRemoteViews?.setTextViewText(R.id.tvNotificationNameSong, mSong.title)
-            mRemoteViews?.setTextViewText(R.id.tvNotificationNameSinger, mSong.artist)
+            mRemoteViews?.setProgressBar(R.id.progressBarNotification
+                    , mMediaPlayer!!.duration
+                    , mMediaPlayer!!.currentPosition
+                    , false)
             mNotificationManager!!.notify(ID_NOTIFICATION, mNotification)
         }
     }

@@ -50,6 +50,7 @@
         android:progress="15" />
 
     <ImageButton
+        android:id="@+id/imgNotificationButtonBack"
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
         android:layout_below="@id/progressBarNotification"
@@ -66,6 +67,7 @@
         android:background="@drawable/btn_notificationbar_play" />
 
     <ImageButton
+        android:id="@+id/imgNotificationButtonNext"
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
         android:layout_below="@id/progressBarNotification"

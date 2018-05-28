@@ -1,6 +1,9 @@
 package android.asiantech.vn.springfinalmusic.model;
 
-public class Song {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Song implements Parcelable{
     private int id;
     private String artist;
     private String title;
@@ -8,6 +11,44 @@ public class Song {
     private String displayName;
     private int duration;
     private String album;
+
+    protected Song(Parcel in) {
+        id = in.readInt();
+        artist = in.readString();
+        title = in.readString();
+        data = in.readString();
+        displayName = in.readString();
+        duration = in.readInt();
+        album = in.readString();
+    }
+
+    public static final Creator<Song> CREATOR = new Creator<Song>() {
+        @Override
+        public Song createFromParcel(Parcel in) {
+            return new Song(in);
+        }
+
+        @Override
+        public Song[] newArray(int size) {
+            return new Song[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(artist);
+        dest.writeString(title);
+        dest.writeString(data);
+        dest.writeString(displayName);
+        dest.writeInt(duration);
+        dest.writeString(album);
+    }
 
     public Song(int id, String artist, String title, String data, String displayName, int duration, String album) {
         this.id = id;
