@@ -1,13 +1,10 @@
 package android.asiantech.vn.springfinalmusic.library.adapter
 
 import android.asiantech.vn.springfinalmusic.R
-import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioButton
 import android.widget.TextView
 
 class AlbumAdapter(dataset: List<String>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -24,7 +21,7 @@ class AlbumAdapter(dataset: List<String>) : RecyclerView.Adapter<RecyclerView.Vi
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         holder as ViewHolder
-        holder.onBind(mListData.get(position))
+        holder.onBind(mListData[position])
     }
 
     /*

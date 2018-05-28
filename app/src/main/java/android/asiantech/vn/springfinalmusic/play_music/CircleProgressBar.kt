@@ -9,10 +9,10 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.graphics.Shader
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 
-@Suppress("DEPRECATION")
 class CircleProgressBar(context: Context, attrs: AttributeSet?) : View(context, attrs) {
     private val mStrokeWidth = 9f
     private val mStrokeWidthBackground = 9f
@@ -22,27 +22,27 @@ class CircleProgressBar(context: Context, attrs: AttributeSet?) : View(context, 
     private val mColor = Color.DKGRAY
     private val mStartAngle = -90
     private val mOffsetCircle = 5
-    private var mRectF: RectF? = null
-    private var mBackgroundPaint: Paint? = null
-    private var mForegroundPaint: Paint? = null
+    private lateinit var mRectF: RectF
+    private lateinit var mBackgroundPaint: Paint
+    private lateinit var mForegroundPaint: Paint
     private var mThumbnail: Paint? = null
     private var mBitmap: Bitmap? = null
 
     init {
-        init(context)
+        init()
     }
 
-    private fun init(context: Context) {
+    private fun init() {
         mRectF = RectF()
         mBackgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG)
-        mBackgroundPaint!!.color = adjustColor(mColor, 0.3f)
-        mBackgroundPaint!!.style = Paint.Style.STROKE
-        mBackgroundPaint!!.strokeWidth = mStrokeWidthBackground
+        mBackgroundPaint.color = adjustColor(mColor, 0.3f)
+        mBackgroundPaint.style = Paint.Style.STROKE
+        mBackgroundPaint.strokeWidth = mStrokeWidthBackground
 
         mForegroundPaint = Paint(Paint.ANTI_ALIAS_FLAG)
-        mForegroundPaint!!.color = context.resources.getColor(R.color.colorOrange)
-        mForegroundPaint!!.style = Paint.Style.STROKE
-        mForegroundPaint!!.strokeWidth = mStrokeWidth
+        mForegroundPaint.color = ContextCompat.getColor(getContext(), R.color.colorOrange)
+        mForegroundPaint.style = Paint.Style.STROKE
+        mForegroundPaint.strokeWidth = mStrokeWidth
 
         mThumbnail = Paint(Paint.ANTI_ALIAS_FLAG)
     }
@@ -60,14 +60,14 @@ class CircleProgressBar(context: Context, attrs: AttributeSet?) : View(context, 
         val width = View.getDefaultSize(suggestedMinimumHeight, widthMeasureSpec)
         min = Math.min(height, width)
         setMeasuredDimension(min, min)
-        mRectF!!.set(0 + mStrokeWidth / 2, 0 + mStrokeWidth / 2, min - mStrokeWidth / 2, min - mStrokeWidth / 2)
+        mRectF.set(0 + mStrokeWidth / 2, 0 + mStrokeWidth / 2, min - mStrokeWidth / 2, min - mStrokeWidth / 2)
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        canvas.drawOval(mRectF!!, mBackgroundPaint!!)
+        canvas.drawOval(mRectF, mBackgroundPaint)
         val angle = 360 * mProgress / max
-        canvas.drawArc(mRectF!!, mStartAngle.toFloat(), angle, false, mForegroundPaint!!)
+        canvas.drawArc(mRectF, mStartAngle.toFloat(), angle, false, mForegroundPaint)
         if (mBitmap != null) {
             mBitmap = Bitmap.createScaledBitmap(mBitmap!!, width, height, false)
             val bitmapShader = BitmapShader(mBitmap!!, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
