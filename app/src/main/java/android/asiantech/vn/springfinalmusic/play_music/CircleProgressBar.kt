@@ -25,7 +25,7 @@ class CircleProgressBar(context: Context, attrs: AttributeSet?) : View(context, 
     private lateinit var mRectF: RectF
     private lateinit var mBackgroundPaint: Paint
     private lateinit var mForegroundPaint: Paint
-    private var mThumbnail: Paint? = null
+    private lateinit var mThumbnail: Paint
     private var mBitmap: Bitmap? = null
 
     init {
@@ -69,11 +69,11 @@ class CircleProgressBar(context: Context, attrs: AttributeSet?) : View(context, 
         val angle = 360 * mProgress / max
         canvas.drawArc(mRectF, mStartAngle.toFloat(), angle, false, mForegroundPaint)
         if (mBitmap != null) {
-            mBitmap = Bitmap.createScaledBitmap(mBitmap!!, width, height, false)
-            val bitmapShader = BitmapShader(mBitmap!!, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
-            mThumbnail!!.shader = bitmapShader
+            mBitmap = Bitmap.createScaledBitmap(mBitmap, width, height, false)
+            val bitmapShader = BitmapShader(mBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
+            mThumbnail.shader = bitmapShader
             val radius = (min / 2).toFloat() - mStrokeWidthBackground - mOffsetCircle.toFloat()
-            canvas.drawCircle(pivotX, pivotY, radius, mThumbnail!!)
+            canvas.drawCircle(pivotX, pivotY, radius, mThumbnail)
         }
     }
 
