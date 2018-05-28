@@ -34,6 +34,7 @@ class MusicService : Service() {
     private var mRemoteViews: RemoteViews? = null
     private var mNotificationManager: NotificationManager? = null
     private var mNotification: Notification? = null
+    private var mCountDownTimer: CountDownTimer? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -61,7 +62,8 @@ class MusicService : Service() {
     }
 
     private fun autoOffAppByTimer(minutes: Long) {
-        val countDownTimer = object : CountDownTimer(minutes * 1000 * 60, 1000) {
+        mCountDownTimer?.cancel()
+        mCountDownTimer = object : CountDownTimer(minutes * 1000 * 60, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 Log.e(TAG, "onTick" + miliSecondsToString(millisUntilFinished))
             }
@@ -72,7 +74,7 @@ class MusicService : Service() {
                 }
             }
         }
-        countDownTimer.start()
+        mCountDownTimer?.start()
     }
 
     private fun init() {

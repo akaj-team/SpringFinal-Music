@@ -225,6 +225,7 @@
                 android:text="@string/home_drawerlayout_wifi" />
 
             <Button
+                android:id="@+id/btnTimer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -273,5 +274,4 @@
                 android:text="@string/home_drawerlayout_setting" />
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>
-
 </android.support.v4.widget.DrawerLayout>
