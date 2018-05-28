@@ -7,12 +7,13 @@ import android.asiantech.vn.springfinalmusic.manager.ResourcesManager
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_library_songs.*
 
-class SongsFragment : Fragment() {
+class SongsFragment : Fragment(){
     private lateinit var mAdapter: SongsAdapter
     private lateinit var mViewManager: RecyclerView.LayoutManager
 
@@ -23,10 +24,9 @@ class SongsFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         mViewManager = LinearLayoutManager(activity)
-        mAdapter = SongsAdapter(ResourcesManager.getInstance().getallSongFromDevice())
+        mAdapter = SongsAdapter(ResourcesManager.getInstance().getallSongFromDevice(),context)
         recycleViewSongs.setHasFixedSize(true)
         recycleViewSongs.layoutManager = mViewManager
         recycleViewSongs.adapter = mAdapter
     }
-
 }
