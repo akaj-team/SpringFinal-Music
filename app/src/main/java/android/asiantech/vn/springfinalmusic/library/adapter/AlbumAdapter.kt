@@ -29,10 +29,10 @@ class AlbumAdapter(dataset: List<String>) : RecyclerView.Adapter<RecyclerView.Vi
      */
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private var mTvNameSinger: TextView = view.findViewById(R.id.tvItemSingerName)
+        private var mTvNameAlbum: TextView = view.findViewById(R.id.tvItemSingerName)
 
         fun onBind(name: String) {
-            mTvNameSinger.text = name
+            mTvNameAlbum.text = name
         }
     }
 }

@@ -22,8 +22,8 @@ class AlbumFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_library_page, container, false)
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         mLayoutManager = LinearLayoutManager(activity)
         mAdapter = AlbumAdapter(ResourcesManager.getInstance().getListAlbum())
         recycleViewLibraryPage.setHasFixedSize(true)

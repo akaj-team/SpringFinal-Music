@@ -1,6 +1,7 @@
 package android.asiantech.vn.springfinalmusic.library
 
 import android.asiantech.vn.springfinalmusic.R
+import android.asiantech.vn.springfinalmusic.library.adapter.LibraryPagerAdapter
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity

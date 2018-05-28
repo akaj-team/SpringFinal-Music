@@ -21,8 +21,8 @@ class ArtistFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_library_page, container, false)
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         mLayoutManager = LinearLayoutManager(activity)
         mAdapter = ArtistAdapter(ResourcesManager.getInstance().getListArtist())
         recycleViewLibraryPage.setHasFixedSize(true)

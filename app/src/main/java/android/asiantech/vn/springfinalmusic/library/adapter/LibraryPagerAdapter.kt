@@ -1,6 +1,7 @@
-package android.asiantech.vn.springfinalmusic.library
+package android.asiantech.vn.springfinalmusic.library.adapter
 
 import android.asiantech.vn.springfinalmusic.R
+import android.asiantech.vn.springfinalmusic.library.*
 import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager

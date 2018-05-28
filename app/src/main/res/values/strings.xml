@@ -38,4 +38,10 @@
     <string name="library_text_album">Album</string>
     <string name="toolbar_text_choice">Thao tác</string>
     <string name="playlist_choice_text_add">Thêm vào</string>
+    <string name="playlistchoice_text_add_all">Chọn tất cả</string>
+    <string name="playlist_choice_remove_add_all">Bỏ chọn tất cả</string>
+    <string name="dialog_text_name">Tạo mới playlist</string>
+    <string name="dialog_editext_hint">Tên playlist</string>
+    <string name="dialog_button_text_cancel">Huỷ</string>
+    <string name="dialog_button_text_create">Tạo mới</string>
 </resources>

@@ -20,8 +20,8 @@ class SongsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_library_songs, container, false) as View
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initRecycleView()
     }
 

@@ -1,7 +1,6 @@
 package android.asiantech.vn.springfinalmusic.library.adapter
 
 import android.asiantech.vn.springfinalmusic.R
-import android.asiantech.vn.springfinalmusic.model.Song
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
