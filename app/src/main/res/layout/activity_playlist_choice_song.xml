@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarPlaylistChoice"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorLightBlue"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <Button
+            android:id="@+id/btnToolBarButtonDown"
+            android:layout_width="@dimen/toolbar_size_button"
+            android:layout_height="@dimen/toolbar_size_button"
+            android:background="@drawable/custom_icon_down_toolbar" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/toolbar_text_choice"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/toolbar_text_size" />
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycleViewPlaylistChoice"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/btnPlaylistChoiceComplete"
+        app:layout_constraintTop_toBottomOf="@id/toolbarPlaylistChoice">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <ImageButton
+        android:id="@+id/btnPlaylistChoiceComplete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="@color/colorTransparent"
+        android:src="@drawable/ic_add_playlist"
+        android:tint="@color/colorBlack"
+        app:layout_constraintBottom_toTopOf="@id/tvPlaylistChoiceAdd"
+        app:layout_constraintHorizontal_bias=".75"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/tvPlaylistChoiceAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="@string/playlist_choice_text_add"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/btnPlaylistChoiceComplete"
+        app:layout_constraintRight_toRightOf="@id/btnPlaylistChoiceComplete" />
+
+    <ImageButton
+        android:id="@+id/btnPlaylistChoiceAddAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="@color/colorTransparent"
+        android:src="@drawable/ic_add_playlist"
+        android:tint="@color/colorBlack"
+        app:layout_constraintBottom_toTopOf="@id/tvPlaylistChoiceAdd"
+        app:layout_constraintHorizontal_bias=".25"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/tvPlaylistChoiceAddAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="@string/playlistchoice_text_add_all"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/btnPlaylistChoiceAddAll"
+        app:layout_constraintRight_toRightOf="@id/btnPlaylistChoiceAddAll" />
+
+</android.support.constraint.ConstraintLayout>

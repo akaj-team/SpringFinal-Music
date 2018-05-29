@@ -53,7 +53,7 @@
             android:id="@+id/viewMiniBarSongEndLine"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
-            android:background="@color/black_50"
+            android:background="@color/black_30"
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <View
