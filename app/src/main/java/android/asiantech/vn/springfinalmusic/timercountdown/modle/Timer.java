@@ -1,8 +1,8 @@
 package android.asiantech.vn.springfinalmusic.timercountdown.modle;
 
 public class Timer {
-    private int timeCount;
-    private boolean timeChecked=false;
+    private int minute;
+    private boolean timeChecked = false;
 
     public boolean isTimeChecked() {
         return timeChecked;
@@ -12,11 +12,11 @@ public class Timer {
         this.timeChecked = timeChecked;
     }
 
-    public int getTimeCount() {
-        return timeCount;
+    public int getMinute() {
+        return minute;
     }
 
-    public Timer(int timeCount) {
-        this.timeCount = timeCount;
+    public Timer(int minute) {
+        this.minute = minute;
     }
 }

@@ -34,7 +34,7 @@
         android:layout_marginTop="2dp"
         android:maxLines="1"
         android:text="@string/notification_test_name_singer"
-        android:textColor="@color/black_50" />
+        android:textColor="@color/black_30" />
 
     <ProgressBar
         android:id="@+id/progressBarNotification"

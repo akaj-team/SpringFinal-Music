@@ -1,9 +1,10 @@
 package android.asiantech.vn.springfinalmusic.library
 
 import android.support.v4.app.Fragment
+
 import android.asiantech.vn.springfinalmusic.R
+import android.asiantech.vn.springfinalmusic.library.adapter.AlbumAdapter
 import android.asiantech.vn.springfinalmusic.library.adapter.ArtistAdapter
-import android.asiantech.vn.springfinalmusic.library.adapter.SongsAdapter
 import android.asiantech.vn.springfinalmusic.manager.ResourcesManager
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -13,8 +14,8 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_library_page.*
 
-class ArtistFragment : Fragment() {
-    private lateinit var mAdapter: ArtistAdapter
+class AlbumFragment : Fragment() {
+    private lateinit var mAdapter: AlbumAdapter
     private lateinit var mLayoutManager: RecyclerView.LayoutManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -24,7 +25,7 @@ class ArtistFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mLayoutManager = LinearLayoutManager(activity)
-        mAdapter = ArtistAdapter(ResourcesManager.getInstance().getListArtist())
+        mAdapter = AlbumAdapter(ResourcesManager.getInstance().getListAlbum())
         recycleViewLibraryPage.setHasFixedSize(true)
         recycleViewLibraryPage.layoutManager = mLayoutManager
         recycleViewLibraryPage.adapter = mAdapter

@@ -5,12 +5,17 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.asiantech.vn.springfinalmusic.R
+import android.asiantech.vn.springfinalmusic.timercountdown.FragmentTimerOffApp
 import android.asiantech.vn.springfinalmusic.library.adapter.SongsAdapter
 import android.asiantech.vn.springfinalmusic.model.ListSong
 import android.asiantech.vn.springfinalmusic.model.Song
 import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
+import android.os.Build
+import android.os.CountDownTimer
+import android.os.Handler
+import android.os.IBinder
 import android.net.Uri
 import android.os.*
 import android.util.Log
@@ -27,6 +32,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         const val ERROR_NULL = "null"
         const val NEXT_MUSIC = "next"
         const val BACK_MUSIC = "back"
+        const val ACTION_TIMER = "timer_auto_off_app"
     }
 
     private var mMediaPlayer: MediaPlayer? = null
@@ -35,6 +41,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
     private var mRemoteViews: RemoteViews? = null
     private var mNotificationManager: NotificationManager? = null
     private var mNotification: Notification? = null
+    private var mCountDownTimer: CountDownTimer? = null
     private lateinit var mSongList: ListSong
     private var mPositionCurrent: Int = -1
     private var mSongCurrent: Song? = null
@@ -57,6 +64,10 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
                 PAUSE_MUSIC -> {
                     pauseMusic()
                 }
+                ACTION_TIMER -> {
+                    val minutes = intent.getIntExtra(FragmentTimerOffApp.KEY_TIME, -1)
+                    autoOffAppByTimer(minutes.toLong())
+                }
                 NEXT_MUSIC -> {
                     next()
                 }
@@ -66,6 +77,22 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
             }
         }
         return Service.START_STICKY
+    }
+
+    private fun autoOffAppByTimer(minutes: Long) {
+        mCountDownTimer?.cancel()
+        mCountDownTimer = object : CountDownTimer(minutes * 1000 * 60, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                Log.e(TAG, "onTick" + miliSecondsToString(millisUntilFinished))
+            }
+
+            override fun onFinish() {
+                if (mMediaPlayer?.isPlaying == true) {
+                    mMediaPlayer?.pause()
+                }
+            }
+        }
+        mCountDownTimer?.start()
     }
 
     private fun init() {
@@ -117,6 +144,9 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
                     .build()
             this.mNotification?.bigContentView = mRemoteViews
         }
+    }
+
+    private fun startNotification() {
         startForeground(ID_NOTIFICATION, mNotification)
         mNotificationManager!!.notify(ID_NOTIFICATION, mNotification)
     }
@@ -171,10 +201,10 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         mHandler.removeCallbacks(mUpdateSongPlaying)
     }
 
-    private fun miliSecondsToString(miliseconds: Int?): String {
+    private fun miliSecondsToString(miliseconds: Long?): String {
         if (miliseconds != null) {
-            val minutes = TimeUnit.MILLISECONDS.toMinutes(miliseconds.toLong())
-            val seconds = TimeUnit.MILLISECONDS.toSeconds(miliseconds.toLong()) % 60
+            val minutes = TimeUnit.MILLISECONDS.toMinutes(miliseconds)
+            val seconds = TimeUnit.MILLISECONDS.toSeconds(miliseconds) % 60
 
             return minutes.toString() + ":" + seconds
         }
@@ -185,9 +215,16 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         return null
     }
 
+    override fun onDestroy() {
+        this.stopSelf()
+        mHandler.removeCallbacks(mUpdateSongPlaying)
+        mNotificationManager?.cancelAll()
+        super.onDestroy()
+    }
+
     internal inner class UpdateSongPlaying : Runnable {
         override fun run() {
-            Log.e(TAG, "run: " + miliSecondsToString(mMediaPlayer?.currentPosition))
+            Log.e(TAG, "run: " + miliSecondsToString((mMediaPlayer?.currentPosition)?.toLong()))
             upDateRemote()
             mHandler.postDelayed(mUpdateSongPlaying, 1000)
         }

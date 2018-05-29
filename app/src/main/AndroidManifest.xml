@@ -20,8 +20,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".home.HomeActivity" />
+
         <service android:name=".service.MusicService" />
+
         <activity android:name=".library.LibraryActivity" />
+        <activity android:name="android.asiantech.vn.springfinalmusic.library.playlistchoice.PlaylistChoiceActivity" />
     </application>
 
 </manifest>

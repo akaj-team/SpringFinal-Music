@@ -7,8 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 
-
-class ArtistAdapter(dataset: List<String>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AlbumAdapter(dataset: List<String>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var mListData: List<String> = dataset
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -22,7 +21,7 @@ class ArtistAdapter(dataset: List<String>) : RecyclerView.Adapter<RecyclerView.V
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         holder as ViewHolder
-        holder.onBind(mListData.get(position))
+        holder.onBind(mListData[position])
     }
 
     /*
@@ -30,10 +29,10 @@ class ArtistAdapter(dataset: List<String>) : RecyclerView.Adapter<RecyclerView.V
      */
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private var mTvNameSinger: TextView = view.findViewById(R.id.tvItemSingerName)
+        private var mTvNameAlbum: TextView = view.findViewById(R.id.tvItemSingerName)
 
         fun onBind(name: String) {
-            mTvNameSinger.text = name
+            mTvNameAlbum.text = name
         }
     }
 }
