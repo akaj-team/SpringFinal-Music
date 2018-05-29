@@ -22,7 +22,8 @@
         android:layout_width="@dimen/minibar_size_thumbnail_playlist_item"
         android:layout_height="@dimen/minibar_size_thumbnail_playlist_item"
         android:layout_marginLeft="15dp"
-        android:src="@drawable/ic_default_playlist_item"
+        android:src="@drawable/ic_song"
+        android:tint="@color/black_800"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/btnMiniBarButtonClose"
         app:layout_constraintTop_toTopOf="parent" />

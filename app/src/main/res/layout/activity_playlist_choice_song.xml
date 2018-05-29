@@ -47,7 +47,9 @@
         app:layout_constraintBottom_toTopOf="@id/tvPlaylistChoiceAdd"
         app:layout_constraintHorizontal_bias=".75"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        android:clickable="false"
+        android:focusable="false"/>
 
     <TextView
         android:id="@+id/tvPlaylistChoiceAdd"
@@ -58,7 +60,20 @@
         android:textColor="@color/colorBlack"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/btnPlaylistChoiceComplete"
-        app:layout_constraintRight_toRightOf="@id/btnPlaylistChoiceComplete" />
+        app:layout_constraintRight_toRightOf="@id/btnPlaylistChoiceComplete"
+        android:clickable="false"
+        android:focusable="false"/>
+
+    <View
+        android:id="@+id/viewAdd"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="@id/tvPlaylistChoiceAdd"
+        app:layout_constraintLeft_toLeftOf="@id/tvPlaylistChoiceAdd"
+        app:layout_constraintRight_toRightOf="@id/tvPlaylistChoiceAdd"
+        app:layout_constraintTop_toTopOf="@id/btnPlaylistChoiceComplete" />
 
     <ImageButton
         android:id="@+id/btnPlaylistChoiceAddAll"
@@ -66,6 +81,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:background="@color/colorTransparent"
+        android:clickable="false"
+        android:focusable="false"
         android:src="@drawable/ic_add_playlist"
         android:tint="@color/colorBlack"
         app:layout_constraintBottom_toTopOf="@id/tvPlaylistChoiceAdd"
@@ -78,10 +95,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
+        android:clickable="false"
+        android:focusable="false"
         android:text="@string/playlistchoice_text_add_all"
         android:textColor="@color/colorBlack"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/btnPlaylistChoiceAddAll"
         app:layout_constraintRight_toRightOf="@id/btnPlaylistChoiceAddAll" />
+
+    <View
+        android:id="@+id/viewChoiceAll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="@id/tvPlaylistChoiceAddAll"
+        app:layout_constraintLeft_toLeftOf="@id/tvPlaylistChoiceAddAll"
+        app:layout_constraintRight_toRightOf="@id/tvPlaylistChoiceAddAll"
+        app:layout_constraintTop_toTopOf="@id/btnPlaylistChoiceAddAll" />
 
 </android.support.constraint.ConstraintLayout>
