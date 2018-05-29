@@ -28,19 +28,16 @@ class CurrentMusicPlay : Activity() {
             FILTER_ARTIST -> {
                 data = intent.extras.getParcelableArrayList<Song>(FILTER_ARTIST)
             }
-
             FILTER_ALBUM -> {
                 data = intent.extras.getParcelableArrayList<Song>(FILTER_ALBUM)
             }
-
             FILTER_PLAYLIST -> {
                 data = intent.extras.getParcelableArrayList<Song>(FILTER_PLAYLIST)
             }
         }
     }
 
-    fun initViews()
-    {
+    fun initViews() {
         val action = intent.action
         when (action) {
             FILTER_ARTIST -> {
@@ -49,7 +46,6 @@ class CurrentMusicPlay : Activity() {
             FILTER_ALBUM -> {
                 tvToolBarMusic.text = data[0].album
             }
-
         }
     }
 
