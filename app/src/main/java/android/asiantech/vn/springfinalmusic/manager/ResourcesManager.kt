@@ -152,4 +152,8 @@ class ResourcesManager private constructor() {
         return mListAlbum.filter { album -> album.name == name }[0]
     }
 
+    fun getPlaylist(name: String): Playlist {
+        return mListPlaylist.filter { playlist -> playlist.name == name }[0]
+    }
+
 }

@@ -17,6 +17,7 @@ class CurrentMusicPlay : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play_music)
         getData()
+        initViews()
         initListeners()
         initRecycleView()
     }
@@ -31,13 +32,15 @@ class CurrentMusicPlay : Activity() {
             FILTER_ALBUM -> {
                 data = intent.extras.getParcelableArrayList<Song>(FILTER_ALBUM)
             }
+
+            FILTER_PLAYLIST -> {
+                data = intent.extras.getParcelableArrayList<Song>(FILTER_PLAYLIST)
+            }
         }
     }
 
-    fun initListeners() {
-        btnToolBarMusicClose.setOnClickListener {
-            onBackPressed()
-        }
+    fun initViews()
+    {
         val action = intent.action
         when (action) {
             FILTER_ARTIST -> {
@@ -46,6 +49,13 @@ class CurrentMusicPlay : Activity() {
             FILTER_ALBUM -> {
                 tvToolBarMusic.text = data[0].album
             }
+
+        }
+    }
+
+    fun initListeners() {
+        btnToolBarMusicClose.setOnClickListener {
+            onBackPressed()
         }
     }
 
@@ -57,9 +67,9 @@ class CurrentMusicPlay : Activity() {
         recycleViewMusic.adapter = mAdapter
     }
 
-
     companion object {
         val FILTER_ARTIST = "Artist"
         val FILTER_ALBUM = "Album"
+        val FILTER_PLAYLIST = "Playlist"
     }
 }

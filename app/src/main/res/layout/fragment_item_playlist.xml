@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/clPlaylistItem"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/playlist_item_size_height">
+    android:layout_height="@dimen/playlist_item_size_height"
+    android:background="@drawable/custom_selected_item"
+    android:clickable="true"
+    android:focusable="true">
 
     <ImageButton
         android:id="@+id/btnMiniBarButtonClose"
@@ -22,6 +26,8 @@
         android:layout_width="@dimen/minibar_size_thumbnail_playlist_item"
         android:layout_height="@dimen/minibar_size_thumbnail_playlist_item"
         android:layout_marginLeft="15dp"
+        android:clickable="false"
+        android:focusable="false"
         android:src="@drawable/ic_song"
         android:tint="@color/black_800"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -34,6 +40,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
+        android:clickable="false"
+        android:focusable="false"
         android:text="@string/minibar_item_text_playlist"
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/minibar_text_size"
@@ -44,6 +52,8 @@
         android:id="@+id/tvPlaylistItemNumOfSong"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false"
         android:text="@string/minibar_text_num_of_song"
         android:textSize="15dp"
         app:layout_constraintLeft_toLeftOf="@id/tvPlaylistItemName"
