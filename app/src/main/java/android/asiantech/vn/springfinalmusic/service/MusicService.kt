@@ -17,7 +17,6 @@ import android.os.CountDownTimer
 import android.os.Handler
 import android.os.IBinder
 import android.net.Uri
-import android.os.*
 import android.util.Log
 import android.widget.RemoteViews
 
@@ -33,6 +32,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         const val NEXT_MUSIC = "next"
         const val BACK_MUSIC = "back"
         const val ACTION_TIMER = "timer_auto_off_app"
+        const val CONTINUE_MUSIC = "continue"
     }
 
     private var mMediaPlayer: MediaPlayer? = null
@@ -61,6 +61,9 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
                     mSongCurrent = mSongList.songList[mPositionCurrent]
                     playMusic(Uri.parse(mSongCurrent?.data))
                 }
+                CONTINUE_MUSIC -> {
+                    resumeMusic()
+                }
                 PAUSE_MUSIC -> {
                     pauseMusic()
                 }
@@ -77,6 +80,19 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
             }
         }
         return Service.START_STICKY
+    }
+
+    private fun changedImageBtnPlay() {
+        if (mMediaPlayer?.isPlaying == true) {
+            mRemoteViews?.setImageViewResource(R.id.imgNotificationButtonPlay, R.drawable.btn_notificationbar_pause)
+            mRemoteViews?.setOnClickPendingIntent(R.id.imgNotificationButtonPlay
+                    , setActionEventClick(PAUSE_MUSIC))
+        } else {
+            mRemoteViews?.setImageViewResource(R.id.imgNotificationButtonPlay, R.drawable.btn_notificationbar_play)
+            mRemoteViews?.setOnClickPendingIntent(R.id.imgNotificationButtonPlay
+                    , setActionEventClick(CONTINUE_MUSIC))
+        }
+        mNotificationManager?.notify(ID_NOTIFICATION, mNotification)
     }
 
     private fun autoOffAppByTimer(minutes: Long) {
@@ -144,9 +160,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
                     .build()
             this.mNotification?.bigContentView = mRemoteViews
         }
-    }
-
-    private fun startNotification() {
         startForeground(ID_NOTIFICATION, mNotification)
         mNotificationManager!!.notify(ID_NOTIFICATION, mNotification)
     }
@@ -172,6 +185,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
             mMediaPlayer?.start()
             mHandler.post(mUpdateSongPlaying)
         }
+        changedImageBtnPlay()
     }
 
     private fun next() {
@@ -199,6 +213,13 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
     private fun pauseMusic() {
         mMediaPlayer!!.pause()
         mHandler.removeCallbacks(mUpdateSongPlaying)
+        changedImageBtnPlay()
+    }
+
+    private fun resumeMusic() {
+        mMediaPlayer?.start()
+        mHandler.post(mUpdateSongPlaying)
+        changedImageBtnPlay()
     }
 
     private fun miliSecondsToString(miliseconds: Long?): String {
