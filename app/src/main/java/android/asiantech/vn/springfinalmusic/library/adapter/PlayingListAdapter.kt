@@ -11,9 +11,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 
-class PlayingListAdapter(listSong: List<Song>, context: Context) : RecyclerView.Adapter<PlayingListAdapter.SongPlaying>() {
+class PlayingListAdapter(listSong: List<Song>, context: Context, listener: OnAdapterListenes) : RecyclerView.Adapter<PlayingListAdapter.SongPlaying>() {
+    companion object {
+        const val KEY_POSITION_SELECTED = "positon_song_select"
+    }
+
     private var mListSong: List<Song> = listSong
     private var mContext: Context = context
+    private var mListenes: OnAdapterListenes = listener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongPlaying {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_item_song, parent, false) as View
@@ -34,7 +39,10 @@ class PlayingListAdapter(listSong: List<Song>, context: Context) : RecyclerView.
 
         init {
             view.setOnClickListener {
-                mContext.startService(Intent(mContext, MusicService::class.java))
+                mContext.startService(Intent(mContext, MusicService::class.java)
+                        .setAction(MusicService.NEXT_SONG_INDEX)
+                        .putExtra(KEY_POSITION_SELECTED, adapterPosition))
+                mListenes.onItemSelected()
             }
         }
 
@@ -42,5 +50,9 @@ class PlayingListAdapter(listSong: List<Song>, context: Context) : RecyclerView.
             mTvNameSong.text = song.title
             mTvNameSinger.text = song.artist
         }
+    }
+
+    interface OnAdapterListenes {
+        fun onItemSelected()
     }
 }

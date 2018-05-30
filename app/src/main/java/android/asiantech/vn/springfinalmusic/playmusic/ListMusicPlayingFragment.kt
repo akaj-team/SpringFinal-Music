@@ -9,9 +9,8 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_list_playing.*
-import java.util.*
 
-class ListMusicPlayingFragment : AppCompatActivity() {
+class ListMusicPlayingFragment : AppCompatActivity(), PlayingListAdapter.OnAdapterListenes {
     private lateinit var mLayout: RecyclerView.LayoutManager
     private var mAdapter: PlayingListAdapter? = null
 
@@ -30,11 +29,15 @@ class ListMusicPlayingFragment : AppCompatActivity() {
 
     private fun extraData() {
         val list: List<Song>? = intent?.extras?.getParcelableArrayList(MusicService.KEY_SONG_LIST)
-        Collections.shuffle(list)//xao tron danh sach
-        if (list != null) {
-            mAdapter = PlayingListAdapter(list, this)
+        val position: Int? = intent?.extras?.getInt(MusicService.KEY_SONG)
+        if (list != null && position != null) {
+            mAdapter = PlayingListAdapter(list, this, this)
             mAdapter?.notifyDataSetChanged()
         }
         recycleViewListPlaying.adapter = mAdapter
+    }
+
+    override fun onItemSelected() {
+        onBackPressed()
     }
 }

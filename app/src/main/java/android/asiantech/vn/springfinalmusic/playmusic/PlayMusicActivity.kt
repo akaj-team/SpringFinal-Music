@@ -103,6 +103,7 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         }
         btnPlayMusicButtonPlaylist.setOnClickListener {
             startActivity(Intent(this, ListMusicPlayingFragment::class.java)
+                    .putExtra(MusicService.KEY_SONG,mPositionSong)
                     .putParcelableArrayListExtra(MusicService.KEY_SONG_LIST, mListSong as java.util.ArrayList<out Parcelable>))
         }
     }

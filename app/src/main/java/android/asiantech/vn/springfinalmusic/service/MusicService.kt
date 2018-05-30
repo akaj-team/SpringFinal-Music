@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.asiantech.vn.springfinalmusic.R
+import android.asiantech.vn.springfinalmusic.library.adapter.PlayingListAdapter
 import android.asiantech.vn.springfinalmusic.timercountdown.FragmentTimerOffApp
 import android.asiantech.vn.springfinalmusic.library.adapter.SongsAdapter
 import android.asiantech.vn.springfinalmusic.loading.LoadingActivity
@@ -36,6 +37,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         const val KEY_SONG = "song_current"
         const val KEY_POSITION_MEDIA = "media_current_positon"
         const val KEY_SONG_LIST = "list_of_song"
+        const val NEXT_SONG_INDEX = "play_song_of_list"
     }
 
     private var mMediaPlayer: MediaPlayer? = null
@@ -87,6 +89,10 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
                         val progress: Int = intent.extras.getInt(PlayMusicActivity.PROGRESS)
                         mMediaPlayer?.seekTo(progress)
                     }
+                }
+                NEXT_SONG_INDEX -> {
+                    val positionSelect: Int = intent.extras.getInt(PlayingListAdapter.KEY_POSITION_SELECTED)
+                    next(positionSelect)
                 }
             }
         }
@@ -151,7 +157,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         mNotificationManager?.notify(ID_NOTIFICATION, mNotification)
     }
 
-    private fun callBackService(): PendingIntent {
+    private fun callBackActivity(): PendingIntent {
         if (mPositionSong != -1) {
             val intent = Intent(this, PlayMusicActivity::class.java)
                     .putExtra(SongsAdapter.KEY_POSITION_SONG, mPositionSong)
@@ -173,13 +179,13 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             mNotification = Notification.Builder(this)
                     .setSmallIcon(R.drawable.img_logo)
-                    .setContentIntent(callBackService())
+                    .setContentIntent(callBackActivity())
                     .setCustomBigContentView(this.mRemoteViews)
                     .build()
         } else {
             mNotification = Notification.Builder(this)
                     .setSmallIcon(R.drawable.ic_music_note_black_24dp)
-                    .setContentIntent(callBackService())
+                    .setContentIntent(callBackActivity())
                     .build()
             this.mNotification?.bigContentView = mRemoteViews
         }
@@ -218,6 +224,14 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         if (nextSong >= 0 && nextSong < mSongList.size) {
             mSongCurrent = mSongList[nextSong]
             mPositionSong++
+            playMusic(Uri.parse(mSongCurrent?.data))
+        }
+    }
+
+    private fun next(nextSong: Int) {
+        if (nextSong >= 0 && nextSong < mSongList.size) {
+            mSongCurrent = mSongList[nextSong]
+            mPositionSong = nextSong
             playMusic(Uri.parse(mSongCurrent?.data))
         }
     }
