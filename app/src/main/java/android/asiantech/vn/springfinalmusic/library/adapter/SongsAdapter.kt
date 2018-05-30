@@ -1,16 +1,17 @@
 package android.asiantech.vn.springfinalmusic.library.adapter
 
 import android.asiantech.vn.springfinalmusic.R
-import android.asiantech.vn.springfinalmusic.model.ListSong
 import android.asiantech.vn.springfinalmusic.model.Song
-import android.asiantech.vn.springfinalmusic.service.MusicService
+import android.asiantech.vn.springfinalmusic.playmusic.PlayMusicActivity
 import android.content.Context
 import android.content.Intent
+import android.os.Parcelable
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import java.util.ArrayList
 
 class SongsAdapter(dataset: List<Song>, context: Context?) : RecyclerView.Adapter<SongsAdapter.ViewHolder>() {
     private var mListData: List<Song> = dataset
@@ -18,6 +19,8 @@ class SongsAdapter(dataset: List<Song>, context: Context?) : RecyclerView.Adapte
 
     companion object {
         const val KEY_LIST_SONG = "list_of_song"
+        const val KEY_POSITION_SONG = "position_song"
+        const val ACTION_START_SERVICE = "run_service"
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,7 +32,6 @@ class SongsAdapter(dataset: List<Song>, context: Context?) : RecyclerView.Adapte
         viewHolder.onBind(mListData[position])
     }
 
-
     override fun getItemCount(): Int {
         return mListData.size
     }
@@ -37,17 +39,16 @@ class SongsAdapter(dataset: List<Song>, context: Context?) : RecyclerView.Adapte
     /*
      *  class viewholder in recycleview
      */
-
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private var mTvNameSong: TextView = view.findViewById(R.id.tvItemNameSong)
         private var mTvNameSinger: TextView = view.findViewById(R.id.tvItemNameSinger)
 
         init {
             view.setOnClickListener {
-                val intent: Intent = Intent(mContext, MusicService::class.java)
-                        .setAction(MusicService.PLAY_MUSIC)
-                        .putExtra(KEY_LIST_SONG, ListSong(mListData, adapterPosition))
-                mContext?.startService(intent)
+                mContext?.startActivity(Intent(mContext, PlayMusicActivity::class.java)
+                        .setAction(ACTION_START_SERVICE)
+                        .putExtra(KEY_POSITION_SONG, adapterPosition)
+                        .putParcelableArrayListExtra(KEY_LIST_SONG, mListData as ArrayList<out Parcelable>))
             }
         }
 

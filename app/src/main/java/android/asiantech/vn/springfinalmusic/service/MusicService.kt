@@ -7,18 +7,17 @@ import android.app.Service
 import android.asiantech.vn.springfinalmusic.R
 import android.asiantech.vn.springfinalmusic.timercountdown.FragmentTimerOffApp
 import android.asiantech.vn.springfinalmusic.library.adapter.SongsAdapter
-import android.asiantech.vn.springfinalmusic.model.ListSong
+import android.asiantech.vn.springfinalmusic.loading.LoadingActivity
 import android.asiantech.vn.springfinalmusic.model.Song
+import android.asiantech.vn.springfinalmusic.playmusic.PlayMusicActivity
 import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
-import android.os.Build
-import android.os.CountDownTimer
-import android.os.Handler
-import android.os.IBinder
 import android.net.Uri
+import android.os.*
 import android.util.Log
 import android.widget.RemoteViews
+import java.util.ArrayList
 
 import java.util.concurrent.TimeUnit
 
@@ -32,7 +31,10 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         const val NEXT_MUSIC = "next"
         const val BACK_MUSIC = "back"
         const val ACTION_TIMER = "timer_auto_off_app"
-        const val CONTINUE_MUSIC = "continue"
+        const val RESUME_MUSIC = "continue"
+        const val DISPLAY_MUSIC = "show_info_music"
+        const val KEY_SONG = "song_current"
+        const val KEY_POSITION_MEDIA = "media_current_positon"
     }
 
     private var mMediaPlayer: MediaPlayer? = null
@@ -42,8 +44,8 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
     private var mNotificationManager: NotificationManager? = null
     private var mNotification: Notification? = null
     private var mCountDownTimer: CountDownTimer? = null
-    private lateinit var mSongList: ListSong
-    private var mPositionCurrent: Int = -1
+    private lateinit var mSongList: List<Song>
+    private var mPositionSong: Int = -1
     private var mSongCurrent: Song? = null
 
     override fun onCreate() {
@@ -56,12 +58,14 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         if (action != null) {
             when (action) {
                 PLAY_MUSIC -> {
-                    mSongList = intent.getParcelableExtra(SongsAdapter.KEY_LIST_SONG)
-                    mPositionCurrent = mSongList.songCurrent
-                    mSongCurrent = mSongList.songList[mPositionCurrent]
+                    if (intent.extras != null) {
+                        mSongList = intent.extras.getParcelableArrayList(SongsAdapter.KEY_LIST_SONG)
+                        mPositionSong = intent.extras.getInt(SongsAdapter.KEY_POSITION_SONG)
+                        mSongCurrent = mSongList[mPositionSong]
+                    }
                     playMusic(Uri.parse(mSongCurrent?.data))
                 }
-                CONTINUE_MUSIC -> {
+                RESUME_MUSIC -> {
                     resumeMusic()
                 }
                 PAUSE_MUSIC -> {
@@ -77,6 +81,12 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
                 BACK_MUSIC -> {
                     back()
                 }
+                PlayMusicActivity.SEEKBAR_CHANGED -> {
+                    if (intent.extras != null) {
+                        val progress: Int = intent.extras.getInt(PlayMusicActivity.PROGRESS)
+                        mMediaPlayer?.seekTo(progress)
+                    }
+                }
             }
         }
         return Service.START_STICKY
@@ -84,13 +94,19 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
 
     private fun changedImageBtnPlay() {
         if (mMediaPlayer?.isPlaying == true) {
-            mRemoteViews?.setImageViewResource(R.id.imgNotificationButtonPlay, R.drawable.btn_notificationbar_pause)
+            mRemoteViews?.setImageViewResource(R.id.imgNotificationButtonPlay
+                    , R.drawable.btn_notificationbar_pause)
             mRemoteViews?.setOnClickPendingIntent(R.id.imgNotificationButtonPlay
                     , setActionEventClick(PAUSE_MUSIC))
+            sendBroadcast(Intent()
+                    .setAction(PAUSE_MUSIC))
         } else {
-            mRemoteViews?.setImageViewResource(R.id.imgNotificationButtonPlay, R.drawable.btn_notificationbar_play)
+            mRemoteViews?.setImageViewResource(R.id.imgNotificationButtonPlay
+                    , R.drawable.btn_notificationbar_play)
             mRemoteViews?.setOnClickPendingIntent(R.id.imgNotificationButtonPlay
-                    , setActionEventClick(CONTINUE_MUSIC))
+                    , setActionEventClick(RESUME_MUSIC))
+            sendBroadcast(Intent()
+                    .setAction(RESUME_MUSIC))
         }
         mNotificationManager?.notify(ID_NOTIFICATION, mNotification)
     }
@@ -115,7 +131,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         mUpdateSongPlaying = UpdateSongPlaying()
         initMedia()
         initRemoteViews()
-        initNotification()
+        //initNotification()
     }
 
     private fun initRemoteViews() {
@@ -135,9 +151,15 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
     }
 
     private fun callBackService(): PendingIntent {
-        val intent = Intent(this, MusicService::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-        return PendingIntent.getActivities(this, 0, arrayOf(intent), 0)
+        if (mPositionSong != -1) {
+            val intent = Intent(this, PlayMusicActivity::class.java)
+                    .putExtra(SongsAdapter.KEY_POSITION_SONG, mPositionSong)
+                    .putParcelableArrayListExtra(SongsAdapter.KEY_LIST_SONG, mSongList as ArrayList<out Parcelable>)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            return PendingIntent.getActivities(this, 0, arrayOf(intent), 0)
+        }
+        return PendingIntent.getActivities(this, 0
+                , arrayOf(Intent(this, LoadingActivity::class.java)), 0)
     }
 
     private fun setActionEventClick(action: String): PendingIntent {
@@ -177,6 +199,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
     }
 
     private fun playMusic(uri: Uri) {
+        initNotification()
         setNoti()
         mMediaPlayer?.reset()
         mHandler.removeCallbacks(mUpdateSongPlaying)
@@ -189,19 +212,19 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
     }
 
     private fun next() {
-        val nextSong: Int = mPositionCurrent + 1
-        if (nextSong >= 0 && nextSong < mSongList.songList.size) {
-            mSongCurrent = mSongList.songList[nextSong]
-            mPositionCurrent++
+        val nextSong: Int = mPositionSong + 1
+        if (nextSong >= 0 && nextSong < mSongList.size) {
+            mSongCurrent = mSongList[nextSong]
+            mPositionSong++
             playMusic(Uri.parse(mSongCurrent?.data))
         }
     }
 
     private fun back() {
-        val nextSong: Int = mPositionCurrent - 1
-        if (nextSong >= 0 && nextSong < mSongList.songList.size) {
-            mSongCurrent = mSongList.songList[nextSong]
-            mPositionCurrent--
+        val nextSong: Int = mPositionSong - 1
+        if (nextSong >= 0 && nextSong < mSongList.size) {
+            mSongCurrent = mSongList[nextSong]
+            mPositionSong--
             playMusic(Uri.parse(mSongCurrent?.data))
         }
     }
@@ -211,7 +234,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
     }
 
     private fun pauseMusic() {
-        mMediaPlayer!!.pause()
+        mMediaPlayer?.pause()
         mHandler.removeCallbacks(mUpdateSongPlaying)
         changedImageBtnPlay()
     }
@@ -227,7 +250,15 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
             val minutes = TimeUnit.MILLISECONDS.toMinutes(miliseconds)
             val seconds = TimeUnit.MILLISECONDS.toSeconds(miliseconds) % 60
 
-            return minutes.toString() + ":" + seconds
+            var strMinutes: String = minutes.toString()
+            var strSecons: String = seconds.toString()
+            if (minutes < 10) {
+                strMinutes = "0$minutes"
+            }
+            if (seconds < 10) {
+                strSecons = "0$seconds"
+            }
+            return "$strMinutes:$strSecons"
         }
         return ERROR_NULL
     }
@@ -245,8 +276,13 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
 
     internal inner class UpdateSongPlaying : Runnable {
         override fun run() {
-            Log.e(TAG, "run: " + miliSecondsToString((mMediaPlayer?.currentPosition)?.toLong()))
+            val intCurrPosition: Int? = mMediaPlayer?.currentPosition
             upDateRemote()
+            changedImageBtnPlay()
+            sendBroadcast(Intent()
+                    .setAction(DISPLAY_MUSIC)
+                    .putExtra(KEY_SONG, mSongCurrent)
+                    .putExtra(KEY_POSITION_MEDIA, intCurrPosition))
             mHandler.postDelayed(mUpdateSongPlaying, 1000)
         }
 
@@ -255,7 +291,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
                     , mMediaPlayer!!.duration
                     , mMediaPlayer!!.currentPosition
                     , false)
-            mNotificationManager!!.notify(ID_NOTIFICATION, mNotification)
+            mNotificationManager?.notify(ID_NOTIFICATION, mNotification)
         }
     }
 }
