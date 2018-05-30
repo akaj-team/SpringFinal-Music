@@ -35,6 +35,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         const val DISPLAY_MUSIC = "show_info_music"
         const val KEY_SONG = "song_current"
         const val KEY_POSITION_MEDIA = "media_current_positon"
+        const val KEY_SONG_LIST = "list_of_song"
     }
 
     private var mMediaPlayer: MediaPlayer? = null
@@ -129,7 +130,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
 
     private fun init() {
         mUpdateSongPlaying = UpdateSongPlaying()
-        initMedia()
+        //initMedia()
         initRemoteViews()
         //initNotification()
     }
@@ -204,6 +205,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         mMediaPlayer?.reset()
         mHandler.removeCallbacks(mUpdateSongPlaying)
         mMediaPlayer = MediaPlayer.create(applicationContext, uri)
+        mMediaPlayer?.setOnCompletionListener(this)
         if (mMediaPlayer?.isPlaying == false) {
             mMediaPlayer?.start()
             mHandler.post(mUpdateSongPlaying)
@@ -231,6 +233,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
 
     override fun onCompletion(mp: MediaPlayer?) {
         Log.e(TAG, "onCompletiosn")
+        next()
     }
 
     private fun pauseMusic() {

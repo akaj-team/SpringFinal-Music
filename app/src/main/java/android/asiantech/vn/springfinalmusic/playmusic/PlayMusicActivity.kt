@@ -33,7 +33,7 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         setContentView(R.layout.fragment_play_music)
         extraData()
         startMusic()
-        initViews()
+        initViewsAndEvent()
     }
 
     private fun startMusic() {
@@ -85,7 +85,7 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         return null
     }
 
-    private fun initViews() {
+    private fun initViewsAndEvent() {
         initReceive()
         displayInfoSong(0)
         seekBarPlayMusic.setOnSeekBarChangeListener(this)
@@ -98,8 +98,12 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         btnPlayMusicButtonPrev.setOnClickListener {
             starServiceByAction(MusicService.BACK_MUSIC)
         }
-        btnPlayMusicClose.setOnClickListener{
+        btnPlayMusicClose.setOnClickListener {
             onBackPressed()
+        }
+        btnPlayMusicButtonPlaylist.setOnClickListener {
+            startActivity(Intent(this, ListMusicPlayingFragment::class.java)
+                    .putParcelableArrayListExtra(MusicService.KEY_SONG_LIST, mListSong as java.util.ArrayList<out Parcelable>))
         }
     }
 
