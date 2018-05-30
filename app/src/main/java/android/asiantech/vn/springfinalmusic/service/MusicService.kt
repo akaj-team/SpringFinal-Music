@@ -204,6 +204,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         mMediaPlayer?.reset()
         mHandler.removeCallbacks(mUpdateSongPlaying)
         mMediaPlayer = MediaPlayer.create(applicationContext, uri)
+        mMediaPlayer?.setOnCompletionListener(this)
         if (mMediaPlayer?.isPlaying == false) {
             mMediaPlayer?.start()
             mHandler.post(mUpdateSongPlaying)
@@ -231,6 +232,18 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
 
     override fun onCompletion(mp: MediaPlayer?) {
         Log.e(TAG, "onCompletiosn")
+        next()
+        if (mPositionSong >= mSongList.size) {
+            stopMusic()
+        }
+    }
+
+    private fun stopMusic() {
+        mHandler.removeCallbacks(mUpdateSongPlaying)
+        mMediaPlayer?.stop()
+        mMediaPlayer?.release()
+        this.stopSelf()
+        this.onDestroy()
     }
 
     private fun pauseMusic() {
@@ -268,8 +281,8 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
     }
 
     override fun onDestroy() {
-        this.stopSelf()
         mHandler.removeCallbacks(mUpdateSongPlaying)
+        this.stopSelf()
         mNotificationManager?.cancelAll()
         super.onDestroy()
     }
@@ -283,7 +296,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
                     .setAction(DISPLAY_MUSIC)
                     .putExtra(KEY_SONG, mSongCurrent)
                     .putExtra(KEY_POSITION_MEDIA, intCurrPosition))
-            mHandler.postDelayed(mUpdateSongPlaying, 1000)
+            mHandler.postDelayed(this, 1000)
         }
 
         private fun upDateRemote() {
