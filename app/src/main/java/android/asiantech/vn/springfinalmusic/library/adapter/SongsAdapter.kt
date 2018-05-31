@@ -1,6 +1,7 @@
 package android.asiantech.vn.springfinalmusic.library.adapter
 
 import android.asiantech.vn.springfinalmusic.R
+import android.asiantech.vn.springfinalmusic.library.SendRequestPlayMusic
 import android.asiantech.vn.springfinalmusic.model.Constrant
 import android.asiantech.vn.springfinalmusic.model.Song
 import android.asiantech.vn.springfinalmusic.playmusic.PlayMusicActivity
@@ -40,10 +41,7 @@ class SongsAdapter(dataset: List<Song>, context: Context?) : RecyclerView.Adapte
 
         init {
             view.setOnClickListener {
-                mContext?.startActivity(Intent(mContext, PlayMusicActivity::class.java)
-                        .setAction(Constrant.ACTION_START_SERVICE)
-                        .putExtra(Constrant.KEY_POSITION_SONG, adapterPosition)
-                        .putParcelableArrayListExtra(Constrant.KEY_LIST_SONG, mListData as ArrayList<out Parcelable>))
+                SendRequestPlayMusic.getInstances().stratAcivityPlayByAdapter(mContext as Context , mListData, adapterPosition)
             }
         }
 

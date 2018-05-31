@@ -57,7 +57,7 @@ class CurrentMusicPlay : Activity() {
 
     fun initRecycleView() {
         mLayoutManager = LinearLayoutManager(this)
-        mAdapter = CurrentMusicAdapter(data)
+        mAdapter = CurrentMusicAdapter(data,this)
         recycleViewMusic.setHasFixedSize(true)
         recycleViewMusic.layoutManager = mLayoutManager
         recycleViewMusic.adapter = mAdapter

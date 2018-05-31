@@ -7,6 +7,7 @@ import android.asiantech.vn.springfinalmusic.manager.ResourcesManager
 import android.asiantech.vn.springfinalmusic.model.Constrant
 import android.asiantech.vn.springfinalmusic.model.Song
 import android.asiantech.vn.springfinalmusic.playmusic.PlayMusicActivity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
@@ -41,10 +42,7 @@ class SongsFragment : Fragment() {
 
     fun startMusicRandom() {
         Collections.shuffle(mListSong)
-        activity?.startActivity(Intent(activity, PlayMusicActivity::class.java)
-                .setAction(Constrant.ACTION_START_SERVICE)
-                .putExtra(Constrant.KEY_POSITION_SONG, 0)
-                .putParcelableArrayListExtra(Constrant.KEY_LIST_SONG, mListSong as ArrayList<out Parcelable>))
+        SendRequestPlayMusic.getInstances().stratAcivityPlayByAdapter(context as Context, mListSong, 0)
     }
 
     private fun initRecycleView() {
