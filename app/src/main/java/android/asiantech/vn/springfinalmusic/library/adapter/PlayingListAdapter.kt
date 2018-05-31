@@ -1,6 +1,7 @@
 package android.asiantech.vn.springfinalmusic.library.adapter
 
 import android.asiantech.vn.springfinalmusic.R
+import android.asiantech.vn.springfinalmusic.model.Constant
 import android.asiantech.vn.springfinalmusic.model.Song
 import android.asiantech.vn.springfinalmusic.service.MusicService
 import android.content.Context
@@ -40,7 +41,7 @@ class PlayingListAdapter(listSong: List<Song>, context: Context, listener: OnAda
         init {
             view.setOnClickListener {
                 mContext.startService(Intent(mContext, MusicService::class.java)
-                        .setAction(MusicService.NEXT_SONG_INDEX)
+                        .setAction(Constant.NEXT_SONG_INDEX)
                         .putExtra(KEY_POSITION_SELECTED, adapterPosition))
                 mListenes.onItemSelected()
             }

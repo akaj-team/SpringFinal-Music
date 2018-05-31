@@ -17,4 +17,6 @@
     <dimen name="item_artist_button_size">15dp</dimen>
     <dimen name="size_button_item">15dp</dimen>
     <dimen name="toolbar_size_button">35dp</dimen>
+    <dimen name="dp_20">20dp</dimen>
+    <dimen name="dp_12">12dp</dimen>
 </resources>

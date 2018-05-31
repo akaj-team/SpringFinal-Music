@@ -1,6 +1,7 @@
 package android.asiantech.vn.springfinalmusic.manager
 
 import android.asiantech.vn.springfinalmusic.R
+import android.asiantech.vn.springfinalmusic.model.Album
 import android.asiantech.vn.springfinalmusic.model.Playlist
 import android.asiantech.vn.springfinalmusic.model.Song
 import android.content.Context
@@ -23,7 +24,7 @@ class ResourcesManager private constructor() {
 
     private var mListSong = ArrayList<Song>()
     private var mListArtist = mutableListOf<String>()
-    private var mListAlbum = mutableListOf<String>()
+    private var mListAlbum = mutableListOf<Album>()
     private var mListPlaylist = mutableListOf<Playlist>()
     fun getallSongFromDevice(): List<Song> {
         return mListSong
@@ -60,54 +61,38 @@ class ResourcesManager private constructor() {
     }
 
     private fun loadListArtist() {
+        val listAlbum = mutableListOf<String>()
         for (song in mListSong) {
             mListArtist.add(song.artist.toString())
-            mListAlbum.add(song.album.toString())
-
+            listAlbum.add(song.album.toString())
         }
-        var set: Set<String> = mListAlbum.toSet()
-        mListAlbum = set.toMutableList()
-        set = mListArtist.toSet()
+        initListAlbum(listAlbum)
+        val set = mListArtist.toSet()
         mListArtist = set.toMutableList()
         mListArtist.sort()
-        mListAlbum.sort()
+    }
+
+    private fun initListAlbum(listAlbum: List<String>) {
+        val setAbum = listAlbum.toSet()
+        for (item in setAbum.toList()) {
+            val album = Album()
+            album.name = item
+            album.listMusic = mListSong.filter { song: Song -> song.album == album.name }
+            mListAlbum.add(album)
+        }
     }
 
     fun getListArtist(): MutableList<String> {
         return mListArtist
     }
 
-    fun getListAlbum(): MutableList<String> {
+    fun getListAlbum(): MutableList<Album> {
         return mListAlbum
     }
 
-    fun reloadAllSong(context: Context) {
-        mListSong.clear()
-        val selection = MediaStore.Audio.Media.IS_MUSIC + " !=0"
-        val project = arrayOf(MediaStore.Audio.Media._ID,
-                MediaStore.Audio.Media.ARTIST,
-                MediaStore.Audio.Media.TITLE,
-                MediaStore.Audio.Media.DATA,
-                MediaStore.Audio.Media.DISPLAY_NAME,
-                MediaStore.Audio.Media.DURATION,
-                MediaStore.Audio.Media.ALBUM)
-        val cursor: Cursor?
-        cursor = context.contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                project, selection, null, null)
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                val song = Song(cursor.getInt(0), cursor.getString(1),
-                        cursor.getString(2), cursor.getString(3),
-                        cursor.getString(4), cursor.getInt(5),
-                        cursor.getString(6))
-                mListSong.add(song)
-            }
-            cursor.close()
-        }
-    }
-
     fun loadAllPlaylist(context: Context) {
-        val sharePref = context.getSharedPreferences(context.resources.getString(R.string.library_text_playlist), Context.MODE_PRIVATE)
+        val sharePref = context.getSharedPreferences(context.resources.getString(R.string.library_text_playlist),
+                Context.MODE_PRIVATE)
         val data = sharePref.getString(context.getString(R.string.library_text_playlist), "")
         if (!TextUtils.isEmpty(data)) {
             val playlists = data.split("*")
@@ -132,7 +117,8 @@ class ResourcesManager private constructor() {
     }
 
     fun saveDataPlaylist(context: Context) {
-        val sharePref = context.getSharedPreferences(context.resources.getString(R.string.library_text_playlist), Context.MODE_PRIVATE)
+        val sharePref = context.getSharedPreferences(context.resources.getString(R.string.library_text_playlist),
+                Context.MODE_PRIVATE)
         var data = ""
         val gson = Gson()
         for (index in mListPlaylist.indices) {
@@ -154,6 +140,20 @@ class ResourcesManager private constructor() {
         for (item in tempListPlaylist) {
             mListPlaylist.add(item)
         }
+    }
+
+    fun getMusicOfArtist(artist: String): List<Song> {
+        val listSong: List<Song>
+        listSong = mListSong.filter { song -> song.artist == artist }
+        return listSong
+    }
+
+    fun getAlbum(name: String): Album {
+        return mListAlbum.filter { album -> album.name == name }[0]
+    }
+
+    fun getPlaylist(name: String): Playlist {
+        return mListPlaylist.filter { playlist -> playlist.name == name }[0]
     }
 
 }

@@ -2,6 +2,7 @@ package android.asiantech.vn.springfinalmusic.playmusic
 
 import android.asiantech.vn.springfinalmusic.R
 import android.asiantech.vn.springfinalmusic.library.adapter.PlayingListAdapter
+import android.asiantech.vn.springfinalmusic.model.Constant
 import android.asiantech.vn.springfinalmusic.model.Song
 import android.asiantech.vn.springfinalmusic.service.MusicService
 import android.os.Bundle
@@ -28,13 +29,20 @@ class ListMusicPlayingFragment : AppCompatActivity(), PlayingListAdapter.OnAdapt
     }
 
     private fun extraData() {
-        val list: List<Song>? = intent?.extras?.getParcelableArrayList(MusicService.KEY_SONG_LIST)
-        val position: Int? = intent?.extras?.getInt(MusicService.KEY_SONG)
+        val list: List<Song>? = intent?.extras?.getParcelableArrayList(Constant.KEY_LIST_SONG)
+        val position: Int? = intent?.extras?.getInt(Constant.KEY_SONG)
         if (list != null && position != null) {
             mAdapter = PlayingListAdapter(list, this, this)
             mAdapter?.notifyDataSetChanged()
         }
         recycleViewListPlaying.adapter = mAdapter
+        recycleViewListPlaying.scrollToPosition(position as Int)
+        showSongPlaying(list?.get(position))
+    }
+
+    private fun showSongPlaying(song: Song?) {
+        tvPlayingNameSong.setText(song?.title)
+        tvPlayingNameSinger.setText(song?.artist)
     }
 
     override fun onItemSelected() {

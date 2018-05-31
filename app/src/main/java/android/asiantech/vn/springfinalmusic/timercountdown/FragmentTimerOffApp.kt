@@ -1,6 +1,7 @@
 package android.asiantech.vn.springfinalmusic.timercountdown
 
 import android.asiantech.vn.springfinalmusic.R
+import android.asiantech.vn.springfinalmusic.model.Constant
 import android.asiantech.vn.springfinalmusic.service.MusicService
 import android.asiantech.vn.springfinalmusic.timercountdown.modle.Timer
 import android.content.Intent
@@ -62,13 +63,9 @@ class FragmentTimerOffApp : DialogFragment(), IListenerApdapterTimer {
 
     private fun sendActionCountDownToServeice(minutes: Int) {
         val intent = Intent(activity, MusicService::class.java)
-                .setAction(MusicService.ACTION_TIMER)
-                .putExtra(KEY_TIME, minutes)
+                .setAction(Constant.ACTION_TIMER)
+                .putExtra(Constant.KEY_TIME, minutes)
 
         (activity)?.startService(intent)
-    }
-
-    companion object {
-        const val KEY_TIME = "key_time_minutes"
     }
 }
