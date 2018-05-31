@@ -32,11 +32,11 @@ class ResourcesManager private constructor() {
 
     fun loadResources(context: Context) {
         loadAllSong(context)
-        loadListArtist()
-        loadAllPlaylist(context)
+        loadListData(context)
     }
 
     fun loadAllSong(context: Context) {
+        mListSong.clear()
         val selection = MediaStore.Audio.Media.IS_MUSIC + " !=0"
         val project = arrayOf(MediaStore.Audio.Media._ID,
                 MediaStore.Audio.Media.ARTIST,
@@ -60,7 +60,9 @@ class ResourcesManager private constructor() {
         }
     }
 
-    private fun loadListArtist() {
+    private fun loadListData(context: Context) {
+        mListArtist.clear()
+        mListAlbum.clear()
         val listAlbum = mutableListOf<String>()
         for (song in mListSong) {
             mListArtist.add(song.artist.toString())
@@ -70,6 +72,7 @@ class ResourcesManager private constructor() {
         val set = mListArtist.toSet()
         mListArtist = set.toMutableList()
         mListArtist.sort()
+        loadAllPlaylist(context)
     }
 
     private fun initListAlbum(listAlbum: List<String>) {
@@ -91,6 +94,7 @@ class ResourcesManager private constructor() {
     }
 
     fun loadAllPlaylist(context: Context) {
+        mListPlaylist.clear()
         val sharePref = context.getSharedPreferences(context.resources.getString(R.string.library_text_playlist),
                 Context.MODE_PRIVATE)
         val data = sharePref.getString(context.getString(R.string.library_text_playlist), "")
