@@ -1,6 +1,7 @@
 package android.asiantech.vn.springfinalmusic.library.adapter
 
 import android.asiantech.vn.springfinalmusic.R
+import android.asiantech.vn.springfinalmusic.model.Constrant
 import android.asiantech.vn.springfinalmusic.model.Song
 import android.asiantech.vn.springfinalmusic.playmusic.PlayMusicActivity
 import android.content.Context
@@ -16,12 +17,6 @@ import java.util.ArrayList
 class SongsAdapter(dataset: List<Song>, context: Context?) : RecyclerView.Adapter<SongsAdapter.ViewHolder>() {
     private var mListData: List<Song> = dataset
     private var mContext: Context? = context
-
-    companion object {
-        const val KEY_LIST_SONG = "list_of_song"
-        const val KEY_POSITION_SONG = "position_song"
-        const val ACTION_START_SERVICE = "run_service"
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_item_song, parent, false) as View
@@ -46,9 +41,9 @@ class SongsAdapter(dataset: List<Song>, context: Context?) : RecyclerView.Adapte
         init {
             view.setOnClickListener {
                 mContext?.startActivity(Intent(mContext, PlayMusicActivity::class.java)
-                        .setAction(ACTION_START_SERVICE)
-                        .putExtra(KEY_POSITION_SONG, adapterPosition)
-                        .putParcelableArrayListExtra(KEY_LIST_SONG, mListData as ArrayList<out Parcelable>))
+                        .setAction(Constrant.ACTION_START_SERVICE)
+                        .putExtra(Constrant.KEY_POSITION_SONG, adapterPosition)
+                        .putParcelableArrayListExtra(Constrant.KEY_LIST_SONG, mListData as ArrayList<out Parcelable>))
             }
         }
 
