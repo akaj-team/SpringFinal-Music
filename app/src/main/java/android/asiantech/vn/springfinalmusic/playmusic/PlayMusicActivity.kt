@@ -12,7 +12,6 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.widget.SeekBar
 import kotlinx.android.synthetic.main.fragment_play_music.*
 import java.util.concurrent.TimeUnit
@@ -50,7 +49,6 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             mListSong = this.intent.extras.getParcelableArrayList(SongsAdapter.KEY_LIST_SONG)
             mPositionSong = this.intent.extras.getInt(SongsAdapter.KEY_POSITION_SONG)
             mSongCurrent = mListSong?.get(mPositionSong)
-            Log.e("zzz", "$mPositionSong")
         }
     }
 
@@ -108,7 +106,6 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     }
 
     private fun initReceive() {
-        Log.e("xxx", "m")
         mBroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 val action = intent?.action
@@ -117,7 +114,6 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                         if (intent.extras != null) {
                             mSongCurrent = intent.extras.getParcelable(MusicService.KEY_SONG)
                             val strPosition: Int = intent.extras.getInt(MusicService.KEY_POSITION_MEDIA)
-                            Log.e("xxx", mSongCurrent?.title)
                             displayInfoSong(strPosition)
                         }
                     }

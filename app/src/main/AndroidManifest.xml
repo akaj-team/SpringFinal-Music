@@ -25,6 +25,7 @@
 
         <activity android:name=".library.LibraryActivity" />
         <activity android:name="android.asiantech.vn.springfinalmusic.library.playlistchoice.PlaylistChoiceActivity" />
+        <activity android:name=".library.CurrentMusicPlay" />
         <activity android:name=".playmusic.PlayMusicActivity" />
     </application>
 

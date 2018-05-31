@@ -23,7 +23,8 @@ class PlaylistChoiceAdapter(dataset: List<Song>) : RecyclerView.Adapter<Recycler
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_item_playlist_choice, parent, false) as View
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_item_playlist_choice,
+                parent, false) as View
         return ViewHolder(view)
     }
 

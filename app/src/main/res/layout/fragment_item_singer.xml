@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/clAlbumItem"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/playlist_item_size_height">
+    android:layout_height="@dimen/playlist_item_size_height"
+    android:clickable="true"
+    android:focusable="true"
+    >
 
     <Button
         android:id="@+id/btnItemSinger"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorTransparent" />
+        android:background="@color/colorTransparent"
+        android:clickable="false"
+        android:focusable="false" />
 
     <ImageView
         android:id="@+id/imgItemSingerAvatar"
@@ -17,18 +23,20 @@
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
+        android:clickable="false"
         android:focusable="false"
         android:src="@drawable/default_artist_grey"
+        android:tint="@color/black_10"
         app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:tint="@color/black_30"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvItemSingerName"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginLeft="20dp"
+        android:clickable="false"
         android:focusable="false"
         android:gravity="center_vertical"
         android:text="@string/notification_test_name_singer"
@@ -43,6 +51,8 @@
         android:layout_width="@dimen/item_artist_button_size"
         android:layout_height="@dimen/item_artist_button_size"
         android:layout_marginRight="15dp"
+        android:clickable="false"
+        android:focusable="false"
         android:src="@drawable/btn_more_left_arrow_nor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"

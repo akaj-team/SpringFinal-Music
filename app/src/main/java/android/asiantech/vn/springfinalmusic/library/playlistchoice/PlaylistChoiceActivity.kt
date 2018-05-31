@@ -37,7 +37,7 @@ class PlaylistChoiceActivity : Activity(), IEventClosePlaylistChoice {
         btnToolBarButtonDown.setOnClickListener {
             onBackPressed()
         }
-        btnPlaylistChoiceAddAll.setOnClickListener {
+        viewChoiceAll.setOnClickListener {
             mIsChoiceAll = !mIsChoiceAll
             if (!mIsChoiceAll) {
                 tvPlaylistChoiceAddAll.text = getString(R.string.playlistchoice_text_add_all)
@@ -46,8 +46,8 @@ class PlaylistChoiceActivity : Activity(), IEventClosePlaylistChoice {
             }
             mAdapter.choiceAllItem(mIsChoiceAll)
         }
-        btnPlaylistChoiceComplete.setOnClickListener {
-            var dialog = NewPlaylistDialog(this, mAdapter.getListItemChoice())
+        viewAdd.setOnClickListener {
+            val dialog = NewPlaylistDialog(this, mAdapter.getListItemChoice())
             dialog.setListenerClose(this)
             dialog.show()
         }
