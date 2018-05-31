@@ -5,7 +5,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.asiantech.vn.springfinalmusic.R
-import android.asiantech.vn.springfinalmusic.library.adapter.PlayingListAdapter
 import android.asiantech.vn.springfinalmusic.loading.LoadingActivity
 import android.asiantech.vn.springfinalmusic.model.Constant
 import android.asiantech.vn.springfinalmusic.model.Song
@@ -17,8 +16,6 @@ import android.net.Uri
 import android.os.*
 import android.widget.RemoteViews
 import java.util.ArrayList
-
-import java.util.concurrent.TimeUnit
 
 class MusicService : Service(), MediaPlayer.OnCompletionListener {
     companion object {
@@ -76,7 +73,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
                     }
                 }
                 Constant.NEXT_SONG_INDEX -> {
-                    val positionSelect: Int = intent.extras.getInt(PlayingListAdapter.KEY_POSITION_SELECTED)
+                    val positionSelect: Int = intent.extras.getInt(Constant.KEY_POSITION_SELECTED)
                     next(positionSelect)
                 }
             }
@@ -176,18 +173,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         mNotificationManager!!.notify(ID_NOTIFICATION, mNotification)
     }
 
-    private fun initMedia() {
-        mMediaPlayer = MediaPlayer.create(applicationContext, R.raw.cogaim52)
-        mMediaPlayer?.setOnCompletionListener(this)
-    }
-
-    private fun playMusic() {
-        if (!mMediaPlayer!!.isPlaying) {
-            mMediaPlayer!!.start()
-            mHandler.post(mUpdateSongPlaying)
-        }
-    }
-
     private fun playMusic(uri: Uri) {
         initNotification()
         setNotification()
@@ -260,24 +245,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         mMediaPlayer?.start()
         mHandler.post(mUpdateSongPlaying)
         changedImageBtnPlay()
-    }
-
-    private fun miliSecondsToString(miliseconds: Long?): String {
-        if (miliseconds != null) {
-            val minutes = TimeUnit.MILLISECONDS.toMinutes(miliseconds)
-            val seconds = TimeUnit.MILLISECONDS.toSeconds(miliseconds) % 60
-
-            var strMinutes: String = minutes.toString()
-            var strSecons: String = seconds.toString()
-            if (minutes < 10) {
-                strMinutes = "0$minutes"
-            }
-            if (seconds < 10) {
-                strSecons = "0$seconds"
-            }
-            return "$strMinutes:$strSecons"
-        }
-        return Constant.ERROR_NULL
     }
 
     override fun onBind(intent: Intent): IBinder? {

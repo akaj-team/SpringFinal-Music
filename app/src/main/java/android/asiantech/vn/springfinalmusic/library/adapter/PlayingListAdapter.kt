@@ -6,17 +6,15 @@ import android.asiantech.vn.springfinalmusic.model.Song
 import android.asiantech.vn.springfinalmusic.service.MusicService
 import android.content.Context
 import android.content.Intent
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 
-class PlayingListAdapter(listSong: List<Song>, context: Context, listener: OnAdapterListenes) : RecyclerView.Adapter<PlayingListAdapter.SongPlaying>() {
-    companion object {
-        const val KEY_POSITION_SELECTED = "positon_song_select"
-    }
-
+class PlayingListAdapter(listSong: List<Song>, position: Int, context: Context, listener: OnAdapterListenes) : RecyclerView.Adapter<PlayingListAdapter.SongPlaying>() {
+    private var mPosition: Int = position
     private var mListSong: List<Song> = listSong
     private var mContext: Context = context
     private var mListenes: OnAdapterListenes = listener
@@ -42,7 +40,7 @@ class PlayingListAdapter(listSong: List<Song>, context: Context, listener: OnAda
             view.setOnClickListener {
                 mContext.startService(Intent(mContext, MusicService::class.java)
                         .setAction(Constant.NEXT_SONG_INDEX)
-                        .putExtra(KEY_POSITION_SELECTED, adapterPosition))
+                        .putExtra(Constant.KEY_POSITION_SELECTED, adapterPosition))
                 mListenes.onItemSelected()
             }
         }
@@ -50,6 +48,10 @@ class PlayingListAdapter(listSong: List<Song>, context: Context, listener: OnAda
         fun onBindData(song: Song) {
             mTvNameSong.text = song.title
             mTvNameSinger.text = song.artist
+            if (mPosition == adapterPosition) {
+                mTvNameSong.setTextColor(ContextCompat.getColor(mContext, R.color.colorLightBlue))
+                mTvNameSinger.setTextColor(ContextCompat.getColor(mContext, R.color.colorLightBlue))
+            }
         }
     }
 

@@ -17,6 +17,7 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_library_songs.*
 import java.util.*
+import java.util.Collections.shuffle
 
 class SongsFragment : Fragment() {
     private lateinit var mAdapter: SongsAdapter
@@ -33,14 +34,14 @@ class SongsFragment : Fragment() {
         initViewsAndEvent()
     }
 
-    fun initViewsAndEvent() {
+    private fun initViewsAndEvent() {
         btnMiniBarButtonPlay.setOnClickListener {
             startMusicRandom()
         }
     }
 
-    fun startMusicRandom() {
-        Collections.shuffle(mListSong)
+    private fun startMusicRandom() {
+        shuffle(mListSong)
         activity?.startActivity(Intent(activity, PlayMusicActivity::class.java)
                 .setAction(Constant.ACTION_START_SERVICE)
                 .putExtra(Constant.KEY_POSITION_SONG, 0)
