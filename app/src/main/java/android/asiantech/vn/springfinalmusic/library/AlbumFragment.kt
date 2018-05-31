@@ -25,7 +25,7 @@ class AlbumFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mLayoutManager = LinearLayoutManager(activity)
-        mAdapter = AlbumAdapter(ResourcesManager.getInstance().getListAlbum())
+        mAdapter = AlbumAdapter(ResourcesManager.getInstance().getListAlbum(), context)
         recycleViewLibraryPage.setHasFixedSize(true)
         recycleViewLibraryPage.layoutManager = mLayoutManager
         recycleViewLibraryPage.adapter = mAdapter

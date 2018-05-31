@@ -1,5 +1,5 @@
 package android.asiantech.vn.springfinalmusic.model
 
-data class Playlist(var name: String, var listSong: MutableList<Song>?) {
+class Album(var name: String, var listMusic: List<Song>?) {
     constructor() : this("", null)
 }

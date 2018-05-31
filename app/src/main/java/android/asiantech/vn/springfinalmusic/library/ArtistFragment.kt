@@ -24,7 +24,7 @@ class ArtistFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mLayoutManager = LinearLayoutManager(activity)
-        mAdapter = ArtistAdapter(ResourcesManager.getInstance().getListArtist())
+        mAdapter = ArtistAdapter(ResourcesManager.getInstance().getListArtist(), context)
         recycleViewLibraryPage.setHasFixedSize(true)
         recycleViewLibraryPage.layoutManager = mLayoutManager
         recycleViewLibraryPage.adapter = mAdapter

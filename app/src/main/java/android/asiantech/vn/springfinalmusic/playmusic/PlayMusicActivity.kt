@@ -1,7 +1,7 @@
 package android.asiantech.vn.springfinalmusic.playmusic
 
 import android.asiantech.vn.springfinalmusic.R
-import android.asiantech.vn.springfinalmusic.library.adapter.SongsAdapter
+import android.asiantech.vn.springfinalmusic.model.Constrant
 import android.asiantech.vn.springfinalmusic.model.Song
 import android.asiantech.vn.springfinalmusic.service.MusicService
 import android.content.BroadcastReceiver
@@ -12,16 +12,11 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.widget.SeekBar
 import kotlinx.android.synthetic.main.fragment_play_music.*
 import java.util.concurrent.TimeUnit
 
 class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
-    companion object {
-        const val SEEKBAR_CHANGED = "on_tracking_touch"
-        const val PROGRESS = "seekbar_progress"
-    }
 
     private var mBroadcastReceiver: BroadcastReceiver? = null
     private var mSongCurrent: Song? = null
@@ -37,20 +32,19 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     }
 
     private fun startMusic() {
-        if (intent.action == SongsAdapter.ACTION_START_SERVICE) {
+        if (intent.action == Constrant.ACTION_START_SERVICE) {
             startService(Intent(this, MusicService::class.java)
-                    .setAction(MusicService.PLAY_MUSIC)
-                    .putExtra(SongsAdapter.KEY_POSITION_SONG, mPositionSong)
-                    .putParcelableArrayListExtra(SongsAdapter.KEY_LIST_SONG, mListSong as ArrayList<out Parcelable>))
+                    .setAction(Constrant.PLAY_MUSIC)
+                    .putExtra(Constrant.KEY_POSITION_SONG, mPositionSong)
+                    .putParcelableArrayListExtra(Constrant.KEY_LIST_SONG, mListSong as ArrayList<out Parcelable>))
         }
     }
 
     private fun extraData() {
         if (this.intent.extras != null) {
-            mListSong = this.intent.extras.getParcelableArrayList(SongsAdapter.KEY_LIST_SONG)
-            mPositionSong = this.intent.extras.getInt(SongsAdapter.KEY_POSITION_SONG)
+            mListSong = this.intent.extras.getParcelableArrayList(Constrant.KEY_LIST_SONG)
+            mPositionSong = this.intent.extras.getInt(Constrant.KEY_POSITION_SONG)
             mSongCurrent = mListSong?.get(mPositionSong)
-            Log.e("zzz", "$mPositionSong")
         }
     }
 
@@ -90,13 +84,13 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         displayInfoSong(0)
         seekBarPlayMusic.setOnSeekBarChangeListener(this)
         btnPlayMusicButtonPlay.setOnClickListener {
-            starServiceByAction(MusicService.PAUSE_MUSIC)
+            starServiceByAction(Constrant.PAUSE_MUSIC)
         }
         btnPlayMusicButtonNext.setOnClickListener {
-            starServiceByAction(MusicService.NEXT_MUSIC)
+            starServiceByAction(Constrant.NEXT_MUSIC)
         }
         btnPlayMusicButtonPrev.setOnClickListener {
-            starServiceByAction(MusicService.BACK_MUSIC)
+            starServiceByAction(Constrant.BACK_MUSIC)
         }
         btnPlayMusicClose.setOnClickListener{
             onBackPressed()
@@ -108,29 +102,27 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     }
 
     private fun initReceive() {
-        Log.e("xxx", "m")
         mBroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 val action = intent?.action
                 when (action) {
-                    MusicService.DISPLAY_MUSIC -> {
+                    Constrant.DISPLAY_MUSIC -> {
                         if (intent.extras != null) {
-                            mSongCurrent = intent.extras.getParcelable(MusicService.KEY_SONG)
-                            val strPosition: Int = intent.extras.getInt(MusicService.KEY_POSITION_MEDIA)
-                            Log.e("xxx", mSongCurrent?.title)
+                            mSongCurrent = intent.extras.getParcelable(Constrant.KEY_SONG)
+                            val strPosition: Int = intent.extras.getInt(Constrant.KEY_POSITION_MEDIA)
                             displayInfoSong(strPosition)
                         }
                     }
-                    MusicService.PAUSE_MUSIC -> {
+                    Constrant.PAUSE_MUSIC -> {
                         btnPlayMusicButtonPlay.setOnClickListener {
-                            starServiceByAction(MusicService.PAUSE_MUSIC)
+                            starServiceByAction(Constrant.PAUSE_MUSIC)
                         }
                         btnPlayMusicButtonPlay.background = ContextCompat.getDrawable(this@PlayMusicActivity
                                 , R.drawable.bt_playpage_button_pause_normal_new)
                     }
-                    MusicService.RESUME_MUSIC -> {
+                    Constrant.RESUME_MUSIC -> {
                         btnPlayMusicButtonPlay.setOnClickListener {
-                            starServiceByAction(MusicService.RESUME_MUSIC)
+                            starServiceByAction(Constrant.RESUME_MUSIC)
                         }
                         btnPlayMusicButtonPlay.background = ContextCompat.getDrawable(this@PlayMusicActivity
                                 , R.drawable.bt_play_press)
@@ -139,9 +131,9 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             }
         }
         val intent = IntentFilter()
-        intent.addAction(MusicService.DISPLAY_MUSIC)
-        intent.addAction(MusicService.PAUSE_MUSIC)
-        intent.addAction(MusicService.RESUME_MUSIC)
+        intent.addAction(Constrant.DISPLAY_MUSIC)
+        intent.addAction(Constrant.PAUSE_MUSIC)
+        intent.addAction(Constrant.RESUME_MUSIC)
         registerReceiver(mBroadcastReceiver, intent)
     }
 
@@ -154,8 +146,8 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
         startService(Intent(this, MusicService::class.java)
-                .setAction(SEEKBAR_CHANGED)
-                .putExtra(PROGRESS, seekBar?.progress))
+                .setAction(Constrant.SEEKBAR_CHANGED)
+                .putExtra(Constrant.PROGRESS, seekBar?.progress))
     }
 
     override fun onDestroy() {
