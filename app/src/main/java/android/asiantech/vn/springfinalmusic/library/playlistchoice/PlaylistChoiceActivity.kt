@@ -2,9 +2,11 @@ package android.asiantech.vn.springfinalmusic.library.playlistchoice
 
 import android.app.Activity
 import android.asiantech.vn.springfinalmusic.R
+import android.asiantech.vn.springfinalmusic.library.LibraryType
 import android.asiantech.vn.springfinalmusic.library.adapter.PlaylistChoiceAdapter
 import android.asiantech.vn.springfinalmusic.library.dialog.NewPlaylistDialog
 import android.asiantech.vn.springfinalmusic.manager.ResourcesManager
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -12,6 +14,7 @@ import kotlinx.android.synthetic.main.activity_playlist_choice_song.*
 
 class PlaylistChoiceActivity : Activity(), IEventClosePlaylistChoice {
     override fun onClose() {
+        setResult(Activity.RESULT_OK)
         onBackPressed()
     }
 

@@ -36,7 +36,7 @@ class NewPlaylistDialog(context: Context, data: MutableList<Song>) : Dialog(cont
     }
 
     fun createNewPlaylist(name: String, data: MutableList<Song>) {
-        var playList = Playlist(name, data)
+        val playList = Playlist(name, data)
         ResourcesManager.getInstance().updatePlaylist(context, playList)
         mEventClose.onClose()
         dismiss()

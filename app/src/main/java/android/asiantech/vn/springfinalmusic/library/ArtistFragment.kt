@@ -29,4 +29,12 @@ class ArtistFragment : Fragment() {
         recycleViewLibraryPage.layoutManager = mLayoutManager
         recycleViewLibraryPage.adapter = mAdapter
     }
+
+    fun setListArtist(data: List<String>) {
+        mAdapter.setListArtist(data)
+    }
+
+    fun reset() {
+        mAdapter.reset()
+    }
 }

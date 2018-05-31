@@ -2,6 +2,7 @@ package android.asiantech.vn.springfinalmusic.library.adapter
 
 import android.asiantech.vn.springfinalmusic.R
 import android.asiantech.vn.springfinalmusic.library.CurrentMusicPlay
+import android.asiantech.vn.springfinalmusic.library.IEventDeletePlayList
 import android.asiantech.vn.springfinalmusic.manager.ResourcesManager
 import android.asiantech.vn.springfinalmusic.model.Playlist
 import android.content.Context
@@ -12,11 +13,13 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import java.util.ArrayList
 
-class PlaylistAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PlaylistAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(), IEventDeletePlayList {
     private var mListData: MutableList<Playlist> = mutableListOf()
+    private var mIsShowButtonClose = false
 
     init {
         ResourcesManager.getInstance().setPlaylist(mListData)
@@ -33,21 +36,48 @@ class PlaylistAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         holder as ViewHolder
-        holder.onBind(mListData[position])
+        holder.onBind(mListData[position], this)
     }
 
+    fun setIsShowButtonClose(close: Boolean) {
+        mIsShowButtonClose = close
+        notifyDataSetChanged()
+    }
+
+    override fun onDeleteComplete() {
+        notifyDataSetChanged()
+    }
+
+    fun setListPlaylist(listPlaylist: MutableList<Playlist>) {
+        mListData = listPlaylist
+        notifyDataSetChanged()
+    }
+
+    fun reset()
+    {
+        ResourcesManager.getInstance().setPlaylist(mListData)
+        notifyDataSetChanged()
+    }
     /*
      *  class viewholder in recycleview
      */
 
-    class ViewHolder(view: View, context: Context) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View, context: Context) : RecyclerView.ViewHolder(view) {
         private var mTvNamePlaylist: TextView = view.findViewById(R.id.tvPlaylistItemName)
         private var mTvNumOfSong: TextView = view.findViewById(R.id.tvPlaylistItemNumOfSong)
         private var mContext = context
         private var mClLayout: ConstraintLayout = view.findViewById(R.id.clPlaylistItem)
-        fun onBind(playlist: Playlist) {
+        private var mBtnClose: ImageButton = view.findViewById(R.id.btnMiniBarButtonClose)
+        private lateinit var mIEventClose: IEventDeletePlayList
+        fun onBind(playlist: Playlist, eventDelete: IEventDeletePlayList) {
             mTvNamePlaylist.text = playlist.name
             mTvNumOfSong.text = String.format("%s %s", playlist.listSong?.size.toString(), mContext.resources.getString(R.string.library_text_songs))
+            if (mIsShowButtonClose) {
+                mBtnClose.visibility = View.VISIBLE
+            } else {
+                mBtnClose.visibility = View.GONE
+            }
+            mIEventClose = eventDelete
             initListener(playlist)
         }
 
@@ -59,6 +89,11 @@ class PlaylistAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                         ResourcesManager.getInstance().getPlaylist(playlist.name).listSong as ArrayList<out Parcelable>)
                 mContext.startActivity(intent)
             }
+            mBtnClose.setOnClickListener {
+                ResourcesManager.getInstance().deletePlaylist(playlist, mContext)
+                mIEventClose.onDeleteComplete()
+            }
+
         }
     }
 }

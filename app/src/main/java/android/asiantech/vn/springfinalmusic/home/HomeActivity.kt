@@ -6,6 +6,7 @@ import android.asiantech.vn.springfinalmusic.timercountdown.FragmentTimerOffApp
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import kotlinx.android.synthetic.main.activity_home.*
@@ -22,15 +23,17 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this@HomeActivity, LibraryActivity::class.java)
             startActivity(intent)
         }
-        btnTimer.setOnClickListener{
+        btnTimer.setOnClickListener {
             showTimer()
+        }
+        btnDrawerLayout.setOnClickListener {
+            dlHomeDrawerLayout.openDrawer(Gravity.LEFT)
         }
     }
 
-    private fun showTimer(){
+    private fun showTimer() {
         val fm = supportFragmentManager
         val userInfoDialog = FragmentTimerOffApp()
         userInfoDialog.showNow(fm, "Hen gio")
-
     }
 }

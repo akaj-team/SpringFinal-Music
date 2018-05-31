@@ -19,6 +19,7 @@ import java.util.ArrayList
 
 import java.util.concurrent.TimeUnit
 
+@Suppress("DEPRECATION")
 class MusicService : Service(), MediaPlayer.OnCompletionListener {
     companion object {
         const val ID_NOTIFICATION = 1010

@@ -69,8 +69,7 @@ class ResourcesManager private constructor() {
             listAlbum.add(song.album.toString())
         }
         initListAlbum(listAlbum)
-        val set = mListArtist.toSet()
-        mListArtist = set.toMutableList()
+        mListArtist = mListArtist.toSet().toMutableList()
         mListArtist.sort()
         loadAllPlaylist(context)
     }
@@ -140,6 +139,7 @@ class ResourcesManager private constructor() {
 
     fun setPlaylist(playlist: MutableList<Playlist>) {
         val tempListPlaylist = mListPlaylist.toMutableList()
+        playlist.clear()
         mListPlaylist = playlist
         for (item in tempListPlaylist) {
             mListPlaylist.add(item)
@@ -158,6 +158,44 @@ class ResourcesManager private constructor() {
 
     fun getPlaylist(name: String): Playlist {
         return mListPlaylist.filter { playlist -> playlist.name == name }[0]
+    }
+
+    fun deletePlaylist(playlist: Playlist, context: Context) {
+        mListPlaylist.remove(playlist)
+        saveDataPlaylist(context)
+    }
+
+    fun getDataSearchAll(data: String): List<Song> {
+        val listSong: List<Song>
+        listSong = mListSong.filter { song ->
+            song.title.toLowerCase().contains(data.toLowerCase()) || song.artist.toLowerCase().contains(data.toLowerCase())
+                    || song.album.toLowerCase().contains(data.toLowerCase())
+        }
+        return listSong
+    }
+
+    fun getDataSearchPlayList(data: String): MutableList<Playlist> {
+        val listPlaylist: List<Playlist>
+        listPlaylist = mListPlaylist.filter { playlist ->
+            playlist.name.toLowerCase().contains(data.toLowerCase())
+        }
+        return listPlaylist.toMutableList()
+    }
+
+    fun getDataSearchArtist(data: String): List<String> {
+        val listArtist: List<String>
+        listArtist = mListArtist.filter { listArtist ->
+            listArtist.toLowerCase().contains(data.toLowerCase())
+        }
+        return listArtist
+    }
+
+    fun getDataSearchAlbum(data: String): List<Album> {
+        val listAlbum: List<Album>
+        listAlbum = mListAlbum.filter { listAlbum ->
+            listAlbum.name.toLowerCase().contains(data.toLowerCase())
+        }
+        return listAlbum
     }
 
 }

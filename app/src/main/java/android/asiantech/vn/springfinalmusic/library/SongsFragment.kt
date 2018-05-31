@@ -7,6 +7,7 @@ import android.asiantech.vn.springfinalmusic.manager.ResourcesManager
 import android.asiantech.vn.springfinalmusic.model.Constrant
 import android.asiantech.vn.springfinalmusic.model.Song
 import android.asiantech.vn.springfinalmusic.playmusic.PlayMusicActivity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
@@ -31,6 +32,14 @@ class SongsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initRecycleView()
         initViewsAndEvent()
+    }
+
+    fun setListSong(listSong: List<Song>) {
+        mAdapter.setListSong(listSong)
+    }
+
+    fun reset() {
+        mAdapter.reset()
     }
 
     fun initViewsAndEvent() {

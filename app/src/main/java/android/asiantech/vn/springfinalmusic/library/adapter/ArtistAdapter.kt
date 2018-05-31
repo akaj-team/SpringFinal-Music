@@ -33,6 +33,16 @@ class ArtistAdapter(dataset: List<String>, context: Context?) : RecyclerView.Ada
         holder.onBind(mListData.get(position))
     }
 
+    fun setListArtist(listArtist: List<String>) {
+        mListData = listArtist
+        notifyDataSetChanged()
+    }
+
+    fun reset() {
+        mListData = ResourcesManager.getInstance().getListArtist()
+        notifyDataSetChanged()
+    }
+
     /*
      *  class viewholder in recycleview
      */

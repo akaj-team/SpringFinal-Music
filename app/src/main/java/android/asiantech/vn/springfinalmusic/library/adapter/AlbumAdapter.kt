@@ -35,6 +35,16 @@ class AlbumAdapter(dataset: List<Album>, context: Context?) : RecyclerView.Adapt
         holder.onBind(mListData[position])
     }
 
+    fun setListAlbum(listAlbum: List<Album>) {
+        mListData = listAlbum
+        notifyDataSetChanged()
+    }
+
+    fun reset() {
+        mListData = ResourcesManager.getInstance().getListAlbum()
+        notifyDataSetChanged()
+    }
+
     /*
      *  class viewholder in recycleview
      */

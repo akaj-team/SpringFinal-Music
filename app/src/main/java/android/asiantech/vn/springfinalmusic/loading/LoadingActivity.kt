@@ -24,5 +24,4 @@ class LoadingActivity : Activity() {
             finish()
         }, 2000)
     }
-
 }

@@ -6,6 +6,7 @@ import android.asiantech.vn.springfinalmusic.R
 import android.asiantech.vn.springfinalmusic.library.adapter.AlbumAdapter
 import android.asiantech.vn.springfinalmusic.library.adapter.ArtistAdapter
 import android.asiantech.vn.springfinalmusic.manager.ResourcesManager
+import android.asiantech.vn.springfinalmusic.model.Album
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -29,5 +30,13 @@ class AlbumFragment : Fragment() {
         recycleViewLibraryPage.setHasFixedSize(true)
         recycleViewLibraryPage.layoutManager = mLayoutManager
         recycleViewLibraryPage.adapter = mAdapter
+    }
+
+    fun setListAlbum(listAlbum: List<Album>) {
+        mAdapter.setListAlbum(listAlbum)
+    }
+
+    fun reset() {
+        mAdapter.reset()
     }
 }
