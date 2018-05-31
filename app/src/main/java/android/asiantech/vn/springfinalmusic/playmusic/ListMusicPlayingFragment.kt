@@ -8,7 +8,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_list_playing.*
+import kotlinx.android.synthetic.main.activity_list_playing.*
 
 class ListMusicPlayingFragment : AppCompatActivity(), PlayingListAdapter.OnAdapterListenes {
     private lateinit var mLayout: RecyclerView.LayoutManager
@@ -16,7 +16,7 @@ class ListMusicPlayingFragment : AppCompatActivity(), PlayingListAdapter.OnAdapt
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_list_playing)
+        setContentView(R.layout.activity_list_playing)
         initRecyclerView()
         extraData()
     }
@@ -41,7 +41,6 @@ class ListMusicPlayingFragment : AppCompatActivity(), PlayingListAdapter.OnAdapt
 
     private fun showSongPlaying(song: Song?) {
         tvPlayingNameSong.text = song?.title
-        tvPlayingNameSinger.text=song?.artist
     }
 
     override fun onItemSelected() {

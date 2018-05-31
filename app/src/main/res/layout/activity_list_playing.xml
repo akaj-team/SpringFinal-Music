@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorLightBlue">
+
+    <TextView
+        android:id="@+id/tvPlayingNameSong"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:gravity="center"
+        android:text="@string/home_minibar_test_name_song"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/toolbar_text_size" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycleViewListPlaying"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tvPlayingNameSong"
+        android:background="@color/colorWhite"
+        android:padding="@dimen/dp2_padding" />
+</RelativeLayout>
