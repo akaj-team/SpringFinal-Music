@@ -48,5 +48,4 @@ class LibraryPagerAdapter(fm: FragmentManager?, context: Context) : FragmentStat
         }
         return null
     }
-
 }

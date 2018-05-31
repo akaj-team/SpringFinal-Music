@@ -1,4 +1,4 @@
-package android.asiantech.vn.springfinalmusic.play_music
+package android.asiantech.vn.springfinalmusic.playmusic
 
 import android.asiantech.vn.springfinalmusic.R
 import android.content.Context
