@@ -21,6 +21,7 @@ class LoadingActivity : Activity() {
         handler.postDelayed({
             val intent = Intent(this@LoadingActivity, HomeActivity::class.java)
             startActivity(intent)
+            finish()
         }, 2000)
     }
 
