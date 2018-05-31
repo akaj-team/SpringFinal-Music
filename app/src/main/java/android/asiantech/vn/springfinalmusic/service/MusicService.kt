@@ -15,7 +15,6 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.*
-import android.util.Log
 import android.widget.RemoteViews
 import java.util.ArrayList
 
@@ -23,7 +22,6 @@ import java.util.concurrent.TimeUnit
 
 class MusicService : Service(), MediaPlayer.OnCompletionListener {
     companion object {
-        private val TAG = MusicService::class.java.simpleName
         const val ID_NOTIFICATION = 1010
         const val PLAY_MUSIC = "play"
         const val PAUSE_MUSIC = "pause"
@@ -115,7 +113,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         mCountDownTimer?.cancel()
         mCountDownTimer = object : CountDownTimer(minutes * 1000 * 60, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                Log.e(TAG, "onTick" + miliSecondsToString(millisUntilFinished))
             }
 
             override fun onFinish() {
@@ -131,7 +128,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         mUpdateSongPlaying = UpdateSongPlaying()
         initMedia()
         initRemoteViews()
-        //initNotification()
     }
 
     private fun initRemoteViews() {
@@ -144,7 +140,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
                 , setActionEventClick(BACK_MUSIC))
     }
 
-    private fun setNoti() {
+    private fun setNotification() {
         mRemoteViews?.setTextViewText(R.id.tvNotificationNameSong, mSongCurrent?.title)
         mRemoteViews?.setTextViewText(R.id.tvNotificationNameSinger, mSongCurrent?.artist)
         mNotificationManager?.notify(ID_NOTIFICATION, mNotification)
@@ -200,7 +196,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
 
     private fun playMusic(uri: Uri) {
         initNotification()
-        setNoti()
+        setNotification()
         mMediaPlayer?.reset()
         mHandler.removeCallbacks(mUpdateSongPlaying)
         mMediaPlayer = MediaPlayer.create(applicationContext, uri)
@@ -230,7 +226,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
     }
 
     override fun onCompletion(mp: MediaPlayer?) {
-        Log.e(TAG, "onCompletiosn")
     }
 
     private fun pauseMusic() {
