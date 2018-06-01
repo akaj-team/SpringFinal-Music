@@ -6,7 +6,7 @@ import android.app.PendingIntent
 import android.app.Service
 import android.asiantech.vn.springfinalmusic.R
 import android.asiantech.vn.springfinalmusic.loading.LoadingActivity
-import android.asiantech.vn.springfinalmusic.model.Constrant
+import android.asiantech.vn.springfinalmusic.model.Constant
 import android.asiantech.vn.springfinalmusic.model.Song
 import android.asiantech.vn.springfinalmusic.playmusic.PlayMusicActivity
 import android.content.Context
@@ -16,8 +16,6 @@ import android.net.Uri
 import android.os.*
 import android.widget.RemoteViews
 import java.util.ArrayList
-
-import java.util.concurrent.TimeUnit
 
 class MusicService : Service(), MediaPlayer.OnCompletionListener {
     companion object {
@@ -44,35 +42,39 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         val action = intent.action
         if (action != null) {
             when (action) {
-                Constrant.PLAY_MUSIC -> {
+                Constant.PLAY_MUSIC -> {
                     if (intent.extras != null) {
-                        mSongList = intent.extras.getParcelableArrayList(Constrant.KEY_LIST_SONG)
-                        mPositionSong = intent.extras.getInt(Constrant.KEY_POSITION_SONG)
+                        mSongList = intent.extras.getParcelableArrayList(Constant.KEY_LIST_SONG)
+                        mPositionSong = intent.extras.getInt(Constant.KEY_POSITION_SONG)
                         mSongCurrent = mSongList[mPositionSong]
                     }
                     playMusic(Uri.parse(mSongCurrent?.data))
                 }
-                Constrant.RESUME_MUSIC -> {
+                Constant.RESUME_MUSIC -> {
                     resumeMusic()
                 }
-                Constrant.PAUSE_MUSIC -> {
+                Constant.PAUSE_MUSIC -> {
                     pauseMusic()
                 }
-                Constrant.ACTION_TIMER -> {
-                    val minutes = intent.getIntExtra(Constrant.KEY_TIME, -1)
+                Constant.ACTION_TIMER -> {
+                    val minutes = intent.getIntExtra(Constant.KEY_TIME, -1)
                     autoOffAppByTimer(minutes.toLong())
                 }
-                Constrant.NEXT_MUSIC -> {
+                Constant.NEXT_MUSIC -> {
                     next()
                 }
-                Constrant.BACK_MUSIC -> {
+                Constant.BACK_MUSIC -> {
                     back()
                 }
-                Constrant.SEEKBAR_CHANGED -> {
+                Constant.SEEKBAR_CHANGED -> {
                     if (intent.extras != null) {
-                        val progress: Int = intent.extras.getInt(Constrant.PROGRESS)
+                        val progress: Int = intent.extras.getInt(Constant.PROGRESS)
                         mMediaPlayer?.seekTo(progress)
                     }
+                }
+                Constant.NEXT_SONG_INDEX -> {
+                    val positionSelect: Int = intent.extras.getInt(Constant.KEY_POSITION_SELECTED)
+                    next(positionSelect)
                 }
             }
         }
@@ -84,16 +86,16 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
             mRemoteViews?.setImageViewResource(R.id.imgNotificationButtonPlay
                     , R.drawable.btn_notificationbar_pause)
             mRemoteViews?.setOnClickPendingIntent(R.id.imgNotificationButtonPlay
-                    , setActionEventClick(Constrant.PAUSE_MUSIC))
+                    , setActionEventClick(Constant.PAUSE_MUSIC))
             sendBroadcast(Intent()
-                    .setAction(Constrant.PAUSE_MUSIC))
+                    .setAction(Constant.PAUSE_MUSIC))
         } else {
             mRemoteViews?.setImageViewResource(R.id.imgNotificationButtonPlay
                     , R.drawable.btn_notificationbar_play)
             mRemoteViews?.setOnClickPendingIntent(R.id.imgNotificationButtonPlay
-                    , setActionEventClick(Constrant.RESUME_MUSIC))
+                    , setActionEventClick(Constant.RESUME_MUSIC))
             sendBroadcast(Intent()
-                    .setAction(Constrant.RESUME_MUSIC))
+                    .setAction(Constant.RESUME_MUSIC))
         }
         mNotificationManager?.notify(ID_NOTIFICATION, mNotification)
     }
@@ -115,18 +117,18 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
 
     private fun init() {
         mUpdateSongPlaying = UpdateSongPlaying()
-        initMedia()
+        //initMedia()
         initRemoteViews()
     }
 
     private fun initRemoteViews() {
         mRemoteViews = RemoteViews(this.packageName, R.layout.notification)
         mRemoteViews?.setOnClickPendingIntent(R.id.imgNotificationButtonPlay
-                , setActionEventClick(Constrant.PAUSE_MUSIC))
+                , setActionEventClick(Constant.PAUSE_MUSIC))
         mRemoteViews?.setOnClickPendingIntent(R.id.imgNotificationButtonNext
-                , setActionEventClick(Constrant.NEXT_MUSIC))
+                , setActionEventClick(Constant.NEXT_MUSIC))
         mRemoteViews?.setOnClickPendingIntent(R.id.imgNotificationButtonBack
-                , setActionEventClick(Constrant.BACK_MUSIC))
+                , setActionEventClick(Constant.BACK_MUSIC))
     }
 
     private fun setNotification() {
@@ -138,8 +140,8 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
     private fun callBackActivity(): PendingIntent {
         if (mPositionSong != -1) {
             val intent = Intent(this, PlayMusicActivity::class.java)
-                    .putExtra(Constrant.KEY_POSITION_SONG, mPositionSong)
-                    .putParcelableArrayListExtra(Constrant.KEY_LIST_SONG, mSongList as ArrayList<out Parcelable>)
+                    .putExtra(Constant.KEY_POSITION_SONG, mPositionSong)
+                    .putParcelableArrayListExtra(Constant.KEY_LIST_SONG, mSongList as ArrayList<out Parcelable>)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             return PendingIntent.getActivities(this, 0, arrayOf(intent), 0)
         }
@@ -171,18 +173,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         mNotificationManager!!.notify(ID_NOTIFICATION, mNotification)
     }
 
-    private fun initMedia() {
-        mMediaPlayer = MediaPlayer.create(applicationContext, R.raw.cogaim52)
-        mMediaPlayer?.setOnCompletionListener(this)
-    }
-
-    private fun playMusic() {
-        if (!mMediaPlayer!!.isPlaying) {
-            mMediaPlayer!!.start()
-            mHandler.post(mUpdateSongPlaying)
-        }
-    }
-
     private fun playMusic(uri: Uri) {
         initNotification()
         setNotification()
@@ -195,6 +185,13 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
             mHandler.post(mUpdateSongPlaying)
         }
         changedImageBtnPlay()
+        sendChangerSong()
+    }
+
+    private fun sendChangerSong() {
+        sendBroadcast(Intent()
+                .setAction(Constant.SONG_IS_CHANGED)
+                .putExtra(Constant.KEY_POSITION_SONG, mPositionSong))
     }
 
     private fun next() {
@@ -202,6 +199,14 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         if (nextSong >= 0 && nextSong < mSongList.size) {
             mSongCurrent = mSongList[nextSong]
             mPositionSong++
+            playMusic(Uri.parse(mSongCurrent?.data))
+        }
+    }
+
+    private fun next(nextSong: Int) {
+        if (nextSong >= 0 && nextSong < mSongList.size) {
+            mSongCurrent = mSongList[nextSong]
+            mPositionSong = nextSong
             playMusic(Uri.parse(mSongCurrent?.data))
         }
     }
@@ -242,24 +247,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         changedImageBtnPlay()
     }
 
-    private fun miliSecondsToString(miliseconds: Long?): String {
-        if (miliseconds != null) {
-            val minutes = TimeUnit.MILLISECONDS.toMinutes(miliseconds)
-            val seconds = TimeUnit.MILLISECONDS.toSeconds(miliseconds) % 60
-
-            var strMinutes: String = minutes.toString()
-            var strSecons: String = seconds.toString()
-            if (minutes < 10) {
-                strMinutes = "0$minutes"
-            }
-            if (seconds < 10) {
-                strSecons = "0$seconds"
-            }
-            return "$strMinutes:$strSecons"
-        }
-        return Constrant.ERROR_NULL
-    }
-
     override fun onBind(intent: Intent): IBinder? {
         return null
     }
@@ -277,9 +264,9 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
             upDateRemote()
             changedImageBtnPlay()
             sendBroadcast(Intent()
-                    .setAction(Constrant.DISPLAY_MUSIC)
-                    .putExtra(Constrant.KEY_SONG, mSongCurrent)
-                    .putExtra(Constrant.KEY_POSITION_MEDIA, intCurrPosition))
+                    .setAction(Constant.DISPLAY_MUSIC)
+                    .putExtra(Constant.KEY_SONG, mSongCurrent)
+                    .putExtra(Constant.KEY_POSITION_MEDIA, intCurrPosition))
             mHandler.postDelayed(this, 1000)
         }
 
