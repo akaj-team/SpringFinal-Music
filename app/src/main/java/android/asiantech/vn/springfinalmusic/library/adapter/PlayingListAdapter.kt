@@ -48,9 +48,12 @@ class PlayingListAdapter(listSong: List<Song>, position: Int, context: Context, 
         fun onBindData(song: Song) {
             mTvNameSong.text = song.title
             mTvNameSinger.text = song.artist
-            if (mPosition == adapterPosition) {
+            if (mPosition == adapterPosition ) {
                 mTvNameSong.setTextColor(ContextCompat.getColor(mContext, R.color.colorLightBlue))
                 mTvNameSinger.setTextColor(ContextCompat.getColor(mContext, R.color.colorLightBlue))
+            }else{
+                mTvNameSong.setTextColor(ContextCompat.getColor(mContext, R.color.colorBlack))
+                mTvNameSinger.setTextColor(ContextCompat.getColor(mContext, R.color.colorBlack))
             }
         }
     }
