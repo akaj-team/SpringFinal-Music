@@ -1,6 +1,6 @@
 package android.asiantech.vn.springfinalmusic.model
 
-object Constrant {
+object Constant {
     const val ACTION_PLAY_MUSIC = "play"
     const val ACTION_PAUSE_MUSIC = "pause"
     const val ACTION_NEXT_MUSIC = "next"
@@ -11,12 +11,15 @@ object Constrant {
     const val ACTION_MODE_CHANGE = "mode_play_change"
     const val ACTION_SEEKBAR_CHANGED = "on_tracking_touch"
     const val ACTION_START_SERVICE = "run_service"
+    const val ACTION_SONG_IS_CHANGED = "music_is_next"
 
     const val KEY_SONG = "song_current"
     const val KEY_POSITION_MEDIA = "media_current_positon"
     const val KEY_LIST_SONG = "list_of_song"
     const val KEY_POSITION_SONG = "position_song"
     const val KEY_TIME = "key_time_minutes"
+    const val KEY_SONG_INDEX = "play_song_of_list"
+    const val KEY_POSITION_SELECTED = "positon_song_select"
     const val KEY_PROGRESS = "seekbar_progress"
     const val KEY_MODE = "mode_play"
 
