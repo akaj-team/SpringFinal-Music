@@ -3,6 +3,7 @@ package android.asiantech.vn.springfinalmusic.library
 import android.asiantech.vn.springfinalmusic.R
 import android.asiantech.vn.springfinalmusic.library.adapter.LibraryPagerAdapter
 import android.asiantech.vn.springfinalmusic.manager.ResourcesManager
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
@@ -13,6 +14,10 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import kotlinx.android.synthetic.main.activity_library.*
+import android.content.Context.INPUT_METHOD_SERVICE
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+
 
 class LibraryActivity : AppCompatActivity() {
     private lateinit var mPagerAdapter: LibraryPagerAdapter
@@ -31,16 +36,19 @@ class LibraryActivity : AppCompatActivity() {
         tabLayoutLibrary.setTabTextColors(ContextCompat.getColor(this, R.color.colorBlack), ContextCompat.getColor(this, R.color.colorLightBlue))
         tabLayoutLibrary.setSelectedTabIndicatorColor(ContextCompat.getColor(this, R.color.colorLightBlue))
         tabLayoutLibrary.setupWithViewPager(vpMusicLibrary)
+        showSearch()
     }
 
     private fun setListeners() {
-        showSearch()
         btnToolBarButtonBack.setOnClickListener {
             onBackPressed()
         }
         btnToolBarButtonSearch.setOnClickListener {
             mIsShowSearch = !mIsShowSearch
             showSearch(mIsShowSearch)
+            showInputKeyboard(mIsShowSearch)
+            if (mIsShowSearch)
+                mPagerAdapter.resetPage(mCurrentPage)
         }
         edtToolBarSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -67,6 +75,7 @@ class LibraryActivity : AppCompatActivity() {
                     edtToolBarSearch.text.clear()
                     mIsShowSearch = false
                     showSearch(mIsShowSearch)
+                    showInputKeyboard(false)
                 }
             }
 
@@ -121,6 +130,7 @@ class LibraryActivity : AppCompatActivity() {
 
     private fun showSearch(isShow: Boolean = false) {
         if (isShow) {
+            edtToolBarSearch.text.clear()
             edtToolBarSearch.visibility = View.VISIBLE
             tvToolBarName.visibility = View.GONE
             btnToolBarButtonBack.visibility = View.GONE
@@ -130,6 +140,16 @@ class LibraryActivity : AppCompatActivity() {
             tvToolBarName.visibility = View.VISIBLE
             btnToolBarButtonBack.visibility = View.VISIBLE
             btnToolBarButtonSearch.setBackgroundResource(R.drawable.custom_notification_button_search)
+        }
+    }
+
+    private fun showInputKeyboard(isShow: Boolean = true) {
+        edtToolBarSearch.requestFocus()
+        val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        if (isShow) {
+            inputManager.showSoftInput(edtToolBarSearch, InputMethodManager.SHOW_IMPLICIT)
+        } else {
+            inputManager.hideSoftInputFromWindow(edtToolBarSearch.windowToken, 0)
         }
     }
 }
