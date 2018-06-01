@@ -123,14 +123,14 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                             starServiceByAction(Constant.PAUSE_MUSIC)
                         }
                         btnPlayMusicButtonPlay.background = ContextCompat.getDrawable(this@PlayMusicActivity
-                                , R.drawable.bt_playpage_button_pause_normal_new)
+                                , R.drawable.btn_playpage_button_pause_normal_new)
                     }
                     Constant.RESUME_MUSIC -> {
                         btnPlayMusicButtonPlay.setOnClickListener {
                             starServiceByAction(Constant.RESUME_MUSIC)
                         }
                         btnPlayMusicButtonPlay.background = ContextCompat.getDrawable(this@PlayMusicActivity
-                                , R.drawable.bt_play_press)
+                                , R.drawable.btn_play_press)
                     }
                     Constant.SONG_IS_CHANGED -> {
                         mPositionSong = intent.extras.getInt(Constant.KEY_POSITION_SONG)

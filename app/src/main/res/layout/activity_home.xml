@@ -181,7 +181,7 @@
             android:id="@+id/imgBannerDrawerlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/baner_user_info" />
+            android:background="@drawable/bg_baner_user_info" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ciAvatarUser"
