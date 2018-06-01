@@ -4,20 +4,16 @@ import android.support.v4.app.Fragment
 import android.asiantech.vn.springfinalmusic.R
 import android.asiantech.vn.springfinalmusic.library.adapter.SongsAdapter
 import android.asiantech.vn.springfinalmusic.manager.ResourcesManager
-import android.asiantech.vn.springfinalmusic.model.Constrant
 import android.asiantech.vn.springfinalmusic.model.Song
-import android.asiantech.vn.springfinalmusic.playmusic.PlayMusicActivity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_library_songs.*
-import java.util.*
+import java.util.Collections.shuffle
 
 class SongsFragment : Fragment() {
     private lateinit var mAdapter: SongsAdapter
@@ -34,14 +30,14 @@ class SongsFragment : Fragment() {
         initViewsAndEvent()
     }
 
-    fun initViewsAndEvent() {
+    private fun initViewsAndEvent() {
         btnMiniBarButtonPlay.setOnClickListener {
             startMusicRandom()
         }
     }
 
-    fun startMusicRandom() {
-        Collections.shuffle(mListSong)
+    private fun startMusicRandom() {
+        shuffle(mListSong)
         SendRequestPlayMusic.getInstances().stratAcivityPlayByAdapter(context as Context, mListSong, 0)
     }
 
