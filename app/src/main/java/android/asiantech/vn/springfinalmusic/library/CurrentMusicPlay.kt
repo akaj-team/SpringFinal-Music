@@ -22,7 +22,7 @@ class CurrentMusicPlay : Activity() {
         initRecycleView()
     }
 
-    fun getData() {
+    private fun getData() {
         val action = intent.action
         when (action) {
             FILTER_ARTIST -> {
@@ -64,8 +64,8 @@ class CurrentMusicPlay : Activity() {
     }
 
     companion object {
-        val FILTER_ARTIST = "Artist"
-        val FILTER_ALBUM = "Album"
-        val FILTER_PLAYLIST = "Playlist"
+        const val FILTER_ARTIST = "Artist"
+        const val FILTER_ALBUM = "Album"
+        const val FILTER_PLAYLIST = "Playlist"
     }
 }

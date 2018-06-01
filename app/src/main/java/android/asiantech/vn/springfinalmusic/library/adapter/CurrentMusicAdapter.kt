@@ -1,5 +1,6 @@
 package android.asiantech.vn.springfinalmusic.library.adapter
 
+import android.app.Activity
 import android.asiantech.vn.springfinalmusic.R
 import android.asiantech.vn.springfinalmusic.model.Constant
 import android.asiantech.vn.springfinalmusic.model.Song
@@ -14,9 +15,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import java.util.ArrayList
 
-class CurrentMusicAdapter(dataset: List<Song>,context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CurrentMusicAdapter(dataset: List<Song>, context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var mListData: List<Song> = dataset
-    private var mContext:Context=context
+    private var mContext: Context = context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_item_song, parent, false) as View
@@ -46,6 +47,8 @@ class CurrentMusicAdapter(dataset: List<Song>,context: Context) : RecyclerView.A
                         .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         .putExtra(Constant.KEY_POSITION_SONG, adapterPosition)
                         .putParcelableArrayListExtra(Constant.KEY_LIST_SONG, mListData as ArrayList<out Parcelable>))
+                val activity = mContext as Activity
+                activity.finish()
             }
         }
 

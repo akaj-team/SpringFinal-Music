@@ -70,7 +70,7 @@
     <Button
         android:id="@+id/btnPlayMusicButtonNext"
         android:layout_width="@dimen/play_music_size_button"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/play_music_size_button"
         android:background="@drawable/btn_playpage_button_next"
         app:layout_constraintBottom_toBottomOf="@id/btnPlayMusicButtonPlay"
         app:layout_constraintHorizontal_bias="0.25"
@@ -81,7 +81,7 @@
     <Button
         android:id="@+id/btnPlayMusicButtonPrev"
         android:layout_width="@dimen/play_music_size_button"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/play_music_size_button"
         android:background="@drawable/btn_playpage_button_previous_normal_new"
         app:layout_constraintBottom_toBottomOf="@id/btnPlayMusicButtonPlay"
         app:layout_constraintHorizontal_bias="0.75"
@@ -92,7 +92,7 @@
     <Button
         android:id="@+id/btnPlayMusicButtonRepeat"
         android:layout_width="@dimen/play_music_size_button"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/play_music_size_button"
         android:background="@drawable/btn_playpage_loop_normal_new"
         app:layout_constraintBottom_toBottomOf="@id/btnPlayMusicButtonPlay"
         app:layout_constraintHorizontal_bias="0.5"
@@ -103,7 +103,7 @@
     <Button
         android:id="@+id/btnPlayMusicButtonPlaylist"
         android:layout_width="@dimen/play_music_size_button"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/play_music_size_button"
         android:background="@drawable/btn_playpage_button_list_new"
         app:layout_constraintBottom_toBottomOf="@id/btnPlayMusicButtonPlay"
         app:layout_constraintHorizontal_bias="0.5"
