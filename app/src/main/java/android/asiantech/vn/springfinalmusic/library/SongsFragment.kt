@@ -35,7 +35,6 @@ class SongsFragment : Fragment() {
         initViewsAndEvent()
     }
 
-<<<<<<< HEAD
     fun setListSong(listSong: List<Song>) {
         mAdapter.setListSong(listSong)
     }
@@ -44,10 +43,7 @@ class SongsFragment : Fragment() {
         mAdapter.reset()
     }
 
-    fun initViewsAndEvent() {
-=======
     private fun initViewsAndEvent() {
->>>>>>> 9ec00d81c0b97262ccd5a4f7e3e7afdb81523bb0
         btnMiniBarButtonPlay.setOnClickListener {
             startMusicRandom()
         }

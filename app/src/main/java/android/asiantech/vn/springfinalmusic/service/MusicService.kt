@@ -17,12 +17,9 @@ import android.os.*
 import android.widget.RemoteViews
 import java.util.ArrayList
 
-<<<<<<< HEAD
 import java.util.concurrent.TimeUnit
 
 @Suppress("DEPRECATION")
-=======
->>>>>>> 9ec00d81c0b97262ccd5a4f7e3e7afdb81523bb0
 class MusicService : Service(), MediaPlayer.OnCompletionListener {
     companion object {
         const val ID_NOTIFICATION = 1010

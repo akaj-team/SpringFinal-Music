@@ -56,17 +56,18 @@ class LibraryActivity : AppCompatActivity() {
         })
         vpMusicLibrary.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
-                if (!TextUtils.isEmpty(edtToolBarSearch.text.trim())) {
-                    resetPage()
-                    edtToolBarSearch.text.clear()
-                }
             }
 
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
             }
 
             override fun onPageSelected(position: Int) {
-
+                if (!TextUtils.isEmpty(edtToolBarSearch.text.trim())) {
+                    resetPage()
+                    edtToolBarSearch.text.clear()
+                    mIsShowSearch = false
+                    showSearch(mIsShowSearch)
+                }
             }
 
         })

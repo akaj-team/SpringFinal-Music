@@ -184,16 +184,16 @@ class ResourcesManager private constructor() {
 
     fun getDataSearchArtist(data: String): List<String> {
         val listArtist: List<String>
-        listArtist = mListArtist.filter { listArtist ->
-            listArtist.toLowerCase().contains(data.toLowerCase())
+        listArtist = mListArtist.filter { artist ->
+            artist.toLowerCase().contains(data.toLowerCase())
         }
         return listArtist
     }
 
     fun getDataSearchAlbum(data: String): List<Album> {
         val listAlbum: List<Album>
-        listAlbum = mListAlbum.filter { listAlbum ->
-            listAlbum.name.toLowerCase().contains(data.toLowerCase())
+        listAlbum = mListAlbum.filter { album ->
+            album.name.toLowerCase().contains(data.toLowerCase())
         }
         return listAlbum
     }
