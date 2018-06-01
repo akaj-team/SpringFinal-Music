@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment
 import android.asiantech.vn.springfinalmusic.R
 import android.asiantech.vn.springfinalmusic.library.adapter.SongsAdapter
 import android.asiantech.vn.springfinalmusic.manager.ResourcesManager
-import android.asiantech.vn.springfinalmusic.model.Constrant
+import android.asiantech.vn.springfinalmusic.model.Constant
 import android.asiantech.vn.springfinalmusic.model.Song
 import android.asiantech.vn.springfinalmusic.playmusic.PlayMusicActivity
 import android.content.Context
@@ -18,6 +18,7 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_library_songs.*
 import java.util.*
+import java.util.Collections.shuffle
 
 class SongsFragment : Fragment() {
     private lateinit var mAdapter: SongsAdapter
@@ -34,6 +35,7 @@ class SongsFragment : Fragment() {
         initViewsAndEvent()
     }
 
+<<<<<<< HEAD
     fun setListSong(listSong: List<Song>) {
         mAdapter.setListSong(listSong)
     }
@@ -43,17 +45,20 @@ class SongsFragment : Fragment() {
     }
 
     fun initViewsAndEvent() {
+=======
+    private fun initViewsAndEvent() {
+>>>>>>> 9ec00d81c0b97262ccd5a4f7e3e7afdb81523bb0
         btnMiniBarButtonPlay.setOnClickListener {
             startMusicRandom()
         }
     }
 
-    fun startMusicRandom() {
-        Collections.shuffle(mListSong)
+    private fun startMusicRandom() {
+        shuffle(mListSong)
         activity?.startActivity(Intent(activity, PlayMusicActivity::class.java)
-                .setAction(Constrant.ACTION_START_SERVICE)
-                .putExtra(Constrant.KEY_POSITION_SONG, 0)
-                .putParcelableArrayListExtra(Constrant.KEY_LIST_SONG, mListSong as ArrayList<out Parcelable>))
+                .setAction(Constant.ACTION_START_SERVICE)
+                .putExtra(Constant.KEY_POSITION_SONG, 0)
+                .putParcelableArrayListExtra(Constant.KEY_LIST_SONG, mListSong as ArrayList<out Parcelable>))
     }
 
     private fun initRecycleView() {
