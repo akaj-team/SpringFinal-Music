@@ -4,15 +4,19 @@ import android.support.v4.app.Fragment
 import android.asiantech.vn.springfinalmusic.R
 import android.asiantech.vn.springfinalmusic.library.adapter.SongsAdapter
 import android.asiantech.vn.springfinalmusic.manager.ResourcesManager
+import android.asiantech.vn.springfinalmusic.model.Constant
 import android.asiantech.vn.springfinalmusic.model.Song
-import android.content.Context
+import android.asiantech.vn.springfinalmusic.playmusic.PlayMusicActivity
+import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_library_songs.*
+import java.util.ArrayList
 import java.util.Collections.shuffle
 
 class SongsFragment : Fragment() {
@@ -38,7 +42,11 @@ class SongsFragment : Fragment() {
 
     private fun startMusicRandom() {
         shuffle(mListSong)
-        SendRequestPlayMusic.getInstances().stratAcivityPlayByAdapter(context as Context, mListSong, 0)
+        context?.startActivity(Intent(context, PlayMusicActivity::class.java)
+                .setAction(Constant.ACTION_START_SERVICE)
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                .putExtra(Constant.KEY_POSITION_SONG, 0)
+                .putParcelableArrayListExtra(Constant.KEY_LIST_SONG, mListSong as ArrayList<out Parcelable>))
     }
 
     private fun initRecycleView() {

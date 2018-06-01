@@ -1,14 +1,18 @@
 package android.asiantech.vn.springfinalmusic.library.adapter
 
 import android.asiantech.vn.springfinalmusic.R
-import android.asiantech.vn.springfinalmusic.library.SendRequestPlayMusic
+import android.asiantech.vn.springfinalmusic.model.Constant
 import android.asiantech.vn.springfinalmusic.model.Song
+import android.asiantech.vn.springfinalmusic.playmusic.PlayMusicActivity
 import android.content.Context
+import android.content.Intent
+import android.os.Parcelable
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import java.util.ArrayList
 
 class CurrentMusicAdapter(dataset: List<Song>,context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var mListData: List<Song> = dataset
@@ -25,7 +29,7 @@ class CurrentMusicAdapter(dataset: List<Song>,context: Context) : RecyclerView.A
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         holder as ViewHolder
-        holder.onBind(mListData.get(position))
+        holder.onBind(mListData[position])
     }
 
     /*
@@ -37,7 +41,11 @@ class CurrentMusicAdapter(dataset: List<Song>,context: Context) : RecyclerView.A
 
         init {
             view.setOnClickListener {
-                SendRequestPlayMusic.getInstances().stratAcivityPlayByAdapter(mContext,mListData,adapterPosition)
+                mContext.startActivity(Intent(mContext, PlayMusicActivity::class.java)
+                        .setAction(Constant.ACTION_START_SERVICE)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        .putExtra(Constant.KEY_POSITION_SONG, adapterPosition)
+                        .putParcelableArrayListExtra(Constant.KEY_LIST_SONG, mListData as ArrayList<out Parcelable>))
             }
         }
 
