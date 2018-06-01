@@ -1,5 +1,6 @@
 package android.asiantech.vn.springfinalmusic.playmusic
 
+import android.annotation.SuppressLint
 import android.asiantech.vn.springfinalmusic.R
 import android.asiantech.vn.springfinalmusic.model.Constant
 import android.asiantech.vn.springfinalmusic.model.Song
@@ -14,17 +15,17 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.widget.SeekBar
 import android.widget.Toast
+import android.widget.Toast.makeText
 import kotlinx.android.synthetic.main.fragment_play_music.*
 import java.util.concurrent.TimeUnit
 
 class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
-
     private var mBroadcastReceiver: BroadcastReceiver? = null
     private var mSongCurrent: Song? = null
     private var mListSong: List<Song>? = null
     private var mPositionSong: Int = -1
     private var mModePlay: Int = Constant.MODE_NORM
-
+    private lateinit var mToast: Toast
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_play_music)
@@ -82,6 +83,7 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         return null
     }
 
+    @SuppressLint("ShowToast")
     private fun initViewsAndEvent() {
         initReceive()
         displayInfoSong(0)
@@ -106,34 +108,39 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         btnPlayMusicButtonRepeat.setOnClickListener {
             changeImageButton()
         }
+        mToast= makeText(baseContext,"",Toast.LENGTH_SHORT)
     }
 
     private fun changeImageButton() {
         when (mModePlay) {
             Constant.MODE_NORM -> {
                 sendModeToService(Constant.MODE_REPEAT_ALBUM)
-                Toast.makeText(baseContext, Constant.NAME_MODE_REPEAT_ALBUM, Toast.LENGTH_SHORT).show()
+                mToast.setText(Constant.NAME_MODE_REPEAT_ALBUM)
+                mToast.show()
                 btnPlayMusicButtonRepeat.background = ContextCompat.getDrawable(baseContext
                         , R.drawable.ic_mode_repeat)
                 mModePlay = Constant.MODE_REPEAT_ALBUM
             }
             Constant.MODE_REPEAT_ALBUM -> {
                 sendModeToService(Constant.MODE_REPEAT_SONG)
-                Toast.makeText(baseContext, Constant.NAME_MODE_REPEAT_SONG, Toast.LENGTH_SHORT).show()
+                mToast.setText(Constant.NAME_MODE_REPEAT_SONG)
+                mToast.show()
                 btnPlayMusicButtonRepeat.background = ContextCompat.getDrawable(baseContext
                         , R.drawable.ic_mode_repeat_one)
                 mModePlay = Constant.MODE_REPEAT_SONG
             }
             Constant.MODE_REPEAT_SONG -> {
                 sendModeToService(Constant.MODE_RANDOM_ALBUM)
-                Toast.makeText(baseContext, Constant.NAME_MODE_RANDOM_ALBUM, Toast.LENGTH_SHORT).show()
+                mToast.setText(Constant.NAME_MODE_RANDOM_ALBUM)
+                mToast.show()
                 btnPlayMusicButtonRepeat.background = ContextCompat.getDrawable(baseContext
                         , R.drawable.ic_mode_mix)
                 mModePlay = Constant.MODE_RANDOM_ALBUM
             }
             Constant.MODE_RANDOM_ALBUM -> {
                 sendModeToService(Constant.MODE_NORM)
-                Toast.makeText(baseContext, Constant.NAME_MODE_NORM, Toast.LENGTH_SHORT).show()
+                mToast.setText(Constant.NAME_MODE_NORM)
+                mToast.show()
                 btnPlayMusicButtonRepeat.background = ContextCompat.getDrawable(baseContext
                         , R.drawable.ic_mode_norm)
                 mModePlay = Constant.MODE_NORM
