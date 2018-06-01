@@ -16,7 +16,6 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_library_playlist.*
 
 class PlayListFragment : Fragment() {
-
     private lateinit var mAdapter: PlaylistAdapter
     private lateinit var mLayoutManager: RecyclerView.LayoutManager
     private var mIsShowCloseButton = false
@@ -30,7 +29,7 @@ class PlayListFragment : Fragment() {
         initRecycleView()
     }
 
-    fun initListeners() {
+    private fun initListeners() {
         viewMiniBarPlaylistNew.setOnClickListener {
             val intent = Intent(activity, PlaylistChoiceActivity::class.java)
             mIsShowCloseButton = false
@@ -41,10 +40,9 @@ class PlayListFragment : Fragment() {
             mIsShowCloseButton = !mIsShowCloseButton
             mAdapter.setIsShowButtonClose(mIsShowCloseButton)
         }
-
     }
 
-    fun initRecycleView() {
+    private fun initRecycleView() {
         mLayoutManager = LinearLayoutManager(activity)
         mAdapter = PlaylistAdapter()
         recycleViewPlaylist.setHasFixedSize(true)
@@ -65,5 +63,4 @@ class PlayListFragment : Fragment() {
             mAdapter.reset()
         }
     }
-
 }

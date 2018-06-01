@@ -12,9 +12,6 @@ import com.google.gson.Gson
 import java.util.ArrayList
 
 class ResourcesManager private constructor() {
-    init {
-    }
-
     companion object {
         private val mInstance = ResourcesManager()
         fun getInstance(): ResourcesManager {
@@ -35,7 +32,7 @@ class ResourcesManager private constructor() {
         loadListData(context)
     }
 
-    fun loadAllSong(context: Context) {
+    private fun loadAllSong(context: Context) {
         mListSong.clear()
         val selection = MediaStore.Audio.Media.IS_MUSIC + " !=0"
         val project = arrayOf(MediaStore.Audio.Media._ID,
@@ -119,7 +116,7 @@ class ResourcesManager private constructor() {
         saveDataPlaylist(context)
     }
 
-    fun saveDataPlaylist(context: Context) {
+    private fun saveDataPlaylist(context: Context) {
         val sharePref = context.getSharedPreferences(context.resources.getString(R.string.library_text_playlist),
                 Context.MODE_PRIVATE)
         var data = ""
@@ -141,9 +138,7 @@ class ResourcesManager private constructor() {
         val tempListPlaylist = mListPlaylist.toMutableList()
         playlist.clear()
         mListPlaylist = playlist
-        for (item in tempListPlaylist) {
-            mListPlaylist.add(item)
-        }
+        mListPlaylist.addAll(tempListPlaylist)
     }
 
     fun getMusicOfArtist(artist: String): List<Song> {

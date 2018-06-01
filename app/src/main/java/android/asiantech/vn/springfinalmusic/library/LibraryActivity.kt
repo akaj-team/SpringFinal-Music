@@ -15,7 +15,6 @@ import android.view.View
 import kotlinx.android.synthetic.main.activity_library.*
 import android.view.inputmethod.InputMethodManager
 
-
 class LibraryActivity : AppCompatActivity() {
     private lateinit var mPagerAdapter: LibraryPagerAdapter
     private var mIsShowSearch: Boolean = false
@@ -44,8 +43,9 @@ class LibraryActivity : AppCompatActivity() {
             mIsShowSearch = !mIsShowSearch
             showSearch(mIsShowSearch)
             showInputKeyboard(mIsShowSearch)
-            if (mIsShowSearch)
+            if (!mIsShowSearch) {
                 mPagerAdapter.resetPage(mCurrentPage)
+            }
         }
         edtToolBarSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -57,7 +57,6 @@ class LibraryActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 loadDataSearch(s)
             }
-
         })
         vpMusicLibrary.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
@@ -80,7 +79,7 @@ class LibraryActivity : AppCompatActivity() {
         })
     }
 
-    fun resetPage() {
+    private fun resetPage() {
         when (vpMusicLibrary.currentItem) {
             LibraryType.SONGS -> {
                 if (mCurrentPage != LibraryType.SONGS) {
@@ -105,7 +104,7 @@ class LibraryActivity : AppCompatActivity() {
         }
     }
 
-    fun loadDataSearch(s: CharSequence?) {
+    private fun loadDataSearch(s: CharSequence?) {
         when (vpMusicLibrary.currentItem) {
             LibraryType.SONGS -> {
                 mPagerAdapter.songsFragment.setListSong(ResourcesManager.getInstance().getDataSearchAll(s.toString()))
@@ -147,4 +146,3 @@ class LibraryActivity : AppCompatActivity() {
         }
     }
 }
-

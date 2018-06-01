@@ -38,10 +38,13 @@ class PlaylistChoiceAdapter(dataset: List<Song>) : RecyclerView.Adapter<Recycler
     }
 
     override fun onItemPlaylistChoice(position: Int, isChoice: Boolean) {
-        if (isChoice)
+        if (isChoice) {
             mListChoice.add(mListData[position])
-        else
+            mListBoolChoice[position] = true
+        } else {
             mListChoice.remove(mListData[position])
+            mListBoolChoice[position] = false
+        }
     }
 
     fun getListItemChoice(): MutableList<Song> {
@@ -83,13 +86,12 @@ class PlaylistChoiceAdapter(dataset: List<Song>) : RecyclerView.Adapter<Recycler
             setListener()
         }
 
-        fun setListener() {
+        private fun setListener() {
             mClLayout.setOnClickListener {
                 val isChoice = !mRbChoice.isChecked
                 mRbChoice.isChecked = isChoice
                 mEventChoice.onItemPlaylistChoice(adapterPosition, isChoice)
             }
         }
-
     }
 }

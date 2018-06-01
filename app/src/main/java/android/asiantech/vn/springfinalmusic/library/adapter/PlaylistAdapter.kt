@@ -53,11 +53,11 @@ class PlaylistAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(), IEven
         notifyDataSetChanged()
     }
 
-    fun reset()
-    {
+    fun reset() {
         ResourcesManager.getInstance().setPlaylist(mListData)
         notifyDataSetChanged()
     }
+
     /*
      *  class viewholder in recycleview
      */
@@ -81,7 +81,7 @@ class PlaylistAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(), IEven
             initListener(playlist)
         }
 
-        fun initListener(playlist: Playlist) {
+        private fun initListener(playlist: Playlist) {
             mClLayout.setOnClickListener {
                 val intent = Intent(mContext, CurrentMusicPlay::class.java)
                 intent.action = CurrentMusicPlay.FILTER_PLAYLIST
@@ -93,7 +93,6 @@ class PlaylistAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(), IEven
                 ResourcesManager.getInstance().deletePlaylist(playlist, mContext)
                 mIEventClose.onDeleteComplete()
             }
-
         }
     }
 }

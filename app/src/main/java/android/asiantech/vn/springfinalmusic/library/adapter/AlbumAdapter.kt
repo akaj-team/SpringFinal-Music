@@ -1,6 +1,5 @@
 package android.asiantech.vn.springfinalmusic.library.adapter
 
-import android.app.RemoteInput
 import android.asiantech.vn.springfinalmusic.R
 import android.asiantech.vn.springfinalmusic.library.CurrentMusicPlay
 import android.asiantech.vn.springfinalmusic.manager.ResourcesManager
@@ -10,7 +9,6 @@ import android.content.Intent
 import android.os.Parcelable
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,11 +38,6 @@ class AlbumAdapter(dataset: List<Album>, context: Context?) : RecyclerView.Adapt
         notifyDataSetChanged()
     }
 
-    fun reset() {
-        mListData = ResourcesManager.getInstance().getListAlbum()
-        notifyDataSetChanged()
-    }
-
     /*
      *  class viewholder in recycleview
      */
@@ -62,9 +55,9 @@ class AlbumAdapter(dataset: List<Album>, context: Context?) : RecyclerView.Adapt
             initListener(album)
         }
 
-        fun initListener(album: Album) {
+        private fun initListener(album: Album) {
             mClLayout.setOnClickListener {
-                val intent: Intent = Intent(mContext, CurrentMusicPlay::class.java)
+                val intent = Intent(mContext, CurrentMusicPlay::class.java)
                 intent.action = CurrentMusicPlay.FILTER_ALBUM
                 intent.putParcelableArrayListExtra(CurrentMusicPlay.FILTER_ALBUM,
                         ResourcesManager.getInstance().getAlbum(album.name).listMusic as ArrayList<out Parcelable>)

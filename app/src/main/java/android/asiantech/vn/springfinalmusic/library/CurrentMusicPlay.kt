@@ -37,7 +37,7 @@ class CurrentMusicPlay : Activity() {
         }
     }
 
-    fun initViews() {
+    private fun initViews() {
         val action = intent.action
         when (action) {
             FILTER_ARTIST -> {
@@ -49,13 +49,13 @@ class CurrentMusicPlay : Activity() {
         }
     }
 
-    fun initListeners() {
+    private fun initListeners() {
         btnToolBarMusicClose.setOnClickListener {
             onBackPressed()
         }
     }
 
-    fun initRecycleView() {
+    private fun initRecycleView() {
         mLayoutManager = LinearLayoutManager(this)
         mAdapter = CurrentMusicAdapter(data,this)
         recycleViewMusic.setHasFixedSize(true)

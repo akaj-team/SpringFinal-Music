@@ -4,7 +4,6 @@ import android.support.v4.app.Fragment
 
 import android.asiantech.vn.springfinalmusic.R
 import android.asiantech.vn.springfinalmusic.library.adapter.AlbumAdapter
-import android.asiantech.vn.springfinalmusic.library.adapter.ArtistAdapter
 import android.asiantech.vn.springfinalmusic.manager.ResourcesManager
 import android.asiantech.vn.springfinalmusic.model.Album
 import android.os.Bundle
@@ -37,6 +36,6 @@ class AlbumFragment : Fragment() {
     }
 
     fun reset() {
-        mAdapter.reset()
+        mAdapter.setListAlbum(ResourcesManager.getInstance().getListAlbum())
     }
 }

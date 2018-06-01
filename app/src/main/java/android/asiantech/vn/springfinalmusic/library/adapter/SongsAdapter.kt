@@ -37,11 +37,6 @@ class SongsAdapter(dataset: List<Song>, context: Context?) : RecyclerView.Adapte
         notifyDataSetChanged()
     }
 
-    fun reset() {
-        mListData = ResourcesManager.getInstance().getallSongFromDevice()
-        notifyDataSetChanged()
-    }
-
     /*
      *  class viewholder in recycleview
      */
