@@ -6,6 +6,7 @@ import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
+import android.util.Log
 import javax.security.auth.login.LoginException
 
 class LibraryPagerAdapter(fm: FragmentManager?, context: Context) : FragmentStatePagerAdapter(fm) {

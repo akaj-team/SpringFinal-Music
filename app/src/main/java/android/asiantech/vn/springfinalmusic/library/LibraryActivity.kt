@@ -74,6 +74,7 @@ class LibraryActivity : AppCompatActivity() {
                     showSearch(mIsShowSearch)
                     showInputKeyboard(false)
                 }
+                mCurrentPage = vpMusicLibrary.currentItem
             }
 
         })
@@ -84,25 +85,21 @@ class LibraryActivity : AppCompatActivity() {
             LibraryType.SONGS -> {
                 if (mCurrentPage != LibraryType.SONGS) {
                     mPagerAdapter.resetPage(mCurrentPage)
-                    mCurrentPage = LibraryType.SONGS
                 }
             }
             LibraryType.PLAYLIST -> {
                 if (mCurrentPage != LibraryType.PLAYLIST) {
                     mPagerAdapter.resetPage(mCurrentPage)
-                    mCurrentPage = LibraryType.PLAYLIST
                 }
             }
             LibraryType.ARSTIST -> {
                 if (mCurrentPage != LibraryType.ARSTIST) {
                     mPagerAdapter.resetPage(mCurrentPage)
-                    mCurrentPage = LibraryType.ARSTIST
                 }
             }
             LibraryType.ALBUM -> {
                 if (mCurrentPage != LibraryType.ALBUM) {
                     mPagerAdapter.resetPage(mCurrentPage)
-                    mCurrentPage = LibraryType.ALBUM
                 }
             }
         }
