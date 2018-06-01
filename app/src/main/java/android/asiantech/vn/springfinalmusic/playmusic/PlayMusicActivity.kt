@@ -1,5 +1,6 @@
 package android.asiantech.vn.springfinalmusic.playmusic
 
+import android.annotation.SuppressLint
 import android.asiantech.vn.springfinalmusic.R
 import android.asiantech.vn.springfinalmusic.model.Constant
 import android.asiantech.vn.springfinalmusic.model.Song
@@ -13,16 +14,18 @@ import android.os.Parcelable
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.widget.SeekBar
+import android.widget.Toast
+import android.widget.Toast.makeText
 import kotlinx.android.synthetic.main.fragment_play_music.*
 import java.util.concurrent.TimeUnit
 
 class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
-
     private var mBroadcastReceiver: BroadcastReceiver? = null
     private var mSongCurrent: Song? = null
     private var mListSong: List<Song>? = null
     private var mPositionSong: Int = -1
-
+    private var mModePlay: Int = Constant.MODE_NORM
+    private lateinit var mToast: Toast
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_play_music)
@@ -34,7 +37,7 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     private fun startMusic() {
         if (intent.action == Constant.ACTION_START_SERVICE) {
             startService(Intent(this, MusicService::class.java)
-                    .setAction(Constant.PLAY_MUSIC)
+                    .setAction(Constant.ACTION_PLAY_MUSIC)
                     .putExtra(Constant.KEY_POSITION_SONG, mPositionSong)
                     .putParcelableArrayListExtra(Constant.KEY_LIST_SONG, mListSong as ArrayList<out Parcelable>))
         }
@@ -58,6 +61,7 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             tvPlayMusicCurrentTime.text = miliSecondsToString(currTime.toLong())
             seekBarPlayMusic.progress = currTime
             viewCicleProgressBar.setProgress((currTime.toFloat() / duration * 100))
+            displayMode()
         }
     }
 
@@ -79,18 +83,19 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         return null
     }
 
+    @SuppressLint("ShowToast")
     private fun initViewsAndEvent() {
         initReceive()
         displayInfoSong(0)
         seekBarPlayMusic.setOnSeekBarChangeListener(this)
         btnPlayMusicButtonPlay.setOnClickListener {
-            starServiceByAction(Constant.PAUSE_MUSIC)
+            starServiceByAction(Constant.ACTION_PAUSE_MUSIC)
         }
         btnPlayMusicButtonNext.setOnClickListener {
-            starServiceByAction(Constant.NEXT_MUSIC)
+            starServiceByAction(Constant.ACTION_NEXT_MUSIC)
         }
         btnPlayMusicButtonPrev.setOnClickListener {
-            starServiceByAction(Constant.BACK_MUSIC)
+            starServiceByAction(Constant.ACTION_BACK_MUSIC)
         }
         btnPlayMusicClose.setOnClickListener {
             onBackPressed()
@@ -100,6 +105,74 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                     .putExtra(Constant.KEY_SONG, mPositionSong)
                     .putParcelableArrayListExtra(Constant.KEY_LIST_SONG, mListSong as java.util.ArrayList<out Parcelable>))
         }
+        btnPlayMusicButtonRepeat.setOnClickListener {
+            changeImageButton()
+        }
+        mToast= makeText(baseContext,"",Toast.LENGTH_SHORT)
+    }
+
+    private fun changeImageButton() {
+        when (mModePlay) {
+            Constant.MODE_NORM -> {
+                sendModeToService(Constant.MODE_REPEAT_ALBUM)
+                mToast.setText(Constant.NAME_MODE_REPEAT_ALBUM)
+                mToast.show()
+                btnPlayMusicButtonRepeat.background = ContextCompat.getDrawable(baseContext
+                        , R.drawable.ic_mode_repeat)
+                mModePlay = Constant.MODE_REPEAT_ALBUM
+            }
+            Constant.MODE_REPEAT_ALBUM -> {
+                sendModeToService(Constant.MODE_REPEAT_SONG)
+                mToast.setText(Constant.NAME_MODE_REPEAT_SONG)
+                mToast.show()
+                btnPlayMusicButtonRepeat.background = ContextCompat.getDrawable(baseContext
+                        , R.drawable.ic_mode_repeat_one)
+                mModePlay = Constant.MODE_REPEAT_SONG
+            }
+            Constant.MODE_REPEAT_SONG -> {
+                sendModeToService(Constant.MODE_RANDOM_ALBUM)
+                mToast.setText(Constant.NAME_MODE_RANDOM_ALBUM)
+                mToast.show()
+                btnPlayMusicButtonRepeat.background = ContextCompat.getDrawable(baseContext
+                        , R.drawable.ic_mode_mix)
+                mModePlay = Constant.MODE_RANDOM_ALBUM
+            }
+            Constant.MODE_RANDOM_ALBUM -> {
+                sendModeToService(Constant.MODE_NORM)
+                mToast.setText(Constant.NAME_MODE_NORM)
+                mToast.show()
+                btnPlayMusicButtonRepeat.background = ContextCompat.getDrawable(baseContext
+                        , R.drawable.ic_mode_norm)
+                mModePlay = Constant.MODE_NORM
+            }
+        }
+    }
+
+    private fun displayMode() {
+        when (mModePlay) {
+            Constant.MODE_REPEAT_ALBUM -> {
+                btnPlayMusicButtonRepeat.background = ContextCompat.getDrawable(baseContext
+                        , R.drawable.ic_mode_repeat)
+            }
+            Constant.MODE_REPEAT_SONG -> {
+                btnPlayMusicButtonRepeat.background = ContextCompat.getDrawable(baseContext
+                        , R.drawable.ic_mode_repeat_one)
+            }
+            Constant.MODE_RANDOM_ALBUM -> {
+                btnPlayMusicButtonRepeat.background = ContextCompat.getDrawable(baseContext
+                        , R.drawable.ic_mode_mix)
+            }
+            Constant.MODE_NORM -> {
+                btnPlayMusicButtonRepeat.background = ContextCompat.getDrawable(baseContext
+                        , R.drawable.ic_mode_norm)
+            }
+        }
+    }
+
+    private fun sendModeToService(mode: Int) {
+        startService(Intent(baseContext, MusicService::class.java)
+                .setAction(Constant.ACTION_MODE_CHANGE)
+                .putExtra(Constant.KEY_MODE, mode))
     }
 
     private fun starServiceByAction(action: String) {
@@ -111,38 +184,39 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             override fun onReceive(context: Context?, intent: Intent?) {
                 val action = intent?.action
                 when (action) {
-                    Constant.DISPLAY_MUSIC -> {
+                    Constant.ACTION_DISPLAY_MUSIC -> {
                         if (intent.extras != null) {
+                            mModePlay = intent.extras.getInt(Constant.KEY_MODE)
                             mSongCurrent = intent.extras.getParcelable(Constant.KEY_SONG)
                             val strPosition: Int = intent.extras.getInt(Constant.KEY_POSITION_MEDIA)
                             displayInfoSong(strPosition)
                         }
                     }
-                    Constant.PAUSE_MUSIC -> {
+                    Constant.ACTION_PAUSE_MUSIC -> {
                         btnPlayMusicButtonPlay.setOnClickListener {
-                            starServiceByAction(Constant.PAUSE_MUSIC)
+                            starServiceByAction(Constant.ACTION_PAUSE_MUSIC)
                         }
                         btnPlayMusicButtonPlay.background = ContextCompat.getDrawable(this@PlayMusicActivity
                                 , R.drawable.bt_playpage_button_pause_normal_new)
                     }
-                    Constant.RESUME_MUSIC -> {
+                    Constant.ACTION_RESUME_MUSIC -> {
                         btnPlayMusicButtonPlay.setOnClickListener {
-                            starServiceByAction(Constant.RESUME_MUSIC)
+                            starServiceByAction(Constant.ACTION_RESUME_MUSIC)
                         }
                         btnPlayMusicButtonPlay.background = ContextCompat.getDrawable(this@PlayMusicActivity
                                 , R.drawable.bt_play_press)
                     }
-                    Constant.SONG_IS_CHANGED -> {
+                    Constant.ACTION_SONG_IS_CHANGED -> {
                         mPositionSong = intent.extras.getInt(Constant.KEY_POSITION_SONG)
                     }
                 }
             }
         }
         val intent = IntentFilter()
-        intent.addAction(Constant.DISPLAY_MUSIC)
-        intent.addAction(Constant.PAUSE_MUSIC)
-        intent.addAction(Constant.RESUME_MUSIC)
-        intent.addAction(Constant.SONG_IS_CHANGED)
+        intent.addAction(Constant.ACTION_DISPLAY_MUSIC)
+        intent.addAction(Constant.ACTION_PAUSE_MUSIC)
+        intent.addAction(Constant.ACTION_RESUME_MUSIC)
+        intent.addAction(Constant.ACTION_SONG_IS_CHANGED)
         registerReceiver(mBroadcastReceiver, intent)
     }
 
@@ -155,8 +229,8 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
         startService(Intent(this, MusicService::class.java)
-                .setAction(Constant.SEEKBAR_CHANGED)
-                .putExtra(Constant.PROGRESS, seekBar?.progress))
+                .setAction(Constant.ACTION_SEEKBAR_CHANGED)
+                .putExtra(Constant.KEY_PROGRESS, seekBar?.progress))
     }
 
     override fun onDestroy() {

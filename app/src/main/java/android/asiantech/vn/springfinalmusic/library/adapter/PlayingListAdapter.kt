@@ -39,7 +39,7 @@ class PlayingListAdapter(listSong: List<Song>, position: Int, context: Context, 
         init {
             view.setOnClickListener {
                 mContext.startService(Intent(mContext, MusicService::class.java)
-                        .setAction(Constant.NEXT_SONG_INDEX)
+                        .setAction(Constant.KEY_SONG_INDEX)
                         .putExtra(Constant.KEY_POSITION_SELECTED, adapterPosition))
                 mListenes.onItemSelected()
             }
@@ -48,9 +48,12 @@ class PlayingListAdapter(listSong: List<Song>, position: Int, context: Context, 
         fun onBindData(song: Song) {
             mTvNameSong.text = song.title
             mTvNameSinger.text = song.artist
-            if (mPosition == adapterPosition) {
+            if (mPosition == adapterPosition ) {
                 mTvNameSong.setTextColor(ContextCompat.getColor(mContext, R.color.colorLightBlue))
                 mTvNameSinger.setTextColor(ContextCompat.getColor(mContext, R.color.colorLightBlue))
+            }else{
+                mTvNameSong.setTextColor(ContextCompat.getColor(mContext, R.color.colorBlack))
+                mTvNameSinger.setTextColor(ContextCompat.getColor(mContext, R.color.colorBlack))
             }
         }
     }
