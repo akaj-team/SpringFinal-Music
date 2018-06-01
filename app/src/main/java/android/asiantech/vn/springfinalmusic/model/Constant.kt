@@ -18,6 +18,6 @@ object Constant {
     const val SEEKBAR_CHANGED = "on_tracking_touch"
     const val PROGRESS = "seekbar_progress"
     const val NEXT_SONG_INDEX = "play_song_of_list"
-    const val SONG_IS_CHANGED="music_is_next"
+    const val SONG_IS_CHANGED = "music_is_next"
     const val KEY_POSITION_SELECTED = "positon_song_select"
 }

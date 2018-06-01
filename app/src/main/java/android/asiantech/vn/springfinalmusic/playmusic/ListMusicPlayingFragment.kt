@@ -31,7 +31,7 @@ class ListMusicPlayingFragment : AppCompatActivity(), PlayingListAdapter.OnAdapt
         val list: List<Song>? = intent?.extras?.getParcelableArrayList(Constant.KEY_LIST_SONG)
         val position: Int? = intent?.extras?.getInt(Constant.KEY_SONG)
         if (list != null && position != null) {
-            mAdapter = PlayingListAdapter(list,position, this, this)
+            mAdapter = PlayingListAdapter(list, position, this, this)
             mAdapter?.notifyDataSetChanged()
         }
         recycleViewListPlaying.adapter = mAdapter

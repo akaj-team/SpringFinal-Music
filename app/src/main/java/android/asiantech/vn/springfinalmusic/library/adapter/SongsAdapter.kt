@@ -53,6 +53,7 @@ class SongsAdapter(dataset: List<Song>, context: Context?) : RecyclerView.Adapte
             view.setOnClickListener {
                 mContext?.startActivity(Intent(mContext, PlayMusicActivity::class.java)
                         .setAction(Constant.ACTION_START_SERVICE)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         .putExtra(Constant.KEY_POSITION_SONG, adapterPosition)
                         .putParcelableArrayListExtra(Constant.KEY_LIST_SONG, mListData as ArrayList<out Parcelable>))
             }

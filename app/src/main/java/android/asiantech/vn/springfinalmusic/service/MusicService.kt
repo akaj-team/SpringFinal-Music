@@ -241,11 +241,13 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
     private fun pauseMusic() {
         mMediaPlayer?.pause()
         mHandler.removeCallbacks(mUpdateSongPlaying)
+        stopForeground(false)
         changedImageBtnPlay()
     }
 
     private fun resumeMusic() {
         mMediaPlayer?.start()
+        startForeground(ID_NOTIFICATION,mNotification)
         mHandler.post(mUpdateSongPlaying)
         changedImageBtnPlay()
     }
