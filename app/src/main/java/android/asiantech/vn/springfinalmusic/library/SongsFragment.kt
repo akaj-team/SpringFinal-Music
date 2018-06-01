@@ -16,7 +16,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_library_songs.*
-import java.util.*
+import java.util.ArrayList
 import java.util.Collections.shuffle
 
 class SongsFragment : Fragment() {
@@ -42,8 +42,9 @@ class SongsFragment : Fragment() {
 
     private fun startMusicRandom() {
         shuffle(mListSong)
-        activity?.startActivity(Intent(activity, PlayMusicActivity::class.java)
+        context?.startActivity(Intent(context, PlayMusicActivity::class.java)
                 .setAction(Constant.ACTION_START_SERVICE)
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 .putExtra(Constant.KEY_POSITION_SONG, 0)
                 .putParcelableArrayListExtra(Constant.KEY_LIST_SONG, mListSong as ArrayList<out Parcelable>))
     }
