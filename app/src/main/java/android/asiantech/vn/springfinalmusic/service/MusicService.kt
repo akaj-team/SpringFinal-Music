@@ -125,7 +125,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
 
     private fun init() {
         mUpdateSongPlaying = UpdateSongPlaying()
-        //initMedia()
         initRemoteViews()
     }
 
@@ -203,15 +202,15 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
     }
 
     private fun isLastSong(positionCurrent: Int): Boolean {
-        if (positionCurrent >= mSongList.size) {
+        if (positionCurrent >= mSongList.size - 1) {
             return true
         }
         return false
     }
 
     private fun next() {
-        if (isLastSong(mPositionSong) && mModePlay == Constant.MODE_NORM) {
-            onDestroy()
+        if (isLastSong(mPositionSong)) {
+            next(0)
             return
         }
         val nextSong: Int = if (mModePlay == Constant.MODE_RANDOM_ALBUM) {
@@ -228,9 +227,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
     }
 
     private fun next(nextSong: Int) {
-        if (isLastSong(nextSong)) {
-            return
-        }
         if (nextSong >= 0 && nextSong < mSongList.size) {
             mSongCurrent = mSongList[nextSong]
             mPositionSong = nextSong
@@ -250,18 +246,22 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
     override fun onCompletion(mp: MediaPlayer?) {
         if (mModePlay == Constant.MODE_REPEAT_SONG) {
             next(mPositionSong)
-        } else {
-            next()
+            return
         }
-        if (mPositionSong >= mSongList.size) {
+        if (isLastSong(mPositionSong) && mModePlay == Constant.MODE_NORM) {
             stopMusic()
+            return
         }
+        if (isLastSong(mPositionSong) && mModePlay == Constant.MODE_REPEAT_ALBUM) {
+            next(0)
+            return
+        }
+        next()
     }
 
     private fun stopMusic() {
         mHandler.removeCallbacks(mUpdateSongPlaying)
-        mMediaPlayer?.stop()
-        mMediaPlayer?.release()
+        mMediaPlayer?.pause()
         this.stopSelf()
         this.onDestroy()
     }
@@ -275,7 +275,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
 
     private fun resumeMusic() {
         mMediaPlayer?.start()
-        startForeground(ID_NOTIFICATION,mNotification)
+        startForeground(ID_NOTIFICATION, mNotification)
         mHandler.post(mUpdateSongPlaying)
         changedImageBtnPlay()
     }
@@ -300,7 +300,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
             sendBroadcast(Intent()
                     .setAction(Constant.ACTION_DISPLAY_MUSIC)
                     .putExtra(Constant.KEY_SONG, mSongCurrent)
-                    .putExtra(Constant.KEY_MODE,mModePlay)
+                    .putExtra(Constant.KEY_MODE, mModePlay)
                     .putExtra(Constant.KEY_POSITION_MEDIA, intCurrPosition))
             mHandler.postDelayed(this, 1000)
         }
