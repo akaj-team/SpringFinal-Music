@@ -11,12 +11,9 @@ import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import kotlinx.android.synthetic.main.activity_library.*
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 
 
 class LibraryActivity : AppCompatActivity() {
