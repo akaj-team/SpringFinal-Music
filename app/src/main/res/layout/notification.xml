@@ -75,4 +75,13 @@
         android:layout_marginLeft="25dp"
         android:layout_toRightOf="@id/imgNotificationButtonPlay"
         android:background="@drawable/btn_notificationbar_next" />
+
+    <ImageButton
+        android:id="@+id/imgNotificationButtonClose"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
+        android:layout_below="@id/progressBarNotification"
+        android:layout_marginLeft="25dp"
+        android:layout_toRightOf="@id/imgNotificationButtonNext"
+        android:background="@drawable/ic_close_grey_500_24dp" />
 </RelativeLayout>
