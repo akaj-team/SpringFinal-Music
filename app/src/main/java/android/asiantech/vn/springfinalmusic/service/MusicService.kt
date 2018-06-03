@@ -19,6 +19,7 @@ import java.util.ArrayList
 
 import java.util.*
 
+@Suppress("DEPRECATION")
 class MusicService : Service(), MediaPlayer.OnCompletionListener {
     companion object {
         const val ID_NOTIFICATION = 1010
@@ -125,6 +126,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
 
     private fun init() {
         mUpdateSongPlaying = UpdateSongPlaying()
+        //initMedia()
         initRemoteViews()
     }
 

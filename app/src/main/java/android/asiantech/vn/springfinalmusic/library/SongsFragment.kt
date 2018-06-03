@@ -34,6 +34,14 @@ class SongsFragment : Fragment() {
         initViewsAndEvent()
     }
 
+    fun setListSong(listSong: List<Song>) {
+        mAdapter.setListSong(listSong)
+    }
+
+    fun reset() {
+        mAdapter.setListSong(ResourcesManager.getInstance().getallSongFromDevice())
+    }
+
     private fun initViewsAndEvent() {
         btnMiniBarButtonPlay.setOnClickListener {
             startMusicRandom()

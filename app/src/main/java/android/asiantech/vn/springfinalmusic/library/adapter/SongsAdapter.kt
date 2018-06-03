@@ -1,6 +1,7 @@
 package android.asiantech.vn.springfinalmusic.library.adapter
 
 import android.asiantech.vn.springfinalmusic.R
+import android.asiantech.vn.springfinalmusic.manager.ResourcesManager
 import android.asiantech.vn.springfinalmusic.model.Constant
 import android.asiantech.vn.springfinalmusic.model.Song
 import android.asiantech.vn.springfinalmusic.playmusic.PlayMusicActivity
@@ -29,6 +30,11 @@ class SongsAdapter(dataset: List<Song>, context: Context?) : RecyclerView.Adapte
 
     override fun getItemCount(): Int {
         return mListData.size
+    }
+
+    fun setListSong(data: List<Song>) {
+        mListData = data
+        notifyDataSetChanged()
     }
 
     /*

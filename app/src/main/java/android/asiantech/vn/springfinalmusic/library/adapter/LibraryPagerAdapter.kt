@@ -9,19 +9,32 @@ import android.support.v4.app.FragmentStatePagerAdapter
 
 class LibraryPagerAdapter(fm: FragmentManager?, context: Context) : FragmentStatePagerAdapter(fm) {
     private var mContext: Context = context
+    var songsFragment: SongsFragment
+    var playlistFragment: PlayListFragment
+    var artistFragment: ArtistFragment
+    var albumFragment: AlbumFragment
+
+    init {
+        songsFragment = SongsFragment()
+        playlistFragment = PlayListFragment()
+        artistFragment = ArtistFragment()
+        albumFragment = AlbumFragment()
+
+    }
+
     override fun getItem(position: Int): Fragment? {
         when (position) {
             LibraryType.SONGS -> {
-                return SongsFragment()
+                return songsFragment
             }
             LibraryType.PLAYLIST -> {
-                return PlayListFragment()
+                return playlistFragment
             }
             LibraryType.ARSTIST -> {
-                return ArtistFragment()
+                return artistFragment
             }
             LibraryType.ALBUM -> {
-                return AlbumFragment()
+                return albumFragment
             }
         }
         return null
@@ -47,5 +60,14 @@ class LibraryPagerAdapter(fm: FragmentManager?, context: Context) : FragmentStat
             }
         }
         return null
+    }
+
+    fun resetPage(page: Int) {
+        when (page) {
+            LibraryType.SONGS -> songsFragment.reset()
+            LibraryType.ALBUM -> albumFragment.reset()
+            LibraryType.PLAYLIST -> playlistFragment.reset()
+            LibraryType.ARSTIST -> artistFragment.reset()
+        }
     }
 }

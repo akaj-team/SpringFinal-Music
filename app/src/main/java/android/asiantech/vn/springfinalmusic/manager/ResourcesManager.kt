@@ -12,9 +12,6 @@ import com.google.gson.Gson
 import java.util.ArrayList
 
 class ResourcesManager private constructor() {
-    init {
-    }
-
     companion object {
         private val mInstance = ResourcesManager()
         fun getInstance(): ResourcesManager {
@@ -32,11 +29,11 @@ class ResourcesManager private constructor() {
 
     fun loadResources(context: Context) {
         loadAllSong(context)
-        loadListArtist()
-        loadAllPlaylist(context)
+        loadListData(context)
     }
 
-    fun loadAllSong(context: Context) {
+    private fun loadAllSong(context: Context) {
+        mListSong.clear()
         val selection = MediaStore.Audio.Media.IS_MUSIC + " !=0"
         val project = arrayOf(MediaStore.Audio.Media._ID,
                 MediaStore.Audio.Media.ARTIST,
@@ -60,16 +57,18 @@ class ResourcesManager private constructor() {
         }
     }
 
-    private fun loadListArtist() {
+    private fun loadListData(context: Context) {
+        mListArtist.clear()
+        mListAlbum.clear()
         val listAlbum = mutableListOf<String>()
         for (song in mListSong) {
             mListArtist.add(song.artist.toString())
             listAlbum.add(song.album.toString())
         }
         initListAlbum(listAlbum)
-        val set = mListArtist.toSet()
-        mListArtist = set.toMutableList()
+        mListArtist = mListArtist.toSet().toMutableList()
         mListArtist.sort()
+        loadAllPlaylist(context)
     }
 
     private fun initListAlbum(listAlbum: List<String>) {
@@ -91,6 +90,7 @@ class ResourcesManager private constructor() {
     }
 
     fun loadAllPlaylist(context: Context) {
+        mListPlaylist.clear()
         val sharePref = context.getSharedPreferences(context.resources.getString(R.string.library_text_playlist),
                 Context.MODE_PRIVATE)
         val data = sharePref.getString(context.getString(R.string.library_text_playlist), "")
@@ -116,7 +116,7 @@ class ResourcesManager private constructor() {
         saveDataPlaylist(context)
     }
 
-    fun saveDataPlaylist(context: Context) {
+    private fun saveDataPlaylist(context: Context) {
         val sharePref = context.getSharedPreferences(context.resources.getString(R.string.library_text_playlist),
                 Context.MODE_PRIVATE)
         var data = ""
@@ -136,10 +136,9 @@ class ResourcesManager private constructor() {
 
     fun setPlaylist(playlist: MutableList<Playlist>) {
         val tempListPlaylist = mListPlaylist.toMutableList()
+        playlist.clear()
         mListPlaylist = playlist
-        for (item in tempListPlaylist) {
-            mListPlaylist.add(item)
-        }
+        mListPlaylist.addAll(tempListPlaylist)
     }
 
     fun getMusicOfArtist(artist: String): List<Song> {
@@ -154,6 +153,44 @@ class ResourcesManager private constructor() {
 
     fun getPlaylist(name: String): Playlist {
         return mListPlaylist.filter { playlist -> playlist.name == name }[0]
+    }
+
+    fun deletePlaylist(playlist: Playlist, context: Context) {
+        mListPlaylist.remove(playlist)
+        saveDataPlaylist(context)
+    }
+
+    fun getDataSearchAll(data: String): List<Song> {
+        val listSong: List<Song>
+        listSong = mListSong.filter { song ->
+            song.title.toLowerCase().contains(data.toLowerCase()) || song.artist.toLowerCase().contains(data.toLowerCase())
+                    || song.album.toLowerCase().contains(data.toLowerCase())
+        }
+        return listSong
+    }
+
+    fun getDataSearchPlayList(data: String): MutableList<Playlist> {
+        val listPlaylist: List<Playlist>
+        listPlaylist = mListPlaylist.filter { playlist ->
+            playlist.name.toLowerCase().contains(data.toLowerCase())
+        }
+        return listPlaylist.toMutableList()
+    }
+
+    fun getDataSearchArtist(data: String): List<String> {
+        val listArtist: List<String>
+        listArtist = mListArtist.filter { artist ->
+            artist.toLowerCase().contains(data.toLowerCase())
+        }
+        return listArtist
+    }
+
+    fun getDataSearchAlbum(data: String): List<Album> {
+        val listAlbum: List<Album>
+        listAlbum = mListAlbum.filter { album ->
+            album.name.toLowerCase().contains(data.toLowerCase())
+        }
+        return listAlbum
     }
 
 }

@@ -12,7 +12,7 @@ class LoadingActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loading)
-        ResourcesManager.getInstance().loadResources(this);
+        ResourcesManager.getInstance().loadResources(this)
     }
 
     override fun onStart() {
@@ -21,7 +21,7 @@ class LoadingActivity : Activity() {
         handler.postDelayed({
             val intent = Intent(this@LoadingActivity, HomeActivity::class.java)
             startActivity(intent)
+            finish()
         }, 2000)
     }
-
 }

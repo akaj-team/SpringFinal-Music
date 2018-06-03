@@ -33,6 +33,11 @@ class ArtistAdapter(dataset: List<String>, context: Context?) : RecyclerView.Ada
         holder.onBind(mListData.get(position))
     }
 
+    fun setListArtist(listArtist: List<String>) {
+        mListData = listArtist
+        notifyDataSetChanged()
+    }
+
     /*
      *  class viewholder in recycleview
      */
@@ -46,7 +51,7 @@ class ArtistAdapter(dataset: List<String>, context: Context?) : RecyclerView.Ada
             initListener(name)
         }
 
-        fun initListener(name: String) {
+        private fun initListener(name: String) {
             mClArtist.setOnClickListener {
                 val intent = Intent(mContext, CurrentMusicPlay::class.java)
                 intent.action = CurrentMusicPlay.FILTER_ARTIST

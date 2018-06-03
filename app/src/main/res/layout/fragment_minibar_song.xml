@@ -9,7 +9,7 @@
         android:layout_width="@dimen/minibar_size_button"
         android:layout_height="@dimen/minibar_size_button"
         android:layout_marginLeft="15dp"
-        android:background="@drawable/bt_playpage_play_press_new"
+        android:background="@drawable/btn_playpage_play_press_new"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,7 +30,7 @@
         android:layout_width="@dimen/minibar_size_button"
         android:layout_height="@dimen/minibar_size_button"
         android:layout_marginRight="15dp"
-        android:background="@drawable/bt_mymusic_edit_rename_nor"
+        android:background="@drawable/btn_mymusic_edit_rename"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -3,7 +3,6 @@ package android.asiantech.vn.springfinalmusic.library
 import android.support.v4.app.Fragment
 import android.asiantech.vn.springfinalmusic.R
 import android.asiantech.vn.springfinalmusic.library.adapter.ArtistAdapter
-import android.asiantech.vn.springfinalmusic.library.adapter.SongsAdapter
 import android.asiantech.vn.springfinalmusic.manager.ResourcesManager
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -28,5 +27,13 @@ class ArtistFragment : Fragment() {
         recycleViewLibraryPage.setHasFixedSize(true)
         recycleViewLibraryPage.layoutManager = mLayoutManager
         recycleViewLibraryPage.adapter = mAdapter
+    }
+
+    fun setListArtist(data: List<String>) {
+        mAdapter.setListArtist(data)
+    }
+
+    fun reset() {
+        mAdapter.setListArtist(ResourcesManager.getInstance().getListArtist())
     }
 }

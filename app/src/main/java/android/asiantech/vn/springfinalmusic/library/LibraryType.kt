@@ -5,4 +5,5 @@ object LibraryType {
     val PLAYLIST = 1
     val ARSTIST = 2
     val ALBUM = 3
+    val ADD_PLAYLIST = 999
 }

@@ -26,6 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
+            android:clickable="false"
+            android:focusable="false"
             android:text="@string/minibar_textview_edit"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/minibar_text_size"
@@ -38,7 +40,9 @@
             android:layout_width="@dimen/minibar_size_button"
             android:layout_height="@dimen/minibar_size_button"
             android:layout_marginRight="5dp"
-            android:background="@drawable/bt_mymusic_edit_rename_nor"
+            android:background="@drawable/btn_mymusic_edit_rename"
+            android:clickable="false"
+            android:focusable="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toLeftOf="@id/tvMiniBarTextViewEdit"
             app:layout_constraintTop_toTopOf="parent" />
@@ -48,6 +52,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="7dp"
+            android:clickable="false"
+            android:focusable="false"
             android:text="@string/minibar_text_create"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/minibar_text_size"
@@ -55,15 +61,39 @@
             app:layout_constraintRight_toLeftOf="@id/btnMiniBarEdit"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <View
+            android:id="@+id/viewMiniBarPlaylistNew"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="@id/btnPlaylistNewPlaylist"
+            app:layout_constraintLeft_toLeftOf="@id/btnPlaylistNewPlaylist"
+            app:layout_constraintRight_toRightOf="@id/tvMiniBarTextViewCreate"
+            app:layout_constraintTop_toTopOf="@id/btnPlaylistNewPlaylist" />
+
         <Button
             android:id="@+id/btnPlaylistNewPlaylist"
             android:layout_width="@dimen/minibar_size_button"
             android:layout_height="@dimen/minibar_size_button"
             android:layout_marginRight="5dp"
             android:background="@drawable/ic_add_new"
+            android:clickable="false"
+            android:focusable="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toLeftOf="@id/tvMiniBarTextViewCreate"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/viewMiniBarPlaylistEdit"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="@id/btnMiniBarEdit"
+            app:layout_constraintLeft_toLeftOf="@id/btnMiniBarEdit"
+            app:layout_constraintRight_toRightOf="@id/tvMiniBarTextViewEdit"
+            app:layout_constraintTop_toTopOf="@id/btnMiniBarEdit" />
 
         <View
             android:layout_width="wrap_content"

@@ -14,11 +14,6 @@ import kotlinx.android.synthetic.main.dialog_create_new_playlist.*
 class NewPlaylistDialog(context: Context, data: MutableList<Song>) : Dialog(context) {
     private var mData = data
     private lateinit var mEventClose: IEventClosePlaylistChoice
-
-    init {
-
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -26,7 +21,7 @@ class NewPlaylistDialog(context: Context, data: MutableList<Song>) : Dialog(cont
         initListeners()
     }
 
-    fun initListeners() {
+    private fun initListeners() {
         btnDialogCancel.setOnClickListener {
             dismiss()
         }
@@ -35,8 +30,8 @@ class NewPlaylistDialog(context: Context, data: MutableList<Song>) : Dialog(cont
         }
     }
 
-    fun createNewPlaylist(name: String, data: MutableList<Song>) {
-        var playList = Playlist(name, data)
+    private fun createNewPlaylist(name: String, data: MutableList<Song>) {
+        val playList = Playlist(name, data)
         ResourcesManager.getInstance().updatePlaylist(context, playList)
         mEventClose.onClose()
         dismiss()

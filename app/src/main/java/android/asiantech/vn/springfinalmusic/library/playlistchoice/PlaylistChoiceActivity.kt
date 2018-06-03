@@ -11,10 +11,6 @@ import android.support.v7.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_playlist_choice_song.*
 
 class PlaylistChoiceActivity : Activity(), IEventClosePlaylistChoice {
-    override fun onClose() {
-        onBackPressed()
-    }
-
     private lateinit var mAdapter: PlaylistChoiceAdapter
     private lateinit var mLayoutwManager: RecyclerView.LayoutManager
     private var mIsChoiceAll = false
@@ -25,7 +21,7 @@ class PlaylistChoiceActivity : Activity(), IEventClosePlaylistChoice {
         initListeners()
     }
 
-    fun initRecycleView() {
+    private fun initRecycleView() {
         mLayoutwManager = LinearLayoutManager(this)
         mAdapter = PlaylistChoiceAdapter(ResourcesManager.getInstance().getallSongFromDevice())
         recycleViewPlaylistChoice.setHasFixedSize(true)
@@ -33,7 +29,7 @@ class PlaylistChoiceActivity : Activity(), IEventClosePlaylistChoice {
         recycleViewPlaylistChoice.adapter = mAdapter
     }
 
-    fun initListeners() {
+    private fun initListeners() {
         btnToolBarButtonDown.setOnClickListener {
             onBackPressed()
         }
@@ -51,5 +47,10 @@ class PlaylistChoiceActivity : Activity(), IEventClosePlaylistChoice {
             dialog.setListenerClose(this)
             dialog.show()
         }
+    }
+
+    override fun onClose() {
+        setResult(Activity.RESULT_OK)
+        onBackPressed()
     }
 }
