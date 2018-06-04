@@ -291,7 +291,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
 
     private fun pauseMusic() {
         mMediaPlayer?.pause()
-        mHandler.removeCallbacks(mUpdateSongPlaying)
         changedImageBtnPlay()
     }
 
