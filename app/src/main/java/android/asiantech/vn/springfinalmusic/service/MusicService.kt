@@ -50,6 +50,9 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
                     if (intent.extras != null) {
                         mSongList = intent.extras.getParcelableArrayList(Constant.KEY_LIST_SONG)
                         mPositionSong = intent.extras.getInt(Constant.KEY_POSITION_SONG)
+                        if (mPositionSong >= mSongList.size) {
+                            mSongCurrent = null
+                        }
                         mSongCurrent = mSongList[mPositionSong]
                     }
                     playMusic(Uri.parse(mSongCurrent?.data))
@@ -85,9 +88,14 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
                         mModePlay = intent.extras.getInt(Constant.KEY_MODE)
                     }
                 }
+                Constant.ACTION_CLOSE_MUSIC -> {
+                    if (mMediaPlayer?.isPlaying == false) {
+                        stopForeground(true)
+                    }
+                }
             }
         }
-        return Service.START_STICKY
+        return Service.START_NOT_STICKY
     }
 
     private fun changedImageBtnPlay() {
@@ -126,7 +134,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
 
     private fun init() {
         mUpdateSongPlaying = UpdateSongPlaying()
-        //initMedia()
         initRemoteViews()
     }
 
@@ -138,6 +145,8 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
                 , setActionEventClick(Constant.ACTION_NEXT_MUSIC))
         mRemoteViews?.setOnClickPendingIntent(R.id.imgNotificationButtonBack
                 , setActionEventClick(Constant.ACTION_BACK_MUSIC))
+        mRemoteViews?.setOnClickPendingIntent(R.id.imgNotificationButtonClose
+                , setActionEventClick(Constant.ACTION_CLOSE_MUSIC))
     }
 
     private fun setNotification() {
@@ -271,7 +280,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
     private fun pauseMusic() {
         mMediaPlayer?.pause()
         mHandler.removeCallbacks(mUpdateSongPlaying)
-        stopForeground(false)
         changedImageBtnPlay()
     }
 
@@ -288,7 +296,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
 
     override fun onDestroy() {
         mHandler.removeCallbacks(mUpdateSongPlaying)
-        stopForeground(false)
+        stopForeground(true)
         this.stopSelf()
         mNotificationManager?.cancelAll()
         super.onDestroy()
@@ -309,8 +317,8 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
 
         private fun upDateRemote() {
             mRemoteViews?.setProgressBar(R.id.progressBarNotification
-                    , mMediaPlayer!!.duration
-                    , mMediaPlayer!!.currentPosition
+                    , mMediaPlayer?.duration as Int
+                    , mMediaPlayer?.currentPosition as Int
                     , false)
             mNotificationManager?.notify(ID_NOTIFICATION, mNotification)
         }
