@@ -63,7 +63,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
                 Constant.ACTION_PAUSE_MUSIC -> {
                     pauseMusic()
                 }
-                Constant.ACTION_TIMER -> {
+                Constant.ACTION_TIMER_START -> {
                     val minutes = intent.getIntExtra(Constant.KEY_TIME, -1)
                     autoOffAppByTimer(minutes.toLong())
                 }
@@ -93,6 +93,10 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
                         stopForeground(true)
                     }
                 }
+                Constant.ACTION_TIMER_STOP -> {
+                    mCountDownTimer?.cancel()
+                    sendTimerOnActivity(0)
+                }
             }
         }
         return Service.START_NOT_STICKY
@@ -121,15 +125,23 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         mCountDownTimer?.cancel()
         mCountDownTimer = object : CountDownTimer(minutes * 1000 * 60, 1000) {
             override fun onTick(millisUntilFinished: Long) {
+                sendBroadcast(Intent().setAction(Constant.ACTION_TIMER_TICK)
+                        .putExtra(Constant.KEY_TIME, millisUntilFinished))
             }
 
             override fun onFinish() {
+                sendTimerOnActivity(0)
                 if (mMediaPlayer?.isPlaying == true) {
-                    mMediaPlayer?.pause()
+                    pauseMusic()
                 }
             }
         }
         mCountDownTimer?.start()
+    }
+
+    private fun sendTimerOnActivity(milisUntilFinished: Int?) {
+        sendBroadcast(Intent().setAction(Constant.ACTION_TIMER_FINISHED)
+                .putExtra(Constant.KEY_TIME, milisUntilFinished))
     }
 
     private fun init() {
@@ -188,7 +200,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
             this.mNotification?.bigContentView = mRemoteViews
         }
         startForeground(ID_NOTIFICATION, mNotification)
-        mNotificationManager!!.notify(ID_NOTIFICATION, mNotification)
+        mNotificationManager?.notify(ID_NOTIFICATION, mNotification)
     }
 
     private fun playMusic(uri: Uri) {

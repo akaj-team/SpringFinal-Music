@@ -19,4 +19,7 @@
     <dimen name="toolbar_size_button">35dp</dimen>
     <dimen name="dp_20">20dp</dimen>
     <dimen name="dp_12">12dp</dimen>
+    <dimen name="tv_meesage_dialog_textsize">14dp</dimen>
+    <dimen name="tv_dialog_width">65dp</dimen>
+    <dimen name="dialog_timer_height">135dp</dimen>
 </resources>

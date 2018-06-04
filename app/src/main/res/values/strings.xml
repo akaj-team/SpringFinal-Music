@@ -44,4 +44,10 @@
     <string name="dialog_editext_hint">Tên playlist</string>
     <string name="dialog_button_text_cancel">Huỷ</string>
     <string name="dialog_button_text_create">Tạo mới</string>
+    <string name="dialog_timer_start">Bắt đầu tính giờ</string>
+    <string name="dialog_timer_stop">Dừng tính giờ</string>
+    <string name="dialog_timer_cancel">Hủy bỏ</string>
+    <string name="dialog_timer_timeend">120 Phút</string>
+    <string name="dialog_timer_timebegin">0 Phút</string>
+    <string name="dialog_timer_message">Sau 0 Phut ung dung se tu dong tat nhac</string>
 </resources>

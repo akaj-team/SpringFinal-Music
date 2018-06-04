@@ -5,6 +5,7 @@ import android.asiantech.vn.springfinalmusic.R
 import android.asiantech.vn.springfinalmusic.model.Constant
 import android.asiantech.vn.springfinalmusic.model.Song
 import android.asiantech.vn.springfinalmusic.service.MusicService
+import android.asiantech.vn.springfinalmusic.alarm.AlarmDialog
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -26,12 +27,19 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     private var mPositionSong: Int = -1
     private var mModePlay: Int = Constant.MODE_NORM
     private lateinit var mToast: Toast
+    private var mMinutesUntilFinished: Int? = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_play_music)
         extraData()
         startMusic()
         initViewsAndEvent()
+    }
+
+    private fun showDialogTimer(minutesUntilFinished: Int?) {
+        val dialog = AlarmDialog(this, minutesUntilFinished)
+        dialog.show()
     }
 
     private fun startMusic() {
@@ -108,7 +116,10 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         btnPlayMusicButtonRepeat.setOnClickListener {
             changeImageButton()
         }
-        mToast= makeText(baseContext,"",Toast.LENGTH_SHORT)
+        mToast = makeText(baseContext, "", Toast.LENGTH_SHORT)
+        tvPlayMusicTimeCountDown.setOnClickListener {
+            showDialogTimer(mMinutesUntilFinished)
+        }
     }
 
     private fun changeImageButton() {
@@ -209,6 +220,13 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                     Constant.ACTION_SONG_IS_CHANGED -> {
                         mPositionSong = intent.extras.getInt(Constant.KEY_POSITION_SONG)
                     }
+                    Constant.ACTION_TIMER_TICK -> {
+                        val miliSeccons = intent.extras.getLong(Constant.KEY_TIME)
+                        mMinutesUntilFinished = miliSeccons.toInt() / 1000 / 60
+                    }
+                    Constant.ACTION_TIMER_FINISHED->{
+                        mMinutesUntilFinished=intent.extras.getLong(Constant.KEY_TIME).toInt()
+                    }
                 }
             }
         }
@@ -217,6 +235,8 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         intent.addAction(Constant.ACTION_PAUSE_MUSIC)
         intent.addAction(Constant.ACTION_RESUME_MUSIC)
         intent.addAction(Constant.ACTION_SONG_IS_CHANGED)
+        intent.addAction(Constant.ACTION_TIMER_TICK)
+        intent.addAction(Constant.ACTION_TIMER_FINISHED)
         registerReceiver(mBroadcastReceiver, intent)
     }
 

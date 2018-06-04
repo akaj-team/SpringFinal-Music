@@ -5,7 +5,7 @@ object Constant {
     const val ACTION_PAUSE_MUSIC = "pause"
     const val ACTION_NEXT_MUSIC = "next"
     const val ACTION_BACK_MUSIC = "back"
-    const val ACTION_TIMER = "timer_auto_off_app"
+    const val ACTION_TIMER_START = "start_countdown"
     const val ACTION_RESUME_MUSIC = "continue"
     const val ACTION_DISPLAY_MUSIC = "show_info_music"
     const val ACTION_MODE_CHANGE = "mode_play_change"
@@ -13,6 +13,9 @@ object Constant {
     const val ACTION_START_SERVICE = "run_service"
     const val ACTION_SONG_IS_CHANGED = "music_is_next"
     const val ACTION_CLOSE_MUSIC = "close_service"
+    const val ACTION_TIMER_TICK = "timer_on_tick"
+    const val ACTION_TIMER_STOP = "stop_countdown"
+    const val ACTION_TIMER_FINISHED = "timer_on_finished"
 
     const val KEY_SONG = "song_current"
     const val KEY_POSITION_MEDIA = "media_current_positon"
