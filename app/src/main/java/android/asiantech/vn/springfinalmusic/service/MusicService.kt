@@ -1,11 +1,8 @@
 package android.asiantech.vn.springfinalmusic.service
 
-import android.app.Notification
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.Service
+import android.app.*
 import android.asiantech.vn.springfinalmusic.R
-import android.asiantech.vn.springfinalmusic.loading.LoadingActivity
+import android.asiantech.vn.springfinalmusic.home.HomeActivity
 import android.asiantech.vn.springfinalmusic.model.Constant
 import android.asiantech.vn.springfinalmusic.model.Song
 import android.asiantech.vn.springfinalmusic.playmusic.PlayMusicActivity
@@ -18,6 +15,9 @@ import android.widget.RemoteViews
 import java.util.ArrayList
 
 import java.util.*
+import android.app.PendingIntent
+import android.asiantech.vn.springfinalmusic.library.LibraryActivity
+
 
 @Suppress("DEPRECATION")
 class MusicService : Service(), MediaPlayer.OnCompletionListener {
@@ -25,6 +25,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         const val ID_NOTIFICATION = 1010
     }
 
+    private var mTaskStackBuilder: TaskStackBuilder? = null
     private var mMediaPlayer: MediaPlayer? = null
     private val mHandler = Handler()
     private var mUpdateSongPlaying: UpdateSongPlaying? = null
@@ -41,6 +42,12 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
     override fun onCreate() {
         super.onCreate()
         init()
+        initBackStack()
+    }
+
+    private fun initBackStack() {
+        mTaskStackBuilder?.addNextIntentWithParentStack(Intent(this, HomeActivity::class.java))
+        mTaskStackBuilder?.addNextIntentWithParentStack(Intent(this, LibraryActivity::class.java))
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -154,6 +161,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
     private fun init() {
         mUpdateSongPlaying = UpdateSongPlaying()
         mUpdateUINotification = UpdateUINotification()
+        mTaskStackBuilder = TaskStackBuilder.create(this)
         initRemoteViews()
     }
 
@@ -175,16 +183,10 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         mNotificationManager?.notify(ID_NOTIFICATION, mNotification)
     }
 
-    private fun callBackActivity(): PendingIntent {
-        if (mPositionSong != -1) {
-            val intent = Intent(this, PlayMusicActivity::class.java)
-                    .putExtra(Constant.KEY_POSITION_SONG, mPositionSong)
-                    .putParcelableArrayListExtra(Constant.KEY_LIST_SONG, mSongList as ArrayList<out Parcelable>)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            return PendingIntent.getActivities(this, 0, arrayOf(intent), 0)
-        }
-        return PendingIntent.getActivities(this, 0
-                , arrayOf(Intent(this, LoadingActivity::class.java)), 0)
+    private fun callBackDataToActivity(): Intent {
+        return Intent(this, PlayMusicActivity::class.java)
+                .putExtra(Constant.KEY_POSITION_SONG, mPositionSong)
+                .putParcelableArrayListExtra(Constant.KEY_LIST_SONG, mSongList as ArrayList<out Parcelable>)
     }
 
     private fun setActionEventClick(action: String): PendingIntent {
@@ -193,17 +195,22 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
     }
 
     private fun initNotification() {
+        if ((mTaskStackBuilder?.intentCount as Int) < 3) {
+            mTaskStackBuilder?.addNextIntentWithParentStack(callBackDataToActivity())
+        }
+        val pendingIntent = mTaskStackBuilder?.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+
         mNotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             mNotification = Notification.Builder(this)
                     .setSmallIcon(R.drawable.img_logo)
-                    .setContentIntent(callBackActivity())
+                    .setContentIntent(pendingIntent)
                     .setCustomBigContentView(this.mRemoteViews)
                     .build()
         } else {
             mNotification = Notification.Builder(this)
                     .setSmallIcon(R.drawable.ic_music_note_black_24dp)
-                    .setContentIntent(callBackActivity())
+                    .setContentIntent(pendingIntent)
                     .setContent(this.mRemoteViews)
                     .build()
             this.mNotification?.bigContentView = mRemoteViews
