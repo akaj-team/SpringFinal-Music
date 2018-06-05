@@ -16,6 +16,9 @@ import kotlinx.android.synthetic.main.activity_library.*
 import android.view.inputmethod.InputMethodManager
 
 class LibraryActivity : AppCompatActivity() {
+    companion object {
+        var isActive = false
+    }
     private lateinit var mPagerAdapter: LibraryPagerAdapter
     private var mIsShowSearch: Boolean = false
     private var mCurrentPage = 0
@@ -24,6 +27,7 @@ class LibraryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_library)
         setListeners()
         initViews()
+        isActive = true
     }
 
     private fun initViews() {
@@ -144,5 +148,10 @@ class LibraryActivity : AppCompatActivity() {
         } else {
             inputManager.hideSoftInputFromWindow(edtToolBarSearch.windowToken, 0)
         }
+    }
+
+    override fun onDestroy() {
+        isActive = false
+        super.onDestroy()
     }
 }

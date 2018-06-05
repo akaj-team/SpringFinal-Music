@@ -6,9 +6,9 @@
 
     <ImageView
         android:id="@+id/imgNotificationThumnail"
-        android:layout_width="100dp"
-        android:layout_height="match_parent"
-        android:background="@drawable/theme_default" />
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/img_logo" />
 
     <TextView
         android:id="@+id/tvNotificationNameSong"

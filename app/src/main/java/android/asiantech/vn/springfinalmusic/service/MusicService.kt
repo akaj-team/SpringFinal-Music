@@ -36,6 +36,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
     private var mPositionSong: Int = -1
     private var mSongCurrent: Song? = null
     private var mModePlay: Int = Constant.MODE_NORM
+    private var mUpdateUINotification: UpdateUINotification? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -102,21 +103,27 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         return Service.START_NOT_STICKY
     }
 
-    private fun changedImageBtnPlay() {
+    private fun changedImageBtnPlayActivity() {
+        if (mMediaPlayer?.isPlaying == true) {
+            sendBroadcast(Intent()
+                    .setAction(Constant.ACTION_PAUSE_MUSIC))
+        } else {
+            sendBroadcast(Intent()
+                    .setAction(Constant.ACTION_RESUME_MUSIC))
+        }
+    }
+
+    private fun changedImageBtnPlayNotification() {
         if (mMediaPlayer?.isPlaying == true) {
             mRemoteViews?.setImageViewResource(R.id.imgNotificationButtonPlay
                     , R.drawable.btn_notificationbar_pause)
             mRemoteViews?.setOnClickPendingIntent(R.id.imgNotificationButtonPlay
                     , setActionEventClick(Constant.ACTION_PAUSE_MUSIC))
-            sendBroadcast(Intent()
-                    .setAction(Constant.ACTION_PAUSE_MUSIC))
         } else {
             mRemoteViews?.setImageViewResource(R.id.imgNotificationButtonPlay
                     , R.drawable.btn_notificationbar_play)
             mRemoteViews?.setOnClickPendingIntent(R.id.imgNotificationButtonPlay
                     , setActionEventClick(Constant.ACTION_RESUME_MUSIC))
-            sendBroadcast(Intent()
-                    .setAction(Constant.ACTION_RESUME_MUSIC))
         }
         mNotificationManager?.notify(ID_NOTIFICATION, mNotification)
     }
@@ -146,6 +153,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
 
     private fun init() {
         mUpdateSongPlaying = UpdateSongPlaying()
+        mUpdateUINotification = UpdateUINotification()
         initRemoteViews()
     }
 
@@ -196,6 +204,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
             mNotification = Notification.Builder(this)
                     .setSmallIcon(R.drawable.ic_music_note_black_24dp)
                     .setContentIntent(callBackActivity())
+                    .setContent(this.mRemoteViews)
                     .build()
             this.mNotification?.bigContentView = mRemoteViews
         }
@@ -207,14 +216,14 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         initNotification()
         setNotification()
         mMediaPlayer?.reset()
-        mHandler.removeCallbacks(mUpdateSongPlaying)
         mMediaPlayer = MediaPlayer.create(applicationContext, uri)
         mMediaPlayer?.setOnCompletionListener(this)
         if (mMediaPlayer?.isPlaying == false) {
             mMediaPlayer?.start()
-            mHandler.post(mUpdateSongPlaying)
+            refeshHandler()
         }
-        changedImageBtnPlay()
+        changedImageBtnPlayNotification()
+        changedImageBtnPlayActivity()
         sendChangerSong()
     }
 
@@ -284,6 +293,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
 
     private fun stopMusic() {
         mHandler.removeCallbacks(mUpdateSongPlaying)
+        mHandler.removeCallbacks(mUpdateUINotification)
         mMediaPlayer?.pause()
         this.stopSelf()
         this.onDestroy()
@@ -291,14 +301,24 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
 
     private fun pauseMusic() {
         mMediaPlayer?.pause()
-        changedImageBtnPlay()
+        changedImageBtnPlayNotification()
+        changedImageBtnPlayActivity()
     }
 
     private fun resumeMusic() {
         mMediaPlayer?.start()
         startForeground(ID_NOTIFICATION, mNotification)
+        refeshHandler()
+        changedImageBtnPlayNotification()
+        changedImageBtnPlayActivity()
+    }
+
+    private fun refeshHandler() {
+        mHandler.removeCallbacks(mUpdateSongPlaying)
+        mHandler.removeCallbacks(mUpdateUINotification)
+
         mHandler.post(mUpdateSongPlaying)
-        changedImageBtnPlay()
+        mHandler.post(mUpdateUINotification)
     }
 
     override fun onBind(intent: Intent): IBinder? {
@@ -307,31 +327,44 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
 
     override fun onDestroy() {
         mHandler.removeCallbacks(mUpdateSongPlaying)
+        mHandler.removeCallbacks(mUpdateUINotification)
         stopForeground(true)
         this.stopSelf()
         mNotificationManager?.cancelAll()
         super.onDestroy()
     }
 
+    private fun isScreenOn(): Boolean {
+        val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
+        return pm.isScreenOn
+    }
+
+    internal inner class UpdateUINotification : Runnable {
+        override fun run() {
+            if (isScreenOn()) {
+                if (mMediaPlayer?.isPlaying == true) {
+                    mRemoteViews?.setProgressBar(R.id.progressBarNotification
+                            , mMediaPlayer?.duration as Int
+                            , mMediaPlayer?.currentPosition as Int
+                            , false)
+                    changedImageBtnPlayNotification()
+                }
+            }
+            mHandler.postDelayed(this, 2000)
+        }
+    }
+
     internal inner class UpdateSongPlaying : Runnable {
         override fun run() {
             val intCurrPosition: Int? = mMediaPlayer?.currentPosition
-            upDateRemote()
-            changedImageBtnPlay()
+            changedImageBtnPlayActivity()
             sendBroadcast(Intent()
                     .setAction(Constant.ACTION_DISPLAY_MUSIC)
                     .putExtra(Constant.KEY_SONG, mSongCurrent)
                     .putExtra(Constant.KEY_MODE, mModePlay)
-                    .putExtra(Constant.KEY_POSITION_MEDIA, intCurrPosition))
-            mHandler.postDelayed(this, 1000)
-        }
-
-        private fun upDateRemote() {
-            mRemoteViews?.setProgressBar(R.id.progressBarNotification
-                    , mMediaPlayer?.duration as Int
-                    , mMediaPlayer?.currentPosition as Int
-                    , false)
-            mNotificationManager?.notify(ID_NOTIFICATION, mNotification)
+                    .putExtra(Constant.KEY_POSITION_MEDIA, intCurrPosition)
+                    .putExtra(Constant.KEY_SONG_INDEX, mPositionSong))
+            mHandler.postDelayed(this, 999)
         }
     }
 }
