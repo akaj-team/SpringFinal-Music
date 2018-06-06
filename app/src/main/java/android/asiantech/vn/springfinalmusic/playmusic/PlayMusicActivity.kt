@@ -109,7 +109,7 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             onBackPressed()
         }
         btnPlayMusicButtonPlaylist.setOnClickListener {
-            startActivity(Intent(this, ListMusicPlayingFragment::class.java)
+            startActivity(Intent(this, ListMusicPlayingActivity::class.java)
                     .putExtra(Constant.KEY_SONG, mPositionSong)
                     .putParcelableArrayListExtra(Constant.KEY_LIST_SONG, mListSong as java.util.ArrayList<out Parcelable>))
         }
@@ -197,6 +197,7 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                 when (action) {
                     Constant.ACTION_DISPLAY_MUSIC -> {
                         if (intent.extras != null) {
+                            mPositionSong = intent.extras.getInt(Constant.KEY_SONG_INDEX)
                             mModePlay = intent.extras.getInt(Constant.KEY_MODE)
                             mSongCurrent = intent.extras.getParcelable(Constant.KEY_SONG)
                             val strPosition: Int = intent.extras.getInt(Constant.KEY_POSITION_MEDIA)
@@ -224,8 +225,8 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                         val miliSeccons = intent.extras.getLong(Constant.KEY_TIME)
                         mMinutesUntilFinished = miliSeccons.toInt() / 1000 / 60
                     }
-                    Constant.ACTION_TIMER_FINISHED->{
-                        mMinutesUntilFinished=intent.extras.getLong(Constant.KEY_TIME).toInt()
+                    Constant.ACTION_TIMER_FINISHED -> {
+                        mMinutesUntilFinished = intent.extras.getLong(Constant.KEY_TIME).toInt()
                     }
                 }
             }

@@ -10,7 +10,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_list_playing.*
 
-class ListMusicPlayingFragment : AppCompatActivity(), PlayingListAdapter.OnAdapterListenes {
+class ListMusicPlayingActivity : AppCompatActivity(), PlayingListAdapter.OnAdapterListenes {
     private lateinit var mLayout: RecyclerView.LayoutManager
     private var mAdapter: PlayingListAdapter? = null
 
@@ -19,6 +19,13 @@ class ListMusicPlayingFragment : AppCompatActivity(), PlayingListAdapter.OnAdapt
         setContentView(R.layout.activity_list_playing)
         initRecyclerView()
         extraData()
+        initViews()
+    }
+
+    private fun initViews(){
+        btnPlayingClose.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     private fun initRecyclerView() {
