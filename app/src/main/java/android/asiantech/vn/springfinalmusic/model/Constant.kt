@@ -27,6 +27,7 @@ object Constant {
     const val KEY_PROGRESS = "seekbar_progress"
     const val KEY_MODE = "mode_play"
     const val KEY_HEADSET_STATE = "state"
+    const val KEY_MEDIA_IS_PAUSE = "media_is_pause"
 
     const val MODE_NORM = 0
     const val MODE_REPEAT_ALBUM = 1

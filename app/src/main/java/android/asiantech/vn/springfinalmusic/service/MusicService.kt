@@ -368,14 +368,15 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
     internal inner class UpdateSongPlaying : Runnable {
         override fun run() {
             val intCurrPosition: Int? = mMediaPlayer?.currentPosition
-            changedImageBtnPlayActivity()
+            val isPause = !(mMediaPlayer?.isPlaying as Boolean)
             if (isScreenOn()) {
                 sendBroadcast(Intent()
                         .setAction(Constant.ACTION_DISPLAY_MUSIC)
                         .putExtra(Constant.KEY_SONG, mSongCurrent)
                         .putExtra(Constant.KEY_MODE, mModePlay)
                         .putExtra(Constant.KEY_POSITION_MEDIA, intCurrPosition)
-                        .putExtra(Constant.KEY_SONG_INDEX, mPositionSong))
+                        .putExtra(Constant.KEY_SONG_INDEX, mPositionSong)
+                        .putExtra(Constant.KEY_MEDIA_IS_PAUSE, isPause))
             }
             mHandler.postDelayed(this, 999)
         }
