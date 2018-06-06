@@ -26,6 +26,7 @@ object Constant {
     const val KEY_POSITION_SELECTED = "positon_song_select"
     const val KEY_PROGRESS = "seekbar_progress"
     const val KEY_MODE = "mode_play"
+    const val KEY_HEADSET_STATE = "state"
 
     const val MODE_NORM = 0
     const val MODE_REPEAT_ALBUM = 1
@@ -35,4 +36,6 @@ object Constant {
     const val NAME_MODE_REPEAT_ALBUM = "Lặp lại danh sách"
     const val NAME_MODE_REPEAT_SONG = "Lặp lại bài hát"
     const val NAME_MODE_RANDOM_ALBUM = "Xáo trộn danh sách"
+    const val PHONE_ISDICONNECTED = 0
+    const val PHONE_ISCONNECTED = 1
 }

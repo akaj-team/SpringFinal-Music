@@ -16,11 +16,14 @@ import java.util.ArrayList
 
 import java.util.*
 import android.app.PendingIntent
+import android.asiantech.vn.springfinalmusic.headphone.HeadPhoneChangerReceiver
 import android.asiantech.vn.springfinalmusic.library.LibraryActivity
+import android.content.IntentFilter
 
 
 @Suppress("DEPRECATION")
-class MusicService : Service(), MediaPlayer.OnCompletionListener {
+class MusicService : Service(), MediaPlayer.OnCompletionListener
+        , HeadPhoneChangerReceiver.IListenerHPhoneChanger {
     companion object {
         const val ID_NOTIFICATION = 1010
     }
@@ -37,6 +40,8 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
     private var mPositionSong: Int = -1
     private var mSongCurrent: Song? = null
     private var mModePlay: Int = Constant.MODE_NORM
+    private var mHeadPhoneListener: HeadPhoneChangerReceiver? = null
+    private var mCountHPChanger = 0
 
     override fun onCreate() {
         super.onCreate()
@@ -160,7 +165,11 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
     private fun init() {
         mUpdateSongPlaying = UpdateSongPlaying()
         mTaskStackBuilder = TaskStackBuilder.create(this)
+        mHeadPhoneListener = HeadPhoneChangerReceiver(this)
         initRemoteViews()
+        val intentFilter = IntentFilter()
+        intentFilter.addAction(Intent.ACTION_HEADSET_PLUG)
+        registerReceiver(mHeadPhoneListener, intentFilter)
     }
 
     private fun initRemoteViews() {
@@ -329,6 +338,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
 
     override fun onDestroy() {
         mHandler.removeCallbacks(mUpdateSongPlaying)
+        unregisterReceiver(mHeadPhoneListener)
         stopForeground(true)
         this.stopSelf()
         mNotificationManager?.cancelAll()
@@ -338,6 +348,21 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
     private fun isScreenOn(): Boolean {
         val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
         return pm.isScreenOn
+    }
+
+    override fun onCommand(state: Int) {
+        when (state) {
+            Constant.PHONE_ISCONNECTED -> {
+                if (mMediaPlayer?.isPlaying == false) {
+                    resumeMusic()
+                }
+            }
+            Constant.PHONE_ISDICONNECTED -> {
+                if (mMediaPlayer?.isPlaying == true && mCountHPChanger++ > 0) {
+                    pauseMusic()
+                }
+            }
+        }
     }
 
     internal inner class UpdateSongPlaying : Runnable {
