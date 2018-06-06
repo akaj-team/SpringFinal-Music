@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.content.ContextCompat
@@ -41,6 +42,8 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                     .putExtra(Constant.KEY_POSITION_SONG, mPositionSong)
                     .putParcelableArrayListExtra(Constant.KEY_LIST_SONG, mListSong as ArrayList<out Parcelable>))
         }
+        viewCicleProgressBar.setBitMap(R.drawable.bg_baner_user_info)
+        viewCicleProgressBar.startRotate()
     }
 
     private fun extraData() {
@@ -108,7 +111,7 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         btnPlayMusicButtonRepeat.setOnClickListener {
             changeImageButton()
         }
-        mToast= makeText(baseContext,"",Toast.LENGTH_SHORT)
+        mToast = makeText(baseContext, "", Toast.LENGTH_SHORT)
     }
 
     private fun changeImageButton() {
