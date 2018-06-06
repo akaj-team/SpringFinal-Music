@@ -37,7 +37,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
     private var mPositionSong: Int = -1
     private var mSongCurrent: Song? = null
     private var mModePlay: Int = Constant.MODE_NORM
-    private var mUpdateUINotification: UpdateUINotification? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -160,7 +159,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
 
     private fun init() {
         mUpdateSongPlaying = UpdateSongPlaying()
-        mUpdateUINotification = UpdateUINotification()
         mTaskStackBuilder = TaskStackBuilder.create(this)
         initRemoteViews()
     }
@@ -300,7 +298,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
 
     private fun stopMusic() {
         mHandler.removeCallbacks(mUpdateSongPlaying)
-        mHandler.removeCallbacks(mUpdateUINotification)
         mMediaPlayer?.pause()
         this.stopSelf()
         this.onDestroy()
@@ -322,10 +319,8 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
 
     private fun refeshHandler() {
         mHandler.removeCallbacks(mUpdateSongPlaying)
-        mHandler.removeCallbacks(mUpdateUINotification)
 
         mHandler.post(mUpdateSongPlaying)
-        mHandler.post(mUpdateUINotification)
     }
 
     override fun onBind(intent: Intent): IBinder? {
@@ -334,7 +329,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
 
     override fun onDestroy() {
         mHandler.removeCallbacks(mUpdateSongPlaying)
-        mHandler.removeCallbacks(mUpdateUINotification)
         stopForeground(true)
         this.stopSelf()
         mNotificationManager?.cancelAll()
@@ -346,31 +340,18 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener {
         return pm.isScreenOn
     }
 
-    internal inner class UpdateUINotification : Runnable {
-        override fun run() {
-            if (isScreenOn()) {
-                if (mMediaPlayer?.isPlaying == true) {
-                    mRemoteViews?.setProgressBar(R.id.progressBarNotification
-                            , mMediaPlayer?.duration as Int
-                            , mMediaPlayer?.currentPosition as Int
-                            , false)
-                    changedImageBtnPlayNotification()
-                }
-            }
-            mHandler.postDelayed(this, 2000)
-        }
-    }
-
     internal inner class UpdateSongPlaying : Runnable {
         override fun run() {
             val intCurrPosition: Int? = mMediaPlayer?.currentPosition
             changedImageBtnPlayActivity()
-            sendBroadcast(Intent()
-                    .setAction(Constant.ACTION_DISPLAY_MUSIC)
-                    .putExtra(Constant.KEY_SONG, mSongCurrent)
-                    .putExtra(Constant.KEY_MODE, mModePlay)
-                    .putExtra(Constant.KEY_POSITION_MEDIA, intCurrPosition)
-                    .putExtra(Constant.KEY_SONG_INDEX, mPositionSong))
+            if (isScreenOn()) {
+                sendBroadcast(Intent()
+                        .setAction(Constant.ACTION_DISPLAY_MUSIC)
+                        .putExtra(Constant.KEY_SONG, mSongCurrent)
+                        .putExtra(Constant.KEY_MODE, mModePlay)
+                        .putExtra(Constant.KEY_POSITION_MEDIA, intCurrPosition)
+                        .putExtra(Constant.KEY_SONG_INDEX, mPositionSong))
+            }
             mHandler.postDelayed(this, 999)
         }
     }
