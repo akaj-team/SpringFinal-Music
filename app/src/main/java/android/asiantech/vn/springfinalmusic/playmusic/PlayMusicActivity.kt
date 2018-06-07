@@ -133,7 +133,7 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                     .putParcelableArrayListExtra(Constant.KEY_LIST_SONG, mListSong as java.util.ArrayList<out Parcelable>))
         }
         btnPlayMusicButtonRepeat.setOnClickListener {
-            changeImageButton()
+            changeStatusBtnMode()
         }
         mToast = makeText(baseContext, "", Toast.LENGTH_SHORT)
         tvPlayMusicTimeCountDown.setOnClickListener {
@@ -141,7 +141,7 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         }
     }
 
-    private fun changeImageButton() {
+    private fun changeStatusBtnMode() {
         when (mModePlay) {
             Constant.MODE_NORM -> {
                 sendModeToService(Constant.MODE_REPEAT_ALBUM)
