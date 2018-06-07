@@ -114,7 +114,7 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                     .putParcelableArrayListExtra(Constant.KEY_LIST_SONG, mListSong as java.util.ArrayList<out Parcelable>))
         }
         btnPlayMusicButtonRepeat.setOnClickListener {
-            changeImageButton()
+            changeStatusBtnMode()
         }
         mToast = makeText(baseContext, "", Toast.LENGTH_SHORT)
         tvPlayMusicTimeCountDown.setOnClickListener {
@@ -122,7 +122,7 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         }
     }
 
-    private fun changeImageButton() {
+    private fun changeStatusBtnMode() {
         when (mModePlay) {
             Constant.MODE_NORM -> {
                 sendModeToService(Constant.MODE_REPEAT_ALBUM)
@@ -190,6 +190,22 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         startService(Intent(this, MusicService::class.java).setAction(action))
     }
 
+    private fun changeDisplayButton(isPause: Boolean) {
+        if (isPause) {
+            btnPlayMusicButtonPlay.setOnClickListener {
+                starServiceByAction(Constant.ACTION_RESUME_MUSIC)
+            }
+            btnPlayMusicButtonPlay.background = ContextCompat.getDrawable(this@PlayMusicActivity
+                    , R.drawable.btn_play_press)
+        } else {
+            btnPlayMusicButtonPlay.setOnClickListener {
+                starServiceByAction(Constant.ACTION_PAUSE_MUSIC)
+            }
+            btnPlayMusicButtonPlay.background = ContextCompat.getDrawable(this@PlayMusicActivity
+                    , R.drawable.btn_playpage_button_pause_normal_new)
+        }
+    }
+
     private fun initReceive() {
         mBroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
@@ -202,19 +218,14 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                             mSongCurrent = intent.extras.getParcelable(Constant.KEY_SONG)
                             val strPosition: Int = intent.extras.getInt(Constant.KEY_POSITION_MEDIA)
                             displayInfoSong(strPosition)
+                            changeDisplayButton(intent.extras.getBoolean(Constant.KEY_MEDIA_IS_PAUSE))
                         }
                     }
                     Constant.ACTION_PAUSE_MUSIC -> {
-                        btnPlayMusicButtonPlay.setOnClickListener {
-                            starServiceByAction(Constant.ACTION_PAUSE_MUSIC)
-                        }
                         btnPlayMusicButtonPlay.background = ContextCompat.getDrawable(this@PlayMusicActivity
                                 , R.drawable.btn_playpage_button_pause_normal_new)
                     }
                     Constant.ACTION_RESUME_MUSIC -> {
-                        btnPlayMusicButtonPlay.setOnClickListener {
-                            starServiceByAction(Constant.ACTION_RESUME_MUSIC)
-                        }
                         btnPlayMusicButtonPlay.background = ContextCompat.getDrawable(this@PlayMusicActivity
                                 , R.drawable.btn_play_press)
                     }
