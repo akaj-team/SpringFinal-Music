@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dialog_timer_height"
+    android:padding="@dimen/dp2_padding">
+
+    <TextView
+        android:id="@+id/tvDialogTimeMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/dialog_timer_message"
+        android:textSize="@dimen/tv_meesage_dialog_textsize"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <SeekBar
+        android:id="@+id/seekBarDialogTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvDialogTimeMessage" />
+
+    <TextView
+        android:id="@+id/tvDialogTimerBegin"
+        android:layout_width="@dimen/tv_dialog_width"
+        android:layout_height="wrap_content"
+        android:text="@string/dialog_timer_timebegin"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekBarDialogTime" />
+
+    <TextView
+        android:id="@+id/tvDialogTimerEnd"
+        android:layout_width="@dimen/tv_dialog_width"
+        android:layout_height="wrap_content"
+        android:text="@string/dialog_timer_timeend"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekBarDialogTime" />
+
+    <Button
+        android:id="@+id/btnDialogTimerCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dialog_timer_cancel"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDialogTimerEnd" />
+
+    <Button
+        android:id="@+id/btnDialogTimerStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:text="@string/dialog_timer_start"
+        app:layout_constraintRight_toLeftOf="@id/btnDialogTimerCancel"
+        app:layout_constraintTop_toBottomOf="@id/tvDialogTimerEnd" />
+</android.support.constraint.ConstraintLayout>

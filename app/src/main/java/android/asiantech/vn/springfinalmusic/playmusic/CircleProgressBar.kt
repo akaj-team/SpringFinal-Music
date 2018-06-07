@@ -6,7 +6,6 @@ import android.graphics.*
 import android.os.Handler
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 
 class CircleProgressBar(context: Context, attrs: AttributeSet?) : View(context, attrs) {
@@ -22,13 +21,14 @@ class CircleProgressBar(context: Context, attrs: AttributeSet?) : View(context, 
     private lateinit var mBackgroundPaint: Paint
     private lateinit var mForegroundPaint: Paint
     private lateinit var mThumbnail: Paint
-    private lateinit var mBitmap: Bitmap
+    private var mBitmap: Bitmap? = null
     private val mHandler = Handler()
     private val mTimeDelayRotate: Long = 16
     private lateinit var mRunnableRotateCircle: Runnable
     private var mCurrentAngleRotate = 0f
-    private var mOffsetRotate = 2f
+    private var mOffsetRotate = 1f
     private var mRadius: Float = 0f
+    private var mIsRotate = false
 
     init {
         init()
@@ -57,7 +57,8 @@ class CircleProgressBar(context: Context, attrs: AttributeSet?) : View(context, 
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        initBitMap()
+        if (mBitmap != null)
+            initBitMap()
     }
 
     private fun adjustColor(color: Int, factor: Float): Int {
@@ -77,33 +78,16 @@ class CircleProgressBar(context: Context, attrs: AttributeSet?) : View(context, 
         mRectF.set(0 + mStrokeWidth / 2, 0 + mStrokeWidth / 2, min - mStrokeWidth / 2, min - mStrokeWidth / 2)
     }
 
-    override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
-//        canvas.drawOval(mRectF, mBackgroundPaint)
-//        val angle = 360 * mProgress / max
-//        canvas.drawArc(mRectF, mStartAngle.toFloat(), angle, false, mForegroundPaint)
-//        if (mBitmap != null) {
-//            mCurrentAngleRotate += mOffsetRotate
-//            mCurrentAngleRotate %= 360
-//            Log.e("123", mCurrentAngleRotate.toString())
-//            canvas.rotate(mCurrentAngleRotate, pivotX, pivotY)
-//            canvas.drawCircle(pivotX, pivotY, mRadius, mThumbnail)
-//        }
-    }
-
     override fun draw(canvas: Canvas?) {
         canvas?.drawColor(Color.TRANSPARENT)
         canvas?.drawOval(mRectF, mBackgroundPaint)
         val angle = 360 * mProgress / max
         canvas?.drawArc(mRectF, mStartAngle.toFloat(), angle, false, mForegroundPaint)
         if (mBitmap != null) {
-            mCurrentAngleRotate += mOffsetRotate
             mCurrentAngleRotate %= 360
-            Log.e("123", mCurrentAngleRotate.toString())
             canvas?.rotate(mCurrentAngleRotate, pivotX, pivotY)
             canvas?.drawCircle(pivotX, pivotY, mRadius, mThumbnail)
         }
-        invalidate()
         super.draw(canvas)
     }
 
@@ -112,25 +96,26 @@ class CircleProgressBar(context: Context, attrs: AttributeSet?) : View(context, 
     }
 
     fun setBitMap(id: Int) {
-        mBitmap = BitmapFactory.decodeResource(resources, id)
+        this.mBitmap = BitmapFactory.decodeResource(resources, id)
     }
 
     fun initBitMap() {
         val matrix = Matrix()
-        val scaleX = width.toFloat() / mBitmap.width
-        val scaleY = width.toFloat() / mBitmap.height
+        val scaleX = width.toFloat() / mBitmap!!.width
+        val scaleY = width.toFloat() / mBitmap!!.height
         matrix.postScale(scaleX, scaleY)
-        mBitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.width, mBitmap.height, matrix, false)
+        mBitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap!!.width, mBitmap!!.height, matrix, false)
         val bitmapShader = BitmapShader(mBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
         mThumbnail.shader = bitmapShader
     }
 
     fun startRotate() {
+        mIsRotate = true
         mRunnableRotateCircle.run()
     }
 
     private fun rotateCircle() {
-//        mCurrentAngleRotate += mOffsetRotate
+        mCurrentAngleRotate += mOffsetRotate
         invalidate()
     }
 
@@ -138,6 +123,11 @@ class CircleProgressBar(context: Context, attrs: AttributeSet?) : View(context, 
         if (mBitmap != null) {
             mHandler.removeCallbacks(mRunnableRotateCircle)
         }
+        mIsRotate = false
+    }
+
+    fun getIsRotate(): Boolean {
+        return mIsRotate
     }
 
 }

@@ -29,6 +29,17 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/tvPlayMusicTimeCountDown"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_access_alarm_with_24dp"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/tvPlayMusicNameOfSong"
         android:layout_width="0dp"
@@ -62,7 +73,7 @@
         android:layout_width="@dimen/play_music_size_button"
         android:layout_height="@dimen/play_music_size_button"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/btn_play_press"
+        android:background="@drawable/btn_playpage_button_pause_normal_new"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
