@@ -20,7 +20,7 @@ class GifView(context: Context, attributes: AttributeSet?) : View(context, attri
     init {
         val inputStream: InputStream
         this.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
-        inputStream = context.resources.openRawResource(R.raw.xxx)
+        inputStream = context.resources.openRawResource(R.raw.default_bg)
         mMovie = Movie.decodeStream(inputStream)
         mRunnablePlayGif = Runnable {
             invalidate()
