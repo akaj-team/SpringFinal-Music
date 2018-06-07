@@ -2,7 +2,6 @@ package android.asiantech.vn.springfinalmusic.service
 
 import android.app.*
 import android.asiantech.vn.springfinalmusic.R
-import android.asiantech.vn.springfinalmusic.home.HomeActivity
 import android.asiantech.vn.springfinalmusic.model.Constant
 import android.asiantech.vn.springfinalmusic.model.Song
 import android.asiantech.vn.springfinalmusic.playmusic.PlayMusicActivity
@@ -15,8 +14,8 @@ import android.widget.RemoteViews
 import java.util.ArrayList
 
 import java.util.*
-import android.app.PendingIntent
 import android.asiantech.vn.springfinalmusic.headphone.HeadPhoneChangerReceiver
+import android.asiantech.vn.springfinalmusic.home.HomeActivity
 import android.asiantech.vn.springfinalmusic.library.LibraryActivity
 import android.content.IntentFilter
 
@@ -114,27 +113,21 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
         return Service.START_NOT_STICKY
     }
 
-    private fun changedImageBtnPlayActivity() {
-        if (mMediaPlayer?.isPlaying == true) {
-            sendBroadcast(Intent()
-                    .setAction(Constant.ACTION_PAUSE_MUSIC))
-        } else {
-            sendBroadcast(Intent()
-                    .setAction(Constant.ACTION_RESUME_MUSIC))
-        }
-    }
-
     private fun changedImageBtnPlayNotification() {
         if (mMediaPlayer?.isPlaying == true) {
             mRemoteViews?.setImageViewResource(R.id.imgNotificationButtonPlay
                     , R.drawable.btn_notificationbar_pause)
             mRemoteViews?.setOnClickPendingIntent(R.id.imgNotificationButtonPlay
                     , setActionEventClick(Constant.ACTION_PAUSE_MUSIC))
+            sendBroadcast(Intent()
+                    .setAction(Constant.ACTION_PAUSE_MUSIC))
         } else {
             mRemoteViews?.setImageViewResource(R.id.imgNotificationButtonPlay
                     , R.drawable.btn_notificationbar_play)
             mRemoteViews?.setOnClickPendingIntent(R.id.imgNotificationButtonPlay
                     , setActionEventClick(Constant.ACTION_RESUME_MUSIC))
+            sendBroadcast(Intent()
+                    .setAction(Constant.ACTION_RESUME_MUSIC))
         }
         mNotificationManager?.notify(ID_NOTIFICATION, mNotification)
     }
@@ -223,21 +216,21 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
             this.mNotification?.bigContentView = mRemoteViews
         }
         startForeground(ID_NOTIFICATION, mNotification)
-        mNotificationManager?.notify(ID_NOTIFICATION, mNotification)
+        mNotificationManager!!.notify(ID_NOTIFICATION, mNotification)
     }
 
     private fun playMusic(uri: Uri) {
         initNotification()
         setNotification()
         mMediaPlayer?.reset()
+        mHandler.removeCallbacks(mUpdateSongPlaying)
         mMediaPlayer = MediaPlayer.create(applicationContext, uri)
         mMediaPlayer?.setOnCompletionListener(this)
         if (mMediaPlayer?.isPlaying == false) {
             mMediaPlayer?.start()
-            refeshHandler()
+            mHandler.post(mUpdateSongPlaying)
         }
         changedImageBtnPlayNotification()
-        changedImageBtnPlayActivity()
         sendChangerSong()
     }
 
@@ -295,7 +288,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
             return
         }
         if (isLastSong(mPositionSong) && mModePlay == Constant.MODE_NORM) {
-            stopMusic()
+            pauseMusic()
             return
         }
         if (isLastSong(mPositionSong) && mModePlay == Constant.MODE_REPEAT_ALBUM) {
@@ -315,7 +308,8 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
     private fun pauseMusic() {
         mMediaPlayer?.pause()
         changedImageBtnPlayNotification()
-        changedImageBtnPlayActivity()
+        sendBroadcast(Intent()
+                .setAction(Constant.ACTION_PAUSE_MUSIC))
     }
 
     private fun resumeMusic() {
@@ -323,12 +317,12 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
         startForeground(ID_NOTIFICATION, mNotification)
         refeshHandler()
         changedImageBtnPlayNotification()
-        changedImageBtnPlayActivity()
+        sendBroadcast(Intent()
+                .setAction(Constant.ACTION_RESUME_MUSIC))
     }
 
     private fun refeshHandler() {
         mHandler.removeCallbacks(mUpdateSongPlaying)
-
         mHandler.post(mUpdateSongPlaying)
     }
 
@@ -338,7 +332,9 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
 
     override fun onDestroy() {
         mHandler.removeCallbacks(mUpdateSongPlaying)
-        unregisterReceiver(mHeadPhoneListener)
+        if (mHeadPhoneListener?.isOrderedBroadcast == true) {
+            unregisterReceiver(mHeadPhoneListener)
+        }
         stopForeground(true)
         this.stopSelf()
         mNotificationManager?.cancelAll()
@@ -368,17 +364,16 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
     internal inner class UpdateSongPlaying : Runnable {
         override fun run() {
             val intCurrPosition: Int? = mMediaPlayer?.currentPosition
-            val isPause = !(mMediaPlayer?.isPlaying as Boolean)
             if (isScreenOn()) {
                 sendBroadcast(Intent()
                         .setAction(Constant.ACTION_DISPLAY_MUSIC)
                         .putExtra(Constant.KEY_SONG, mSongCurrent)
+                        .putExtra(Constant.KEY_PLAYING, mMediaPlayer?.isPlaying)
                         .putExtra(Constant.KEY_MODE, mModePlay)
                         .putExtra(Constant.KEY_POSITION_MEDIA, intCurrPosition)
-                        .putExtra(Constant.KEY_SONG_INDEX, mPositionSong)
-                        .putExtra(Constant.KEY_MEDIA_IS_PAUSE, isPause))
+                        .putExtra(Constant.KEY_SONG_INDEX, mPositionSong))
             }
-            mHandler.postDelayed(this, 999)
+            mHandler.postDelayed(this, 200)
         }
     }
 }
