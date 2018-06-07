@@ -20,8 +20,6 @@ import android.asiantech.vn.springfinalmusic.library.LibraryActivity
 import android.content.IntentFilter
 
 
-
-
 @Suppress("DEPRECATION")
 class MusicService : Service(), MediaPlayer.OnCompletionListener
         , HeadPhoneChangerReceiver.IListenerHPhoneChanger {
@@ -290,7 +288,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
             return
         }
         if (isLastSong(mPositionSong) && mModePlay == Constant.MODE_NORM) {
-            stopMusic()
+            pauseMusic()
             return
         }
         if (isLastSong(mPositionSong) && mModePlay == Constant.MODE_REPEAT_ALBUM) {
@@ -334,7 +332,9 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
 
     override fun onDestroy() {
         mHandler.removeCallbacks(mUpdateSongPlaying)
-        unregisterReceiver(mHeadPhoneListener)
+        if (mHeadPhoneListener?.isOrderedBroadcast == true) {
+            unregisterReceiver(mHeadPhoneListener)
+        }
         stopForeground(true)
         this.stopSelf()
         mNotificationManager?.cancelAll()
