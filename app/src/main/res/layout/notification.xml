@@ -6,8 +6,9 @@
 
     <ImageView
         android:id="@+id/imgNotificationThumnail"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
         android:background="@drawable/img_logo" />
 
     <TextView

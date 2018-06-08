@@ -58,6 +58,7 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             mListSong = this.intent.extras.getParcelableArrayList(Constant.KEY_LIST_SONG)
             mPositionSong = this.intent.extras.getInt(Constant.KEY_POSITION_SONG)
             mSongCurrent = mListSong?.get(mPositionSong)
+            showSongAttributeText()
         }
     }
 
@@ -65,14 +66,17 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         val duration: Int? = mSongCurrent?.duration
         if (mSongCurrent != null && duration != null) {
             seekBarPlayMusic.max = duration
-            tvPlayMusicNameOfSong.text = mSongCurrent?.title
-            tvPlayMusicNameOfSinger.text = mSongCurrent?.artist
             tvPlayMusicTotalTime.text = miliSecondsToString(duration.toLong())
             tvPlayMusicCurrentTime.text = miliSecondsToString(currTime.toLong())
             seekBarPlayMusic.progress = currTime
             viewCicleProgressBar.setProgress((currTime.toFloat() / duration * 100))
             displayMode()
         }
+    }
+
+    private fun showSongAttributeText() {
+        tvPlayMusicNameOfSong.text = mSongCurrent?.title
+        tvPlayMusicNameOfSinger.text = mSongCurrent?.artist
     }
 
     private fun changeImageButtonPlay(isPause: Boolean) {
@@ -218,7 +222,7 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                         if (intent.extras != null) {
                             mPositionSong = intent.extras.getInt(Constant.KEY_SONG_INDEX)
                             mModePlay = intent.extras.getInt(Constant.KEY_MODE)
-                            mSongCurrent = intent.extras.getParcelable(Constant.KEY_SONG)
+                            mSongCurrent = mListSong?.get(mPositionSong)
                             val strPosition: Int = intent.extras.getInt(Constant.KEY_POSITION_MEDIA)
                             displayInfoSong(strPosition)
                             val isPlaying = intent.extras.getBoolean(Constant.KEY_PLAYING)
@@ -242,6 +246,8 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                     }
                     Constant.ACTION_SONG_IS_CHANGED -> {
                         mPositionSong = intent.extras.getInt(Constant.KEY_POSITION_SONG)
+                        mSongCurrent = mListSong?.get(mPositionSong)
+                        showSongAttributeText()
                     }
                     Constant.ACTION_TIMER_TICK -> {
                         val miliSeccons = intent.extras.getLong(Constant.KEY_TIME)

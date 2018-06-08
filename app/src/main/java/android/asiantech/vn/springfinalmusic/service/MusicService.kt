@@ -157,8 +157,8 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
 
     private fun init() {
         mUpdateSongPlaying = UpdateSongPlaying()
-        mTaskStackBuilder = TaskStackBuilder.create(this)
         mHeadPhoneListener = HeadPhoneChangerReceiver(this)
+        mTaskStackBuilder = TaskStackBuilder.create(this)
         initRemoteViews()
         val intentFilter = IntentFilter()
         intentFilter.addAction(Intent.ACTION_HEADSET_PLUG)
@@ -197,6 +197,8 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
     private fun initNotification() {
         if ((mTaskStackBuilder?.intentCount as Int) < 3) {
             mTaskStackBuilder?.addNextIntentWithParentStack(callBackDataToActivity())
+        } else {
+            mTaskStackBuilder?.editIntentAt(2)?.replaceExtras(callBackDataToActivity())
         }
         val pendingIntent = mTaskStackBuilder?.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
 
@@ -296,13 +298,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
             return
         }
         next()
-    }
-
-    private fun stopMusic() {
-        mHandler.removeCallbacks(mUpdateSongPlaying)
-        mMediaPlayer?.pause()
-        this.stopSelf()
-        this.onDestroy()
     }
 
     private fun pauseMusic() {
