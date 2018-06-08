@@ -39,4 +39,7 @@ object Constant {
     const val NAME_MODE_RANDOM_ALBUM = "Xáo trộn danh sách"
     const val PHONE_ISDICONNECTED = 0
     const val PHONE_ISCONNECTED = 1
+    const val CLIENT_ID = 1
+    const val API_URL = "http://api.nhac.vn/client/"
+    const val URL_MP3_TEST="http://www.hubharp.com/web_sound/BachGavotte.mp3"
 }

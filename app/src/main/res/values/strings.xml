@@ -50,4 +50,5 @@
     <string name="dialog_timer_timeend">120 Phút</string>
     <string name="dialog_timer_timebegin">0 Phút</string>
     <string name="dialog_timer_message">Sau 0 Phut ung dung se tu dong tat nhac</string>
+    <string name="btn_home_timkiem">Tim kiem truc tuyen</string>
 </resources>

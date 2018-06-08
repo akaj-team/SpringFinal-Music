@@ -78,6 +78,51 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/btnHomeButtonLibrary" />
 
+        <TextView
+            android:id="@+id/tvHomeOnline"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/playlist_item_size_height"
+            android:background="@color/colorTransparent"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:text="@string/home_text_offline"
+            android:textColor="@color/colorBlack"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/btnHomeButtonLibrary" />
+
+        <View
+            android:id="@+id/viewLineOnlineText"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black_30"
+            app:layout_constraintTop_toBottomOf="@id/tvHomeOnline" />
+
+        <Button
+            android:id="@+id/btnHomeButtonTimKiem"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/playlist_item_size_height"
+            android:background="@drawable/custom_selected_item"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:text="@string/btn_home_timkiem"
+            android:textAlignment="gravity"
+            android:textAllCaps="false"
+            android:textSize="18dp"
+            android:textStyle="normal"
+            app:layout_constraintTop_toBottomOf="@id/viewLineOnlineText" />
+
+        <Button
+            android:layout_width="@dimen/size_button_item"
+            android:layout_height="@dimen/size_button_item"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/btn_more_left_arrow_nor"
+            android:clickable="false"
+            app:layout_constraintBottom_toBottomOf="@id/btnHomeButtonTimKiem"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnHomeButtonTimKiem" />
+
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
