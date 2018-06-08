@@ -30,8 +30,6 @@ class GifView(context: Context, attributes: AttributeSet?) : View(context, attri
 
     override fun onDraw(canvas: Canvas?) {
         canvas?.drawColor(Color.TRANSPARENT)
-        val paint = Paint()
-        paint.isAntiAlias = true
         val now = android.os.SystemClock.uptimeMillis()
         if (mMovieStart == 0) {
             mMovieStart = now.toInt()
@@ -47,7 +45,7 @@ class GifView(context: Context, attributes: AttributeSet?) : View(context, attri
             canvas?.scale(scaleX, scaleY, width.toFloat() / 2, height.toFloat() / 2)
             mMovie?.setTime(realTime)
             mMovie?.draw(canvas, (width / 2 - mMovie?.width()!! / 2).toFloat(),
-                    (height / 2 - mMovie?.height()!! / 2).toFloat(), paint)
+                    (height / 2 - mMovie?.height()!! / 2).toFloat())
         }
     }
 
