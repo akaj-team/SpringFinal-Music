@@ -31,42 +31,82 @@
         <ImageView
             android:id="@+id/imgHomeTheme"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="180dp"
             android:background="@drawable/theme_default" />
 
         <TextView
             android:id="@+id/tvHomeOffline"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/playlist_item_size_height"
-            android:background="@color/colorTransparent"
-            android:gravity="center_vertical"
-            android:paddingLeft="15dp"
+            style="@style/TextViewHome"
             android:text="@string/home_text_offline"
-            android:textColor="@color/colorBlack"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/imgHomeTheme" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.35" />
 
-        <View
-            android:id="@+id/viewLineOfflineText"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/black_30"
+        <ImageView
+            android:id="@+id/imgIcLibary"
+            style="@style/ImageViewHome"
+            android:src="@drawable/ic_library_music_cyan_500_24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvHomeOffline" />
 
         <Button
             android:id="@+id/btnHomeButtonLibrary"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/playlist_item_size_height"
-            android:background="@drawable/custom_selected_item"
-            android:gravity="center_vertical"
-            android:paddingLeft="15dp"
+            style="@style/ButtonHome"
             android:text="@string/home_button_text_library"
-            android:textAlignment="gravity"
-            android:textAllCaps="false"
-            android:textSize="18dp"
-            android:textStyle="normal"
-            app:layout_constraintTop_toBottomOf="@id/viewLineOfflineText" />
+            app:layout_constraintLeft_toRightOf="@id/imgIcLibary"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvHomeOffline" />
+
+        <ImageView
+            android:id="@+id/imgHomeVideo"
+            style="@style/ImageViewHome"
+            android:src="@drawable/ic_music_video_cyan_500_24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnHomeButtonLibrary" />
+
+        <Button
+            android:id="@+id/btnHomeVideo"
+            style="@style/ButtonHome"
+            android:text="@string/btn_home_text"
+            app:layout_constraintLeft_toRightOf="@id/imgHomeVideo"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnHomeButtonLibrary" />
+
+        <ImageView
+            android:id="@+id/imgHomeDownload"
+            style="@style/ImageViewHome"
+            android:src="@drawable/ic_cloud_download_cyan_500_24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnHomeVideo" />
+
+        <Button
+            android:id="@+id/btnHomeDownload"
+            style="@style/ButtonHome"
+            android:text="@string/btn_home_download_text"
+            app:layout_constraintLeft_toRightOf="@id/imgHomeDownload"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnHomeVideo" />
+
+        <TextView
+            android:id="@+id/tvHomeOnline"
+            style="@style/TextViewHome"
+            android:text="@string/tv_home_online_text"
+            app:layout_constraintTop_toBottomOf="@id/btnHomeDownload" />
+
+        <ImageView
+            android:id="@+id/imgHomeSearch"
+            style="@style/ImageViewHome"
+            android:src="@drawable/ic_search_cyan_500_24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvHomeOnline" />
+
+        <Button
+            android:id="@+id/btnHomeSearchOnline"
+            style="@style/ButtonHome"
+            android:text="@string/btn_home_search_text"
+            app:layout_constraintLeft_toRightOf="@id/imgHomeSearch"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvHomeOnline" />
 
         <Button
             android:layout_width="@dimen/size_button_item"
@@ -78,103 +118,76 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/btnHomeButtonLibrary" />
 
+        <Button
+            android:layout_width="@dimen/size_button_item"
+            android:layout_height="@dimen/size_button_item"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/btn_more_left_arrow_nor"
+            android:clickable="false"
+            app:layout_constraintBottom_toBottomOf="@id/btnHomeSearchOnline"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnHomeSearchOnline" />
+
+        <Button
+            android:layout_width="@dimen/size_button_item"
+            android:layout_height="@dimen/size_button_item"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/btn_more_left_arrow_nor"
+            android:clickable="false"
+            app:layout_constraintBottom_toBottomOf="@id/btnHomeRanker"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnHomeRanker" />
+
+        <ImageView
+            android:id="@+id/imgHomeRanker"
+            style="@style/ImageViewHome"
+            android:src="@drawable/ic_grade_cyan_500_24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnHomeSearchOnline" />
+
+        <Button
+            android:id="@+id/btnHomeRanker"
+            style="@style/ButtonHome"
+            android:text="@string/btn_home_ranker_text"
+            app:layout_constraintLeft_toRightOf="@id/imgHomeRanker"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnHomeSearchOnline" />
+
+        <Button
+            android:layout_width="@dimen/size_button_item"
+            android:layout_height="@dimen/size_button_item"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/btn_more_left_arrow_nor"
+            android:clickable="false"
+            app:layout_constraintBottom_toBottomOf="@id/btnHomeButtonLibrary"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnHomeButtonLibrary" />
+
+        <Button
+            android:layout_width="@dimen/size_button_item"
+            android:layout_height="@dimen/size_button_item"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/btn_more_left_arrow_nor"
+            android:clickable="false"
+            app:layout_constraintBottom_toBottomOf="@id/btnHomeVideo"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnHomeVideo" />
+
+        <Button
+            android:layout_width="@dimen/size_button_item"
+            android:layout_height="@dimen/size_button_item"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/btn_more_left_arrow_nor"
+            android:clickable="false"
+            app:layout_constraintBottom_toBottomOf="@id/btnHomeDownload"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnHomeDownload" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/colorWhite60"
             app:layout_constraintTop_toBottomOf="@id/my_toolbar" />
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-            <ImageView
-                android:id="@+id/imgHomeQuickplayer"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_quickplayer_blue"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent" />
-
-            <Button
-                android:id="@+id/btnPlayingListMiniBar"
-                android:layout_width="@dimen/minibar_size_button"
-                android:layout_height="@dimen/minibar_size_button"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/ic_btn_minibar_playinglist"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/imgHomeQuickplayer"
-                app:layout_constraintVertical_bias="0.9" />
-
-            <Button
-                android:id="@+id/btnNextMiniBar"
-                android:layout_width="@dimen/minibar_size_button"
-                android:layout_height="@dimen/minibar_size_button"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/ic_btn_minibar_next_normal"
-                app:layout_constraintRight_toLeftOf="@id/btnPlayingListMiniBar"
-                app:layout_constraintTop_toTopOf="@id/btnPlayingListMiniBar" />
-
-            <Button
-                android:id="@+id/btnPlayMiniBar"
-                android:layout_width="@dimen/minibar_size_button"
-                android:layout_height="@dimen/minibar_size_button"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/ic_btn_minibar_play_normal"
-                app:layout_constraintRight_toLeftOf="@id/btnNextMiniBar"
-                app:layout_constraintTop_toTopOf="@id/btnPlayingListMiniBar" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/minibar_time_default"
-                app:layout_constraintBottom_toTopOf="@id/btnPlayingListMiniBar"
-                app:layout_constraintLeft_toLeftOf="@id/btnPlayMiniBar"
-                app:layout_constraintRight_toRightOf="@id/btnPlayingListMiniBar"
-                app:layout_constraintTop_toTopOf="@id/imgHomeQuickplayer" />
-
-            <TextView
-                android:id="@+id/tvNameSongMiniBar"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="5dp"
-                android:maxLines="1"
-                android:text="@string/home_minibar_test_name_song"
-                android:textColor="@color/colorBlack"
-                android:textSize="15dp"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toRightOf="@id/imgHomeQuickplayer"
-                app:layout_constraintRight_toLeftOf="@id/btnPlayMiniBar"
-                app:layout_constraintTop_toTopOf="@id/imgHomeQuickplayer" />
-
-            <TextView
-                android:id="@+id/tvNameSingerMiniBar"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:text="@string/home_minibar_test_name_author"
-                app:layout_constraintLeft_toLeftOf="@+id/tvNameSongMiniBar"
-                app:layout_constraintRight_toRightOf="@id/tvNameSongMiniBar"
-                app:layout_constraintTop_toBottomOf="@id/tvNameSongMiniBar" />
-
-            <ProgressBar
-                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:progress="25"
-                android:progressTint="@color/colorLightBlue"
-                app:layout_constraintLeft_toLeftOf="@id/tvNameSongMiniBar"
-                app:layout_constraintRight_toLeftOf="@id/btnPlayMiniBar"
-                app:layout_constraintTop_toBottomOf="@+id/tvNameSingerMiniBar"
-                tools:ignore="UnusedAttribute" />
-        </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
@@ -182,7 +195,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="left"
-        android:background="@color/colorWhite">
+        android:background="@color/colorWhite"
+        android:padding="3dp">
 
         <ImageView
             android:id="@+id/imgBannerDrawerlayout"
@@ -219,19 +233,32 @@
             app:layout_constraintTop_toBottomOf="@id/imgBannerDrawerlayout">
 
             <Button
+                android:id="@+id/btnMenuHomeSync"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/colorWhite"
                 android:text="@string/home_drawerlayout_wifi" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_weight="1"
+                android:background="@color/black_30" />
+
             <Button
-                android:id="@+id/btnTimer"
+                android:id="@+id/btnMenuHomeTimer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/colorWhite"
                 android:text="@string/home_drawerlayout_time_off" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_weight="1"
+                android:background="@color/black_30" />
 
             <Button
                 android:layout_width="match_parent"
@@ -240,12 +267,24 @@
                 android:background="@color/colorWhite"
                 android:text="@string/home_drawerlayout_theme" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_weight="1"
+                android:background="@color/black_30" />
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/colorWhite"
                 android:text="@string/home_drawerlayout_app_review" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_weight="1"
+                android:background="@color/black_30" />
 
             <Button
                 android:layout_width="match_parent"
@@ -254,6 +293,12 @@
                 android:background="@color/colorWhite"
                 android:text="@string/home_drawerlayout_app_infomation" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_weight="1"
+                android:background="@color/black_30" />
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -261,12 +306,24 @@
                 android:background="@color/colorWhite"
                 android:text="@string/home_drawerlayout_more_app" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_weight="1"
+                android:background="@color/black_30" />
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/colorWhite"
                 android:text="@string/home_drawerlayout_help" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_weight="1"
+                android:background="@color/black_30" />
 
             <Button
                 android:layout_width="match_parent"
