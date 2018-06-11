@@ -62,5 +62,4 @@ class GifView(context: Context, attributes: AttributeSet?) : View(context, attri
     fun stop() {
         mHandler.removeCallbacks(mRunnablePlayGif)
     }
-
 }
