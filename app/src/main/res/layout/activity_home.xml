@@ -31,14 +31,16 @@
         <ImageView
             android:id="@+id/imgHomeTheme"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="180dp"
             android:background="@drawable/theme_default" />
 
         <TextView
             android:id="@+id/tvHomeOffline"
             style="@style/TextViewHome"
             android:text="@string/home_text_offline"
-            app:layout_constraintTop_toBottomOf="@id/imgHomeTheme" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.35" />
 
         <ImageView
             android:id="@+id/imgIcLibary"
@@ -59,6 +61,7 @@
             android:id="@+id/imgHomeVideo"
             style="@style/ImageViewHome"
             android:src="@drawable/ic_music_video_cyan_500_24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btnHomeButtonLibrary" />
 
         <Button
@@ -227,9 +230,7 @@
             android:layout_height="0dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imgBannerDrawerlayout"
-            tools:layout_editor_absoluteX="3dp"
-            tools:ignore="MissingConstraints">
+            app:layout_constraintTop_toBottomOf="@id/imgBannerDrawerlayout">
 
             <Button
                 android:id="@+id/btnMenuHomeSync"
@@ -238,11 +239,12 @@
                 android:layout_weight="1"
                 android:background="@color/colorWhite"
                 android:text="@string/home_drawerlayout_wifi" />
+
             <View
-                android:background="@color/black_800"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
+                android:layout_height="1px"
+                android:layout_weight="1"
+                android:background="@color/black_30" />
 
             <Button
                 android:id="@+id/btnMenuHomeTimer"
@@ -253,10 +255,10 @@
                 android:text="@string/home_drawerlayout_time_off" />
 
             <View
-                android:background="@color/black_800"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
+                android:layout_height="1px"
+                android:layout_weight="1"
+                android:background="@color/black_30" />
 
             <Button
                 android:layout_width="match_parent"
@@ -266,10 +268,10 @@
                 android:text="@string/home_drawerlayout_theme" />
 
             <View
-                android:background="@color/black_800"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
+                android:layout_height="1px"
+                android:layout_weight="1"
+                android:background="@color/black_30" />
 
             <Button
                 android:layout_width="match_parent"
@@ -279,10 +281,10 @@
                 android:text="@string/home_drawerlayout_app_review" />
 
             <View
-                android:background="@color/black_800"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
+                android:layout_height="1px"
+                android:layout_weight="1"
+                android:background="@color/black_30" />
 
             <Button
                 android:layout_width="match_parent"
@@ -292,10 +294,10 @@
                 android:text="@string/home_drawerlayout_app_infomation" />
 
             <View
-                android:background="@color/black_800"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
+                android:layout_height="1px"
+                android:layout_weight="1"
+                android:background="@color/black_30" />
 
             <Button
                 android:layout_width="match_parent"
@@ -305,10 +307,10 @@
                 android:text="@string/home_drawerlayout_more_app" />
 
             <View
-                android:background="@color/black_800"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
+                android:layout_height="1px"
+                android:layout_weight="1"
+                android:background="@color/black_30" />
 
             <Button
                 android:layout_width="match_parent"
@@ -318,10 +320,10 @@
                 android:text="@string/home_drawerlayout_help" />
 
             <View
-                android:background="@color/black_800"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
+                android:layout_height="1px"
+                android:layout_weight="1"
+                android:background="@color/black_30" />
 
             <Button
                 android:layout_width="match_parent"
