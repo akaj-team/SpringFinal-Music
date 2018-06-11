@@ -9,15 +9,21 @@ import android.content.Context
 import android.content.Intent
 import android.os.Parcelable
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import java.util.ArrayList
 
-class SongsAdapter(dataset: List<Song>, context: Context?) : RecyclerView.Adapter<SongsAdapter.ViewHolder>() {
-    private var mListData: List<Song> = dataset
+class SongsAdapter(dataset: MutableList<Song>, context: Context?) : RecyclerView.Adapter<SongsAdapter.ViewHolder>() {
+    private var mListData: MutableList<Song>
     private var mContext: Context? = context
+
+    init {
+        mListData = dataset
+        //ResourcesManager.getInstance().testSetList(mListData)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_item_song, parent, false) as View
@@ -32,9 +38,13 @@ class SongsAdapter(dataset: List<Song>, context: Context?) : RecyclerView.Adapte
         return mListData.size
     }
 
-    fun setListSong(data: List<Song>) {
+    fun setListSong(data: MutableList<Song>) {
         mListData = data
         notifyDataSetChanged()
+    }
+
+    fun test() {
+        mListData.removeAt(0)
     }
 
     /*

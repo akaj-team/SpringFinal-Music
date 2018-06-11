@@ -17,13 +17,9 @@ import android.widget.ImageButton
 import android.widget.TextView
 import java.util.ArrayList
 
-class PlaylistAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(), IEventDeletePlayList {
-    private var mListData: MutableList<Playlist> = mutableListOf()
+class PlaylistAdapter(listdata: MutableList<Playlist>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), IEventDeletePlayList {
+    private var mListData: MutableList<Playlist> = listdata
     private var mIsShowButtonClose = false
-
-    init {
-        ResourcesManager.getInstance().setPlaylist(mListData)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_item_playlist, parent, false) as View
@@ -54,7 +50,7 @@ class PlaylistAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(), IEven
     }
 
     fun reset() {
-        ResourcesManager.getInstance().setPlaylist(mListData)
+        mListData = ResourcesManager.getInstance().getListPlaylist()
         notifyDataSetChanged()
     }
 

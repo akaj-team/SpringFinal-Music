@@ -1,6 +1,5 @@
 package android.asiantech.vn.springfinalmusic.library.adapter
 
-import android.app.Activity
 import android.asiantech.vn.springfinalmusic.R
 import android.asiantech.vn.springfinalmusic.model.Constant
 import android.asiantech.vn.springfinalmusic.model.Song
@@ -47,7 +46,6 @@ class CurrentMusicAdapter(dataset: List<Song>, context: Context) : RecyclerView.
                         .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         .putExtra(Constant.KEY_POSITION_SONG, adapterPosition)
                         .putParcelableArrayListExtra(Constant.KEY_LIST_SONG, mListData as ArrayList<out Parcelable>))
-                val activity = mContext as Activity
             }
         }
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dlHomeDrawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -14,10 +13,8 @@
             android:id="@+id/my_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
-            android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            tools:targetApi="lollipop">
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <ImageButton
                 android:id="@+id/btnDrawerLayout"
@@ -31,157 +28,17 @@
         <ImageView
             android:id="@+id/imgHomeTheme"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="250dp"
             android:background="@drawable/theme_default" />
 
-        <TextView
-            android:id="@+id/tvHomeOffline"
-            style="@style/TextViewHome"
-            android:text="@string/home_text_offline"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycleViewHome"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.35" />
-
-        <ImageView
-            android:id="@+id/imgIcLibary"
-            style="@style/ImageViewHome"
-            android:src="@drawable/ic_library_music_cyan_500_24dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvHomeOffline" />
-
-        <Button
-            android:id="@+id/btnHomeButtonLibrary"
-            style="@style/ButtonHome"
-            android:text="@string/home_button_text_library"
-            app:layout_constraintLeft_toRightOf="@id/imgIcLibary"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvHomeOffline" />
-
-        <ImageView
-            android:id="@+id/imgHomeVideo"
-            style="@style/ImageViewHome"
-            android:src="@drawable/ic_music_video_cyan_500_24dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnHomeButtonLibrary" />
-
-        <Button
-            android:id="@+id/btnHomeVideo"
-            style="@style/ButtonHome"
-            android:text="@string/btn_home_text"
-            app:layout_constraintLeft_toRightOf="@id/imgHomeVideo"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnHomeButtonLibrary" />
-
-        <ImageView
-            android:id="@+id/imgHomeDownload"
-            style="@style/ImageViewHome"
-            android:src="@drawable/ic_cloud_download_cyan_500_24dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnHomeVideo" />
-
-        <Button
-            android:id="@+id/btnHomeDownload"
-            style="@style/ButtonHome"
-            android:text="@string/btn_home_download_text"
-            app:layout_constraintLeft_toRightOf="@id/imgHomeDownload"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnHomeVideo" />
-
-        <TextView
-            android:id="@+id/tvHomeOnline"
-            style="@style/TextViewHome"
-            android:text="@string/tv_home_online_text"
-            app:layout_constraintTop_toBottomOf="@id/btnHomeDownload" />
-
-        <ImageView
-            android:id="@+id/imgHomeSearch"
-            style="@style/ImageViewHome"
-            android:src="@drawable/ic_search_cyan_500_24dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvHomeOnline" />
-
-        <Button
-            android:id="@+id/btnHomeSearchOnline"
-            style="@style/ButtonHome"
-            android:text="@string/btn_home_search_text"
-            app:layout_constraintLeft_toRightOf="@id/imgHomeSearch"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvHomeOnline" />
-
-        <Button
-            android:layout_width="@dimen/size_button_item"
-            android:layout_height="@dimen/size_button_item"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/btn_more_left_arrow_nor"
-            android:clickable="false"
-            app:layout_constraintBottom_toBottomOf="@id/btnHomeButtonLibrary"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/btnHomeButtonLibrary" />
-
-        <Button
-            android:layout_width="@dimen/size_button_item"
-            android:layout_height="@dimen/size_button_item"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/btn_more_left_arrow_nor"
-            android:clickable="false"
-            app:layout_constraintBottom_toBottomOf="@id/btnHomeSearchOnline"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/btnHomeSearchOnline" />
-
-        <Button
-            android:layout_width="@dimen/size_button_item"
-            android:layout_height="@dimen/size_button_item"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/btn_more_left_arrow_nor"
-            android:clickable="false"
-            app:layout_constraintBottom_toBottomOf="@id/btnHomeRanker"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/btnHomeRanker" />
-
-        <ImageView
-            android:id="@+id/imgHomeRanker"
-            style="@style/ImageViewHome"
-            android:src="@drawable/ic_grade_cyan_500_24dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnHomeSearchOnline" />
-
-        <Button
-            android:id="@+id/btnHomeRanker"
-            style="@style/ButtonHome"
-            android:text="@string/btn_home_ranker_text"
-            app:layout_constraintLeft_toRightOf="@id/imgHomeRanker"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnHomeSearchOnline" />
-
-        <Button
-            android:layout_width="@dimen/size_button_item"
-            android:layout_height="@dimen/size_button_item"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/btn_more_left_arrow_nor"
-            android:clickable="false"
-            app:layout_constraintBottom_toBottomOf="@id/btnHomeButtonLibrary"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/btnHomeButtonLibrary" />
-
-        <Button
-            android:layout_width="@dimen/size_button_item"
-            android:layout_height="@dimen/size_button_item"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/btn_more_left_arrow_nor"
-            android:clickable="false"
-            app:layout_constraintBottom_toBottomOf="@id/btnHomeVideo"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/btnHomeVideo" />
-
-        <Button
-            android:layout_width="@dimen/size_button_item"
-            android:layout_height="@dimen/size_button_item"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/btn_more_left_arrow_nor"
-            android:clickable="false"
-            app:layout_constraintBottom_toBottomOf="@id/btnHomeDownload"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/btnHomeDownload" />
+            app:layout_constraintTop_toBottomOf="@+id/imgHomeTheme" />
 
         <View
             android:layout_width="match_parent"

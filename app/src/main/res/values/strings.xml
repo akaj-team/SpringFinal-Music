@@ -55,4 +55,6 @@
     <string name="btn_home_search_text">Tìm bài hát</string>
     <string name="btn_home_ranker_text">Bảng xếp hạng</string>
     <string name="tv_home_online_text">Online</string>
+    <string name="item_home_offline">Offline</string>
+    <string name="item_home_online">Online</string>
 </resources>
