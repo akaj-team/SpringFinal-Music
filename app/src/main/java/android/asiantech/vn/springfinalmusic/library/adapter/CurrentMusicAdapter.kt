@@ -48,7 +48,6 @@ class CurrentMusicAdapter(dataset: List<Song>, context: Context) : RecyclerView.
                         .putExtra(Constant.KEY_POSITION_SONG, adapterPosition)
                         .putParcelableArrayListExtra(Constant.KEY_LIST_SONG, mListData as ArrayList<out Parcelable>))
                 val activity = mContext as Activity
-                activity.finish()
             }
         }
 
