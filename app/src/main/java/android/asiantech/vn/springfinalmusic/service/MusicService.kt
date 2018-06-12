@@ -55,20 +55,28 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
         mTaskStackBuilder?.addNextIntentWithParentStack(Intent(this, LibraryActivity::class.java))
     }
 
+    private fun isSongCurrent(song: Song): Boolean {
+        return song.data == mSongCurrent?.data
+    }
+
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         val action = intent.action
         if (action != null) {
             when (action) {
                 Constant.ACTION_PLAY_MUSIC -> {
-                    if (intent.extras != null) {
-                        mSongList = intent.extras.getParcelableArrayList(Constant.KEY_LIST_SONG)
-                        mPositionSong = intent.extras.getInt(Constant.KEY_POSITION_SONG)
-                        if (mPositionSong >= mSongList.size) {
-                            mSongCurrent = null
-                        }
-                        mSongCurrent = mSongList[mPositionSong]
+                    mSongList = intent.extras.getParcelableArrayList(Constant.KEY_LIST_SONG)
+                    mPositionSong = intent.extras.getInt(Constant.KEY_POSITION_SONG)
+                    if (mPositionSong >= mSongList.size) {
+                        mSongCurrent = null
                     }
-                    playMusic(Uri.parse(mSongCurrent?.data))
+                    if (!isSongCurrent(mSongList[mPositionSong])) {
+                        mSongCurrent = mSongList[mPositionSong]
+                        playMusic(Uri.parse(mSongCurrent?.data))
+                    } else {
+                        if (mMediaPlayer?.isPlaying == false) {
+                            resumeMusic()
+                        }
+                    }
                 }
                 Constant.ACTION_RESUME_MUSIC -> {
                     resumeMusic()
@@ -94,7 +102,13 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
                 }
                 Constant.KEY_SONG_INDEX -> {
                     val positionSelect: Int = intent.extras.getInt(Constant.KEY_POSITION_SELECTED)
-                    next(positionSelect)
+                    if (positionSelect != mPositionSong) {
+                        next(positionSelect)
+                    } else {
+                        if (mMediaPlayer?.isPlaying == false) {
+                            resumeMusic()
+                        }
+                    }
                 }
                 Constant.ACTION_MODE_CHANGE -> {
                     if (intent.extras != null) {
