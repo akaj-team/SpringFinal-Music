@@ -180,12 +180,12 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
         registerReceiver(mHeadPhoneListener, intentFilter)
     }
 
-    private fun perparMusicNotification(remoteViews: RemoteViews?) {
+    private fun prepareMusicNotification(remoteViews: RemoteViews?) {
         remoteViews?.setTextViewText(R.id.tvNotificationNameSong, mSongCurrent?.title)
         remoteViews?.setTextViewText(R.id.tvNotificationNameSinger, mSongCurrent?.artist)
     }
 
-    private fun perparExtendMusicNotification(remoteViews: RemoteViews?) {
+    private fun prepareExtendMusicNotification(remoteViews: RemoteViews?) {
         remoteViews?.setOnClickPendingIntent(R.id.imgNotificationExtendsButtonPlay
                 , setActionEventClick(Constant.ACTION_PAUSE_MUSIC))
         remoteViews?.setOnClickPendingIntent(R.id.imgNotificationExtendsButtonNext
@@ -221,8 +221,8 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
 
         mRemoteViews = RemoteViews(this.packageName, R.layout.notification)
         mRemoteViewsExtends = RemoteViews(this.packageName, R.layout.notification_extends)
-        perparMusicNotification(mRemoteViews)
-        perparExtendMusicNotification(mRemoteViewsExtends)
+        prepareMusicNotification(mRemoteViews)
+        prepareExtendMusicNotification(mRemoteViewsExtends)
 
         mNotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         mNotification = NotificationCompat.Builder(this)
