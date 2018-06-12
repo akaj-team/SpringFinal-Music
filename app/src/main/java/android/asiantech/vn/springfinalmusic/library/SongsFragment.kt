@@ -22,7 +22,8 @@ import java.util.Collections.shuffle
 class SongsFragment : Fragment() {
     private lateinit var mAdapter: SongsAdapter
     private lateinit var mViewManager: RecyclerView.LayoutManager
-    private lateinit var mListSong: List<Song>
+    private lateinit var mListSong: MutableList<Song>
+    private var isOrder = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_library_songs, container, false) as View
@@ -34,7 +35,7 @@ class SongsFragment : Fragment() {
         initViewsAndEvent()
     }
 
-    fun setListSong(listSong: List<Song>) {
+    fun setListSong(listSong: MutableList<Song>) {
         mAdapter.setListSong(listSong)
     }
 
@@ -45,6 +46,11 @@ class SongsFragment : Fragment() {
     private fun initViewsAndEvent() {
         btnMiniBarButtonPlay.setOnClickListener {
             startMusicRandom()
+        }
+        btnOrderSongs.setOnClickListener {
+            isOrder = !isOrder
+            ResourcesManager.getInstance().orderListSongs(isOrder)
+            mAdapter.notifyDataSetChanged()
         }
     }
 

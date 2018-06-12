@@ -3,7 +3,7 @@ package android.asiantech.vn.springfinalmusic.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Song implements Parcelable{
+public class Song implements Parcelable {
     private int id;
     private String artist;
     private String title;
@@ -11,6 +11,7 @@ public class Song implements Parcelable{
     private String displayName;
     private int duration;
     private String album;
+    private int dayModified;
 
     protected Song(Parcel in) {
         id = in.readInt();
@@ -20,6 +21,7 @@ public class Song implements Parcelable{
         displayName = in.readString();
         duration = in.readInt();
         album = in.readString();
+        dayModified = in.readInt();
     }
 
     public static final Creator<Song> CREATOR = new Creator<Song>() {
@@ -48,9 +50,10 @@ public class Song implements Parcelable{
         dest.writeString(displayName);
         dest.writeInt(duration);
         dest.writeString(album);
+        dest.writeInt(dayModified);
     }
 
-    public Song(int id, String artist, String title, String data, String displayName, int duration, String album) {
+    public Song(int id, String artist, String title, String data, String displayName, int duration, String album, int dayModified) {
         this.id = id;
         this.artist = artist;
         this.title = title;
@@ -58,6 +61,7 @@ public class Song implements Parcelable{
         this.displayName = displayName;
         this.duration = duration;
         this.album = album;
+        this.dayModified = dayModified;
     }
 
     public int getId() {
@@ -114,5 +118,13 @@ public class Song implements Parcelable{
 
     public void setAlbum(String album) {
         this.album = album;
+    }
+
+    public int getDayModified() {
+        return dayModified;
+    }
+
+    public void setDayModified(int dayAdded) {
+        this.dayModified = dayAdded;
     }
 }
