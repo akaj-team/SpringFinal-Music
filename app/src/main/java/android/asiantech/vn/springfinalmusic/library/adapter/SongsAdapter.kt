@@ -22,7 +22,6 @@ class SongsAdapter(dataset: MutableList<Song>, context: Context?) : RecyclerView
 
     init {
         mListData = dataset
-        //ResourcesManager.getInstance().testSetList(mListData)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -41,10 +40,6 @@ class SongsAdapter(dataset: MutableList<Song>, context: Context?) : RecyclerView
     fun setListSong(data: MutableList<Song>) {
         mListData = data
         notifyDataSetChanged()
-    }
-
-    fun test() {
-        mListData.removeAt(0)
     }
 
     /*

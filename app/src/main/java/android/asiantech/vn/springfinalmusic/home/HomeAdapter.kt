@@ -74,7 +74,7 @@ class HomeAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHold
                     mImgIconItem.setImageResource(R.drawable.custom_icon_download)
                     mTvItemHome.text = mContext.getString(R.string.btn_home_download_text)
                 }
-                ItemHome.FIND_SONG.value -> {
+                ItemHome.SEARCH.value -> {
                     mImgIconItem.setImageResource(R.drawable.custom_icon_search)
                     mTvItemHome.text = mContext.getString(R.string.btn_home_search_text)
                 }
@@ -116,8 +116,7 @@ class HomeAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHold
         LIBRARY(1),
         VIDEO(2),
         DOWNLOAD(3),
-        FIND_SONG(5),
+        SEARCH(5),
         CHARTS(6)
     }
-
 }
