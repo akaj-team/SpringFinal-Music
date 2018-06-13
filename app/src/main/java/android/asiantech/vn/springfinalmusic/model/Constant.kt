@@ -28,6 +28,7 @@ object Constant {
     const val KEY_MODE = "mode_play"
     const val KEY_HEADSET_STATE = "state"
     const val KEY_MEDIA_IS_PAUSE = "media_is_pause"
+    const val KEY_PLAYING = "Key_playing"
 
     const val MODE_NORM = 0
     const val MODE_REPEAT_ALBUM = 1
@@ -42,4 +43,5 @@ object Constant {
     const val CLIENT_ID = 1
     const val API_URL = "http://api.nhac.vn/client/"
     const val URL_MP3_TEST="http://www.hubharp.com/web_sound/BachGavotte.mp3"
+    const val HOME_TOAST_TEXT = "Coming soon in new version"
 }

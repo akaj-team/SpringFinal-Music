@@ -50,5 +50,11 @@
     <string name="dialog_timer_timeend">120 Phút</string>
     <string name="dialog_timer_timebegin">0 Phút</string>
     <string name="dialog_timer_message">Sau 0 Phut ung dung se tu dong tat nhac</string>
-    <string name="btn_home_timkiem">Tim kiem truc tuyen</string>
+    <string name="btn_home_text">Video</string>
+    <string name="btn_home_download_text">Đang tải về</string>
+    <string name="btn_home_search_text">Tìm bài hát</string>
+    <string name="btn_home_ranker_text">Bảng xếp hạng</string>
+    <string name="tv_home_online_text">Online</string>
+    <string name="item_home_offline">Offline</string>
+    <string name="item_home_online">Online</string>
 </resources>

@@ -30,23 +30,15 @@
             app:layout_constraintLeft_toRightOf="@id/btnMiniBarButtonPlay"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btnMiniBarEditSong"
-            android:layout_width="@dimen/minibar_size_button"
-            android:layout_height="@dimen/minibar_size_button"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/btn_mymusic_edit_rename"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
+            android:id="@+id/btnOrderSongs"
             android:layout_width="@dimen/minibar_size_button"
             android:layout_height="@dimen/minibar_size_button"
             android:layout_marginRight="15dp"
             android:background="@drawable/ic_sort"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/btnMiniBarEditSong"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <View

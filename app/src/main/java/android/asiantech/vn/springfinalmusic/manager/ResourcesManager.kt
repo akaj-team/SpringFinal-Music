@@ -9,7 +9,6 @@ import android.database.Cursor
 import android.provider.MediaStore
 import android.text.TextUtils
 import com.google.gson.Gson
-import java.util.ArrayList
 
 class ResourcesManager private constructor() {
     companion object {
@@ -19,11 +18,11 @@ class ResourcesManager private constructor() {
         }
     }
 
-    private var mListSong = ArrayList<Song>()
+    private var mListSong = mutableListOf<Song>()
     private var mListArtist = mutableListOf<String>()
     private var mListAlbum = mutableListOf<Album>()
     private var mListPlaylist = mutableListOf<Playlist>()
-    fun getallSongFromDevice(): List<Song> {
+    fun getallSongFromDevice(): MutableList<Song> {
         return mListSong
     }
 
@@ -41,7 +40,8 @@ class ResourcesManager private constructor() {
                 MediaStore.Audio.Media.DATA,
                 MediaStore.Audio.Media.DISPLAY_NAME,
                 MediaStore.Audio.Media.DURATION,
-                MediaStore.Audio.Media.ALBUM)
+                MediaStore.Audio.Media.ALBUM,
+                MediaStore.Audio.Media.DATE_MODIFIED)
         val cursor: Cursor?
         cursor = context.contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, project,
                 selection, null, null)
@@ -50,7 +50,7 @@ class ResourcesManager private constructor() {
                 val song = Song(cursor.getInt(0), cursor.getString(1),
                         cursor.getString(2), cursor.getString(3),
                         cursor.getString(4), cursor.getInt(5),
-                        cursor.getString(6))
+                        cursor.getString(6), cursor.getInt(7))
                 mListSong.add(song)
             }
             cursor.close()
@@ -134,11 +134,8 @@ class ResourcesManager private constructor() {
         }
     }
 
-    fun setPlaylist(playlist: MutableList<Playlist>) {
-        val tempListPlaylist = mListPlaylist.toMutableList()
-        playlist.clear()
-        mListPlaylist = playlist
-        mListPlaylist.addAll(tempListPlaylist)
+    fun getListPlaylist(): MutableList<Playlist> {
+        return mListPlaylist
     }
 
     fun getMusicOfArtist(artist: String): List<Song> {
@@ -160,12 +157,12 @@ class ResourcesManager private constructor() {
         saveDataPlaylist(context)
     }
 
-    fun getDataSearchAll(data: String): List<Song> {
-        val listSong: List<Song>
+    fun getDataSearchAll(data: String): MutableList<Song> {
+        val listSong: MutableList<Song>
         listSong = mListSong.filter { song ->
             song.title.toLowerCase().contains(data.toLowerCase()) || song.artist.toLowerCase().contains(data.toLowerCase())
                     || song.album.toLowerCase().contains(data.toLowerCase())
-        }
+        }.toMutableList()
         return listSong
     }
 
@@ -193,4 +190,12 @@ class ResourcesManager private constructor() {
         return listAlbum
     }
 
+    fun orderListSongs(isOrder: Boolean = false) {
+        if (isOrder) {
+            mListSong.sortBy { it.title }
+        } else {
+            mListSong.sortBy { it.dayModified }
+            mListSong.reverse()
+        }
+    }
 }

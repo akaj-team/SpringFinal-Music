@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.asiantech.vn.springfinalmusic.R
 import android.asiantech.vn.springfinalmusic.library.adapter.PlaylistAdapter
 import android.asiantech.vn.springfinalmusic.library.playlistchoice.PlaylistChoiceActivity
+import android.asiantech.vn.springfinalmusic.manager.ResourcesManager
 import android.asiantech.vn.springfinalmusic.model.Playlist
 import android.content.Intent
 import android.os.Bundle
@@ -44,7 +45,7 @@ class PlayListFragment : Fragment() {
 
     private fun initRecycleView() {
         mLayoutManager = LinearLayoutManager(activity)
-        mAdapter = PlaylistAdapter()
+        mAdapter = PlaylistAdapter(ResourcesManager.getInstance().getListPlaylist())
         recycleViewPlaylist.setHasFixedSize(true)
         recycleViewPlaylist.layoutManager = mLayoutManager
         recycleViewPlaylist.adapter = mAdapter
