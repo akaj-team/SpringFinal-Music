@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:padding="@dimen/dp2_padding">
+    android:layout_height="64dp"
+    android:padding="5dp">
 
     <ImageView
         android:id="@+id/imgNotificationThumnail"
-        android:layout_width="100dp"
-        android:layout_height="match_parent"
-        android:layout_centerVertical="true"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
         android:background="@drawable/img_logo" />
 
     <TextView
@@ -16,7 +16,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginRight="15dp"
         android:layout_toRightOf="@+id/imgNotificationThumnail"
         android:maxLines="1"
@@ -37,54 +37,4 @@
         android:text="@string/notification_test_name_singer"
         android:textColor="@color/black_30"
         android:textSize="14dp" />
-
-    <ProgressBar
-        android:id="@+id/progressBarNotification"
-        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/tvNotificationNameSinger"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginTop="4dp"
-        android:layout_toRightOf="@id/imgNotificationThumnail"
-        android:progress="15"
-        android:visibility="invisible" />
-
-    <ImageButton
-        android:id="@+id/imgNotificationButtonBack"
-        android:layout_width="@dimen/button_size"
-        android:layout_height="@dimen/button_size"
-        android:layout_below="@id/progressBarNotification"
-        android:layout_marginRight="25dp"
-        android:layout_toLeftOf="@id/imgNotificationButtonPlay"
-        android:background="@drawable/btn_notificationbar_prev" />
-
-    <ImageButton
-        android:id="@+id/imgNotificationButtonPlay"
-        android:layout_width="@dimen/button_size"
-        android:layout_height="@dimen/button_size"
-        android:layout_below="@id/progressBarNotification"
-        android:layout_centerHorizontal="true"
-        android:background="@color/colorWhite"
-        android:src="@drawable/btn_notificationbar_pause" />
-
-    <ImageButton
-        android:id="@+id/imgNotificationButtonNext"
-        android:layout_width="@dimen/button_size"
-        android:layout_height="@dimen/button_size"
-        android:layout_below="@id/progressBarNotification"
-        android:layout_marginLeft="25dp"
-        android:layout_toRightOf="@id/imgNotificationButtonPlay"
-        android:background="@drawable/btn_notificationbar_next" />
-
-    <ImageButton
-        android:id="@+id/imgNotificationButtonClose"
-        android:layout_width="@dimen/button_size"
-        android:layout_height="@dimen/button_size"
-        android:layout_below="@id/progressBarNotification"
-        android:layout_marginLeft="25dp"
-        android:layout_toRightOf="@id/imgNotificationButtonNext"
-        android:background="@drawable/ic_close_grey_500_24dp" />
 </RelativeLayout>

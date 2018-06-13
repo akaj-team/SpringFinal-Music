@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/imgNotificationExtendsThumnail"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/img_logo" />
+
+    <TextView
+        android:id="@+id/tvNotificationExtendsNameSong"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_toRightOf="@+id/imgNotificationExtendsThumnail"
+        android:maxLines="1"
+        android:text="@string/notification_test_name_song"
+        android:textColor="@color/colorBlack"
+        android:textSize="22dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvNotificationExtendsNameSinger"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tvNotificationExtendsNameSong"
+        android:layout_alignRight="@id/tvNotificationExtendsNameSong"
+        android:layout_below="@id/tvNotificationExtendsNameSong"
+        android:layout_marginTop="2dp"
+        android:maxLines="1"
+        android:text="@string/notification_test_name_singer"
+        android:textColor="@color/black_30"
+        android:textSize="14dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBarExtendsNotification"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/tvNotificationExtendsNameSinger"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="4dp"
+        android:layout_toRightOf="@id/imgNotificationExtendsThumnail"
+        android:progress="15"
+        android:visibility="invisible" />
+
+    <ImageButton
+        android:id="@+id/imgNotificationExtendsButtonBack"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
+        android:layout_below="@id/progressBarExtendsNotification"
+        android:layout_marginRight="25dp"
+        android:layout_toLeftOf="@id/imgNotificationExtendsButtonPlay"
+        android:background="@drawable/btn_notificationbar_prev" />
+
+    <ImageButton
+        android:id="@+id/imgNotificationExtendsButtonPlay"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
+        android:layout_below="@id/progressBarExtendsNotification"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorTransparent"
+        android:src="@drawable/btn_notificationbar_pause" />
+
+    <ImageButton
+        android:id="@+id/imgNotificationExtendsButtonNext"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
+        android:layout_below="@id/progressBarExtendsNotification"
+        android:layout_marginLeft="25dp"
+        android:layout_toRightOf="@id/imgNotificationExtendsButtonPlay"
+        android:background="@drawable/btn_notificationbar_next" />
+
+    <ImageButton
+        android:id="@+id/imgNotificationExtendsButtonClose"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
+        android:layout_below="@id/progressBarExtendsNotification"
+        android:layout_marginLeft="25dp"
+        android:layout_toRightOf="@id/imgNotificationExtendsButtonNext"
+        android:background="@drawable/ic_close_grey_500_24dp" />
+</RelativeLayout>

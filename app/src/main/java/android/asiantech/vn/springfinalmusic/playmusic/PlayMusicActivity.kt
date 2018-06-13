@@ -82,10 +82,10 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     private fun changeImageButtonPlay(isPause: Boolean) {
         if (isPause) {
             btnPlayMusicButtonPlay.background = ContextCompat.getDrawable(this@PlayMusicActivity
-                    , R.drawable.btn_play_press)
+                    , R.drawable.ic_play_circle_outline_black_24dp)
         } else {
             btnPlayMusicButtonPlay.background = ContextCompat.getDrawable(this@PlayMusicActivity
-                    , R.drawable.btn_playpage_button_pause_normal_new)
+                    , R.drawable.ic_pause_circle_outline_black_24dp)
         }
     }
 
