@@ -1,43 +1,50 @@
 package android.asiantech.vn.springfinalmusic.library
 
 import android.asiantech.vn.springfinalmusic.R
+import android.asiantech.vn.springfinalmusic.home.HomeActivity
 import android.asiantech.vn.springfinalmusic.library.adapter.LibraryPagerAdapter
 import android.asiantech.vn.springfinalmusic.manager.ResourcesManager
 import android.content.Context
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
-import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import kotlinx.android.synthetic.main.activity_library.*
 import android.view.inputmethod.InputMethodManager
 
-class LibraryActivity : AppCompatActivity() {
+class LibraryFragment : Fragment() {
     private lateinit var mPagerAdapter: LibraryPagerAdapter
     private var mIsShowSearch: Boolean = false
     private var mCurrentPage = 0
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_library)
-        setListeners()
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.activity_library, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViews()
+        setListeners()
     }
 
     private fun initViews() {
-        mPagerAdapter = LibraryPagerAdapter(supportFragmentManager, this)
+        mPagerAdapter = LibraryPagerAdapter(activity?.supportFragmentManager, context)
         vpMusicLibrary.adapter = mPagerAdapter
-        tabLayoutLibrary.setTabTextColors(ContextCompat.getColor(this, R.color.colorBlack), ContextCompat.getColor(this, R.color.colorLightBlue))
-        tabLayoutLibrary.setSelectedTabIndicatorColor(ContextCompat.getColor(this, R.color.colorLightBlue))
+        vpMusicLibrary.offscreenPageLimit = 0
+        tabLayoutLibrary.setTabTextColors(ContextCompat.getColor(activity as Context, R.color.colorBlack), ContextCompat.getColor(activity as Context, R.color.colorLightBlue))
+        tabLayoutLibrary.setSelectedTabIndicatorColor(ContextCompat.getColor(activity as Context, R.color.colorLightBlue))
         tabLayoutLibrary.setupWithViewPager(vpMusicLibrary)
         showSearch()
     }
 
     private fun setListeners() {
         btnToolBarButtonBack.setOnClickListener {
-            onBackPressed()
+            activity?.onBackPressed()
         }
         btnToolBarButtonSearch.setOnClickListener {
             mIsShowSearch = !mIsShowSearch
@@ -138,11 +145,21 @@ class LibraryActivity : AppCompatActivity() {
 
     private fun showInputKeyboard(isShow: Boolean = true) {
         edtToolBarSearch.requestFocus()
-        val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         if (isShow) {
             inputManager.showSoftInput(edtToolBarSearch, InputMethodManager.SHOW_IMPLICIT)
         } else {
             inputManager.hideSoftInputFromWindow(edtToolBarSearch.windowToken, 0)
         }
+    }
+
+    override fun onDestroyView() {
+        val currentActivity = activity
+        if (currentActivity is HomeActivity) {
+            currentActivity.showViews(true)
+        }
+        val index = vpMusicLibrary.currentItem
+        mPagerAdapter.destroyItem(vpMusicLibrary, index, mPagerAdapter.getItem(index) as Any)
+        super.onDestroyView()
     }
 }

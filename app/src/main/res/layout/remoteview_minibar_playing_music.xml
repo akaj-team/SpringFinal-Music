@@ -60,7 +60,10 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
-        android:maxLines="1"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
         android:text="@string/home_minibar_test_name_song"
         android:textColor="@color/colorBlack"
         android:textSize="15dp"
@@ -80,6 +83,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvNameSongMiniBar" />
 
     <ProgressBar
+        android:id="@+id/progressBarMiniBar"
         style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,5 +73,10 @@ class SongsFragment : Fragment() {
         recycleViewSongs.setHasFixedSize(true)
         recycleViewSongs.layoutManager = mViewManager
         recycleViewSongs.adapter = mAdapter
+    }
+
+    override fun onDestroy() {
+        Log.e("123", "xxxxxxxxxxx")
+        super.onDestroy()
     }
 }

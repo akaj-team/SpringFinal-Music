@@ -6,9 +6,11 @@ import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
+import android.view.ViewGroup
 
-class LibraryPagerAdapter(fm: FragmentManager?, context: Context) : FragmentStatePagerAdapter(fm) {
-    private var mContext: Context = context
+class LibraryPagerAdapter(fm: FragmentManager?, context: Context?) : FragmentStatePagerAdapter(fm) {
+    private var mContext: Context? = context
+    private var mFragmentManager = fm
     var songsFragment: SongsFragment
     var playlistFragment: PlayListFragment
     var artistFragment: ArtistFragment
@@ -19,7 +21,6 @@ class LibraryPagerAdapter(fm: FragmentManager?, context: Context) : FragmentStat
         playlistFragment = PlayListFragment()
         artistFragment = ArtistFragment()
         albumFragment = AlbumFragment()
-
     }
 
     override fun getItem(position: Int): Fragment? {
@@ -47,16 +48,16 @@ class LibraryPagerAdapter(fm: FragmentManager?, context: Context) : FragmentStat
     override fun getPageTitle(position: Int): CharSequence? {
         when (position) {
             LibraryType.SONGS -> {
-                return mContext.resources.getString(R.string.library_text_songs)
+                return mContext?.resources?.getString(R.string.library_text_songs)
             }
             LibraryType.PLAYLIST -> {
-                return mContext.resources.getString(R.string.library_text_playlist)
+                return mContext?.resources?.getString(R.string.library_text_playlist)
             }
             LibraryType.ARSTIST -> {
-                return mContext.resources.getString(R.string.library_text_singer)
+                return mContext?.resources?.getString(R.string.library_text_singer)
             }
             LibraryType.ALBUM -> {
-                return mContext.resources.getString(R.string.library_text_album)
+                return mContext?.resources?.getString(R.string.library_text_album)
             }
         }
         return null

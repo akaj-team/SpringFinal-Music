@@ -16,7 +16,6 @@ import java.util.ArrayList
 import java.util.*
 import android.asiantech.vn.springfinalmusic.headphone.HeadPhoneChangerReceiver
 import android.asiantech.vn.springfinalmusic.home.HomeActivity
-import android.asiantech.vn.springfinalmusic.library.LibraryActivity
 import android.content.IntentFilter
 
 
@@ -50,7 +49,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
 
     private fun initBackStack() {
         mTaskStackBuilder?.addNextIntentWithParentStack(Intent(this, HomeActivity::class.java))
-        mTaskStackBuilder?.addNextIntentWithParentStack(Intent(this, LibraryActivity::class.java))
     }
 
     private fun isSongCurrent(song: Song): Boolean {
@@ -209,10 +207,10 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
     }
 
     private fun initNotification() {
-        if ((mTaskStackBuilder?.intentCount as Int) < 3) {
+        if ((mTaskStackBuilder?.intentCount as Int) < 2) {
             mTaskStackBuilder?.addNextIntentWithParentStack(callBackDataToActivity())
         } else {
-            mTaskStackBuilder?.editIntentAt(2)?.replaceExtras(callBackDataToActivity())
+            mTaskStackBuilder?.editIntentAt(1)?.replaceExtras(callBackDataToActivity())
         }
         val pendingIntent = mTaskStackBuilder?.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
 

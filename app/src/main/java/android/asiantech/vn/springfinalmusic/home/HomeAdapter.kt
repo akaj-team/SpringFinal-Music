@@ -1,9 +1,7 @@
 package android.asiantech.vn.springfinalmusic.home
 
 import android.asiantech.vn.springfinalmusic.R
-import android.asiantech.vn.springfinalmusic.library.LibraryActivity
 import android.content.Context
-import android.content.Intent
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -12,9 +10,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 
-class HomeAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HomeAdapter(context: Context, eventItemClick: IEventItemHomeClick) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val mContext = context
-
+    private val mEventItemClick: IEventItemHomeClick = eventItemClick
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when (viewType) {
             HEADER_OFFLINE, HEADER_ONLINE -> {
@@ -64,31 +62,38 @@ class HomeAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHold
                 ItemHome.LIBRARY.value -> {
                     mImgIconItem.setImageResource(R.drawable.custom_icon_library)
                     mTvItemHome.text = mContext.getString(R.string.home_button_text_library)
-                    initListener()
+                    mClItemHome.setOnClickListener {
+                        mEventItemClick.onItemHomeClickDone(ItemHome.LIBRARY)
+                    }
                 }
                 ItemHome.VIDEO.value -> {
                     mImgIconItem.setImageResource(R.drawable.custom_icon_video)
                     mTvItemHome.text = mContext.getString(R.string.btn_home_text)
+                    mClItemHome.setOnClickListener {
+                        mEventItemClick.onItemHomeClickDone(ItemHome.VIDEO)
+                    }
                 }
                 ItemHome.DOWNLOAD.value -> {
                     mImgIconItem.setImageResource(R.drawable.custom_icon_download)
                     mTvItemHome.text = mContext.getString(R.string.btn_home_download_text)
+                    mClItemHome.setOnClickListener {
+                        mEventItemClick.onItemHomeClickDone(ItemHome.DOWNLOAD)
+                    }
                 }
                 ItemHome.SEARCH.value -> {
                     mImgIconItem.setImageResource(R.drawable.custom_icon_search)
                     mTvItemHome.text = mContext.getString(R.string.btn_home_search_text)
+                    mClItemHome.setOnClickListener {
+                        mEventItemClick.onItemHomeClickDone(ItemHome.SEARCH)
+                    }
                 }
                 ItemHome.CHARTS.value -> {
                     mImgIconItem.setImageResource(R.drawable.custom_icon_star)
                     mTvItemHome.text = mContext.getString(R.string.btn_home_ranker_text)
+                    mClItemHome.setOnClickListener {
+                        mEventItemClick.onItemHomeClickDone(ItemHome.CHARTS)
+                    }
                 }
-            }
-        }
-
-        private fun initListener() {
-            mClItemHome.setOnClickListener {
-                val intent = Intent(mContext, LibraryActivity::class.java)
-                mContext.startActivity(intent)
             }
         }
     }
