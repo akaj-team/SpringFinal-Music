@@ -26,6 +26,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
         , HeadPhoneChangerReceiver.IListenerHPhoneChanger {
     companion object {
         const val ID_NOTIFICATION = 1010
+        const val ID_NITIFICATION_CHANNEL = "2020"
     }
 
     private var mTaskStackBuilder: TaskStackBuilder? = null
@@ -225,11 +226,18 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
         prepareExtendMusicNotification(mRemoteViewsExtends)
 
         mNotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mNotificationManager?.createNotificationChannel(NotificationChannel(ID_NITIFICATION_CHANNEL
+                    , "Music Playing"
+                    , NotificationManager.IMPORTANCE_LOW))
+        }
+
         mNotification = NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_music_note_black_24dp)
                 .setContentIntent(pendingIntent)
                 .setCustomContentView(mRemoteViews)
                 .setCustomBigContentView(mRemoteViewsExtends)
+                .setChannelId(ID_NITIFICATION_CHANNEL)
                 .build()
         startForeground(ID_NOTIFICATION, mNotification)
         mNotificationManager?.notify(ID_NOTIFICATION, mNotification)
