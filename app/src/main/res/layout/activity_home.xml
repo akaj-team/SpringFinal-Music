@@ -30,8 +30,8 @@
         <ImageView
             android:id="@+id/imgHomeTheme"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:background="@drawable/theme_default" />
+            android:layout_height="200dp"
+            android:background="@drawable/home_theme_music" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycleViewHome"

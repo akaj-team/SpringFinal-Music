@@ -5,6 +5,10 @@ import android.asiantech.vn.springfinalmusic.R
 import android.asiantech.vn.springfinalmusic.alarm.AlarmDialog
 import android.asiantech.vn.springfinalmusic.library.LibraryFragment
 import android.asiantech.vn.springfinalmusic.model.Constant
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.AppCompatActivity
@@ -12,11 +16,14 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.Gravity
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.fragment_play_music.*
+import java.util.*
 
 class HomeActivity : AppCompatActivity(), IEventItemHomeClick {
     private var mDialogTimer: AlarmDialog? = null
     private var mToast: Toast? = null
     private var mAdapter = HomeAdapter(this, this)
+    private lateinit var mRecever: BroadcastReceiver
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -73,5 +80,9 @@ class HomeActivity : AppCompatActivity(), IEventItemHomeClick {
                 mToast?.show()
             }
         }
+    }
+
+    private fun initBroadcastReceiver() {
+
     }
 }

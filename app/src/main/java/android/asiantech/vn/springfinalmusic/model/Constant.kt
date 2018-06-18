@@ -16,6 +16,7 @@ object Constant {
     const val ACTION_TIMER_TICK = "timer_on_tick"
     const val ACTION_TIMER_STOP = "stop_countdown"
     const val ACTION_TIMER_FINISHED = "timer_on_finished"
+    const val ACTION_SHOW_CURRENT_MUSIC_PLAY = "show_current_music_play"
 
     const val KEY_SONG = "song_current"
     const val KEY_POSITION_MEDIA = "media_current_positon"
@@ -27,7 +28,6 @@ object Constant {
     const val KEY_PROGRESS = "seekbar_progress"
     const val KEY_MODE = "mode_play"
     const val KEY_HEADSET_STATE = "state"
-    const val KEY_MEDIA_IS_PAUSE = "media_is_pause"
     const val KEY_PLAYING = "Key_playing"
 
     const val MODE_NORM = 0
