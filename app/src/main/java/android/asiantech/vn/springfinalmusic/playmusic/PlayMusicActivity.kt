@@ -11,7 +11,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.os.Parcelable
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.widget.SeekBar
@@ -41,16 +40,8 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     }
 
     private fun startMusic() {
-        if (intent.action == Constant.ACTION_START_SERVICE) {
-            val listSong = intent.extras.getParcelableArrayList<Song>(Constant.KEY_LIST_SONG)
-            val position = intent.extras.getInt(Constant.KEY_POSITION_SONG)
-            showSongAttributeText(listSong.get(position))
-            startService(Intent(this, MusicService::class.java)
-                    .setAction(Constant.ACTION_PLAY_MUSIC)
-                    .putExtra(Constant.KEY_POSITION_SONG, position)
-                    .putParcelableArrayListExtra(Constant.KEY_LIST_SONG, listSong as ArrayList<out Parcelable>))
-            viewCicleProgressBar.startRotate()
-        }
+        mCurrentSong = intent.extras.getParcelable(Constant.KEY_SONG)
+        showSongAttributeText(mCurrentSong)
     }
 
     private fun displayInfoSong(currentTime: Int) {
@@ -120,7 +111,7 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             onBackPressed()
         }
         btnPlayMusicButtonPlaylist.setOnClickListener {
-            startServiceByAction(Constant.ACTION_SHOW_CURRENT_MUSIC_PLAY)
+            startServiceByAction(Constant.ACTION_SHOW_LIST_CURRENT_MUSIC)
         }
         btnPlayMusicButtonRepeat.setOnClickListener {
             changeStatusBtnMode()
@@ -262,10 +253,12 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
-        val currentTime = seekBar?.progress!! * mCurrentSong.duration / 100
-        startService(Intent(this, MusicService::class.java)
-                .setAction(Constant.ACTION_SEEKBAR_CHANGED)
-                .putExtra(Constant.KEY_PROGRESS, currentTime))
+        if (seekBar != null) {
+            val currentTime = seekBar.progress * mCurrentSong.duration / 100
+            startService(Intent(this, MusicService::class.java)
+                    .setAction(Constant.ACTION_SEEKBAR_CHANGED)
+                    .putExtra(Constant.KEY_PROGRESS, currentTime))
+        }
     }
 
     override fun onDestroy() {

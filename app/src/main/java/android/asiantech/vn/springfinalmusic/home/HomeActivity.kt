@@ -5,31 +5,38 @@ import android.asiantech.vn.springfinalmusic.R
 import android.asiantech.vn.springfinalmusic.alarm.AlarmDialog
 import android.asiantech.vn.springfinalmusic.library.LibraryFragment
 import android.asiantech.vn.springfinalmusic.model.Constant
+import android.asiantech.vn.springfinalmusic.model.Song
+import android.asiantech.vn.springfinalmusic.service.MusicService
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Gravity
+import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.fragment_play_music.*
-import java.util.*
 
 class HomeActivity : AppCompatActivity(), IEventItemHomeClick {
     private var mDialogTimer: AlarmDialog? = null
     private var mToast: Toast? = null
     private var mAdapter = HomeAdapter(this, this)
-    private lateinit var mRecever: BroadcastReceiver
+    private var isShowMinibar = false
+    private var mIsPause = false
+    private lateinit var mCurrentSong: Song
+    private lateinit var mReceiver: BroadcastReceiver
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         initViews()
+        initBroadcastReceiver()
         setListeners()
         showViews()
+        showMinibar(false)
     }
 
     @SuppressLint("ShowToast")
@@ -51,6 +58,30 @@ class HomeActivity : AppCompatActivity(), IEventItemHomeClick {
         }
         clHomeMiniBar.setOnClickListener {
 
+        }
+        btnPlayMiniBar.setOnClickListener {
+            mIsPause = !mIsPause
+            val intent = Intent(this, MusicService::class.java)
+            if (mIsPause) {
+                intent.setAction(Constant.ACTION_PAUSE_MUSIC)
+            } else {
+                intent.setAction(Constant.ACTION_RESUME_MUSIC)
+            }
+            startService(intent)
+        }
+        btnNextMiniBar.setOnClickListener {
+            val intent = Intent(this, MusicService::class.java)
+            intent.setAction(Constant.ACTION_NEXT_MUSIC)
+            startService(intent)
+        }
+
+        btnPlayingListMiniBar.setOnClickListener {
+            val intent = Intent(this, MusicService::class.java)
+            intent.setAction(Constant.ACTION_SHOW_LIST_CURRENT_MUSIC)
+            startService(intent)
+        }
+        clHomeMiniBar.setOnClickListener {
+            startService(Intent(this, MusicService::class.java).setAction(Constant.ACTION_SHOW_CURRENT_MUSIC))
         }
     }
 
@@ -83,6 +114,80 @@ class HomeActivity : AppCompatActivity(), IEventItemHomeClick {
     }
 
     private fun initBroadcastReceiver() {
+        mReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                val action = intent?.action
+                when (action) {
+                    Constant.ACTION_DISPLAY_MUSIC -> {
+                        if (intent.extras != null) {
+                            val strPosition: Int = intent.extras.getInt(Constant.KEY_POSITION_MEDIA)
+                            mCurrentSong = intent.extras.getParcelable(Constant.KEY_SONG)
+                            if (!isShowMinibar) {
+                                showMinibar()
+                            }
+                            showMinibarInfo(strPosition)
+                            val isPlaying = intent.extras.getBoolean(Constant.KEY_PLAYING)
+                            val isPause = !isPlaying
+                            changeImageButtonPlay(isPause)
+                        }
+                    }
+                    Constant.ACTION_PAUSE_MUSIC -> {
+                        changeImageButtonPlay(false)
+                    }
+                    Constant.ACTION_RESUME_MUSIC -> {
+                        changeImageButtonPlay(true)
+                    }
+                    Constant.ACTION_SONG_IS_CHANGED -> {
+                        if (intent.extras != null) {
+                            mCurrentSong = intent.extras.getParcelable(Constant.KEY_SONG)
+                            showSongInfo(mCurrentSong)
+                        }
+                    }
+                }
+            }
+        }
+        val intent = IntentFilter()
+        intent.addAction(Constant.ACTION_DISPLAY_MUSIC)
+        intent.addAction(Constant.ACTION_PAUSE_MUSIC)
+        intent.addAction(Constant.ACTION_RESUME_MUSIC)
+        intent.addAction(Constant.ACTION_SONG_IS_CHANGED)
+        intent.addAction(Constant.ACTION_TIMER_FINISHED)
+        registerReceiver(mReceiver, intent)
+    }
 
+    private fun showMinibar(isShow: Boolean = true) {
+        isShowMinibar = isShow
+        if (isShow) {
+            clHomeMiniBar.visibility = View.VISIBLE
+            showSongInfo(mCurrentSong)
+        } else {
+            clHomeMiniBar.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun showMinibarInfo(currentTime: Int) {
+        val duration = mCurrentSong.duration
+        progressBarMiniBar.progress = (currentTime.toFloat() / duration * 100).toInt()
+        tvCurrentTimeMiniBar.text = String.format("%02d:%02d", currentTime / 1000 / 60, currentTime / 1000 % 60)
+    }
+
+    private fun showSongInfo(song: Song) {
+        tvNameSingerMiniBar.text = song.artist
+        tvNameSongMiniBar.text = song.title
+    }
+
+    private fun changeImageButtonPlay(isPause: Boolean = false) {
+        if (isPause) {
+            mIsPause = true
+            btnPlayMiniBar.background = ContextCompat.getDrawable(this, R.drawable.ic_btn_minibar_play_normal)
+        } else {
+            mIsPause = false
+            btnPlayMiniBar.background = ContextCompat.getDrawable(this, R.drawable.ic_btn_minibar_pause_normal)
+        }
+    }
+
+    override fun onDestroy() {
+        unregisterReceiver(mReceiver)
+        super.onDestroy()
     }
 }

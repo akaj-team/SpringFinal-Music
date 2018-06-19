@@ -72,11 +72,13 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
                     if (!isSongCurrent(mSongList[mPositionSong])) {
                         mSongCurrent = mSongList[mPositionSong]
                         playMusic(Uri.parse(mSongCurrent?.data))
+                        openActivityPlayMusic()
                     } else {
                         if (mMediaPlayer?.isPlaying == false) {
                             resumeMusic()
                         }
                     }
+
                 }
                 Constant.ACTION_RESUME_MUSIC -> {
                     resumeMusic()
@@ -125,16 +127,28 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
                     sendTimerOnActivity(0)
                 }
 
-                Constant.ACTION_SHOW_CURRENT_MUSIC_PLAY -> {
+                Constant.ACTION_SHOW_LIST_CURRENT_MUSIC -> {
                     val intentPlayingActivity = Intent(this, ListMusicPlayingActivity::class.java)
                     intentPlayingActivity.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     intentPlayingActivity.putParcelableArrayListExtra(Constant.KEY_LIST_SONG, mSongList as ArrayList<out Parcelable>)
                     intentPlayingActivity.putExtra(Constant.KEY_POSITION_SONG, mPositionSong)
                     startActivity(intentPlayingActivity)
                 }
+
+                Constant.ACTION_SHOW_CURRENT_MUSIC -> {
+                    openActivityPlayMusic()
+                }
             }
         }
         return Service.START_NOT_STICKY
+    }
+
+    private fun openActivityPlayMusic() {
+        val intentPlayMusic = Intent(this, PlayMusicActivity::class.java)
+        intentPlayMusic.putExtra(Constant.KEY_SONG, mSongCurrent)
+        intentPlayMusic.putExtra(Constant.KEY_PLAYING, mMediaPlayer?.isPlaying)
+        intentPlayMusic.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intentPlayMusic)
     }
 
     private fun changedImageBtnPlayNotification() {

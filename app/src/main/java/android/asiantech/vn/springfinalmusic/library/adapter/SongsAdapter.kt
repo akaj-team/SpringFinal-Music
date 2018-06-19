@@ -3,7 +3,7 @@ package android.asiantech.vn.springfinalmusic.library.adapter
 import android.asiantech.vn.springfinalmusic.R
 import android.asiantech.vn.springfinalmusic.model.Constant
 import android.asiantech.vn.springfinalmusic.model.Song
-import android.asiantech.vn.springfinalmusic.playmusic.PlayMusicActivity
+import android.asiantech.vn.springfinalmusic.service.MusicService
 import android.content.Context
 import android.content.Intent
 import android.os.Parcelable
@@ -49,8 +49,8 @@ class SongsAdapter(dataset: MutableList<Song>, context: Context?) : RecyclerView
 
         init {
             view.setOnClickListener {
-                mContext?.startActivity(Intent(mContext, PlayMusicActivity::class.java)
-                        .setAction(Constant.ACTION_START_SERVICE)
+                mContext?.startService(Intent(mContext, MusicService::class.java)
+                        .setAction(Constant.ACTION_PLAY_MUSIC)
                         .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         .putExtra(Constant.KEY_POSITION_SONG, adapterPosition)
                         .putParcelableArrayListExtra(Constant.KEY_LIST_SONG, mListData as ArrayList<out Parcelable>))

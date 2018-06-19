@@ -16,7 +16,8 @@ object Constant {
     const val ACTION_TIMER_TICK = "timer_on_tick"
     const val ACTION_TIMER_STOP = "stop_countdown"
     const val ACTION_TIMER_FINISHED = "timer_on_finished"
-    const val ACTION_SHOW_CURRENT_MUSIC_PLAY = "show_current_music_play"
+    const val ACTION_SHOW_LIST_CURRENT_MUSIC = "show_current_music_play"
+    const val ACTION_SHOW_CURRENT_MUSIC = "show_current_music"
 
     const val KEY_SONG = "song_current"
     const val KEY_POSITION_MEDIA = "media_current_positon"

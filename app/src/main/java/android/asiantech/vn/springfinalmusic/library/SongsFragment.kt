@@ -6,7 +6,7 @@ import android.asiantech.vn.springfinalmusic.library.adapter.SongsAdapter
 import android.asiantech.vn.springfinalmusic.manager.ResourcesManager
 import android.asiantech.vn.springfinalmusic.model.Constant
 import android.asiantech.vn.springfinalmusic.model.Song
-import android.asiantech.vn.springfinalmusic.playmusic.PlayMusicActivity
+import android.asiantech.vn.springfinalmusic.service.MusicService
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
@@ -58,8 +58,8 @@ class SongsFragment : Fragment() {
     private fun startMusicRandom() {
         if (mListSong.isNotEmpty()) {
             shuffle(mListSong)
-            context?.startActivity(Intent(context, PlayMusicActivity::class.java)
-                    .setAction(Constant.ACTION_START_SERVICE)
+            context?.startService(Intent(context, MusicService::class.java)
+                    .setAction(Constant.ACTION_PLAY_MUSIC)
                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     .putExtra(Constant.KEY_POSITION_SONG, 0)
                     .putParcelableArrayListExtra(Constant.KEY_LIST_SONG, mListSong as ArrayList<out Parcelable>))
@@ -73,10 +73,5 @@ class SongsFragment : Fragment() {
         recycleViewSongs.setHasFixedSize(true)
         recycleViewSongs.layoutManager = mViewManager
         recycleViewSongs.adapter = mAdapter
-    }
-
-    override fun onDestroy() {
-        Log.e("123", "xxxxxxxxxxx")
-        super.onDestroy()
     }
 }
