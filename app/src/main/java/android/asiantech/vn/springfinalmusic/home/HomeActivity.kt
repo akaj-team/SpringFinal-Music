@@ -151,7 +151,6 @@ class HomeActivity : AppCompatActivity(), IEventItemHomeClick {
         intent.addAction(Constant.ACTION_PAUSE_MUSIC)
         intent.addAction(Constant.ACTION_RESUME_MUSIC)
         intent.addAction(Constant.ACTION_SONG_IS_CHANGED)
-        intent.addAction(Constant.ACTION_TIMER_FINISHED)
         registerReceiver(mReceiver, intent)
     }
 

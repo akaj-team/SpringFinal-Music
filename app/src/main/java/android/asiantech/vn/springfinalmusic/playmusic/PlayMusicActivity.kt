@@ -40,8 +40,12 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     }
 
     private fun startMusic() {
-        mCurrentSong = intent.extras.getParcelable(Constant.KEY_SONG)
-        showSongAttributeText(mCurrentSong)
+        if (intent.action == Constant.KEY_PLAYING) {
+            mCurrentSong = intent.extras.getParcelable(Constant.KEY_SONG)
+            showSongAttributeText(mCurrentSong)
+        } else {
+            startService(Intent(this, MusicService::class.java).setAction(Constant.ACTION_GET_CURRENT_SONG))
+        }
     }
 
     private fun displayInfoSong(currentTime: Int) {
@@ -226,6 +230,10 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                             showSongAttributeText(mCurrentSong)
                         }
                     }
+                    Constant.ACTION_GET_CURRENT_SONG -> {
+                        mCurrentSong = intent.extras.getParcelable(Constant.KEY_SONG)
+                        showSongAttributeText(mCurrentSong)
+                    }
                     Constant.ACTION_TIMER_TICK -> {
                         val miliSeccons = intent.extras.getLong(Constant.KEY_TIME)
                         mMinutesUntilFinished = miliSeccons.toInt() / 1000 / 60
@@ -243,6 +251,7 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         intent.addAction(Constant.ACTION_SONG_IS_CHANGED)
         intent.addAction(Constant.ACTION_TIMER_TICK)
         intent.addAction(Constant.ACTION_TIMER_FINISHED)
+        intent.addAction(Constant.ACTION_GET_CURRENT_SONG)
         registerReceiver(mBroadcastReceiver, intent)
     }
 

@@ -72,13 +72,12 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
                     if (!isSongCurrent(mSongList[mPositionSong])) {
                         mSongCurrent = mSongList[mPositionSong]
                         playMusic(Uri.parse(mSongCurrent?.data))
-                        openActivityPlayMusic()
                     } else {
                         if (mMediaPlayer?.isPlaying == false) {
                             resumeMusic()
                         }
                     }
-
+                    openActivityPlayMusic()
                 }
                 Constant.ACTION_RESUME_MUSIC -> {
                     resumeMusic()
@@ -138,6 +137,13 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
                 Constant.ACTION_SHOW_CURRENT_MUSIC -> {
                     openActivityPlayMusic()
                 }
+
+                Constant.ACTION_GET_CURRENT_SONG -> {
+                    sendBroadcast(Intent()
+                            .setAction(Constant.ACTION_GET_CURRENT_SONG)
+                            .putExtra(Constant.KEY_SONG, mSongCurrent))
+                }
+
             }
         }
         return Service.START_NOT_STICKY
@@ -145,6 +151,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
 
     private fun openActivityPlayMusic() {
         val intentPlayMusic = Intent(this, PlayMusicActivity::class.java)
+        intentPlayMusic.setAction(Constant.KEY_PLAYING)
         intentPlayMusic.putExtra(Constant.KEY_SONG, mSongCurrent)
         intentPlayMusic.putExtra(Constant.KEY_PLAYING, mMediaPlayer?.isPlaying)
         intentPlayMusic.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
