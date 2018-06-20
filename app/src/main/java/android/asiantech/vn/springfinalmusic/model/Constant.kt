@@ -10,12 +10,14 @@ object Constant {
     const val ACTION_DISPLAY_MUSIC = "show_info_music"
     const val ACTION_MODE_CHANGE = "mode_play_change"
     const val ACTION_SEEKBAR_CHANGED = "on_tracking_touch"
-    const val ACTION_START_SERVICE = "run_service"
     const val ACTION_SONG_IS_CHANGED = "music_is_next"
     const val ACTION_CLOSE_MUSIC = "close_service"
     const val ACTION_TIMER_TICK = "timer_on_tick"
     const val ACTION_TIMER_STOP = "stop_countdown"
     const val ACTION_TIMER_FINISHED = "timer_on_finished"
+    const val ACTION_SHOW_LIST_CURRENT_MUSIC = "show_current_music_play"
+    const val ACTION_SHOW_CURRENT_MUSIC = "show_current_music"
+    const val ACTION_GET_CURRENT_SONG = "get_song_current"
 
     const val KEY_SONG = "song_current"
     const val KEY_POSITION_MEDIA = "media_current_positon"
@@ -27,7 +29,6 @@ object Constant {
     const val KEY_PROGRESS = "seekbar_progress"
     const val KEY_MODE = "mode_play"
     const val KEY_HEADSET_STATE = "state"
-    const val KEY_MEDIA_IS_PAUSE = "media_is_pause"
     const val KEY_PLAYING = "Key_playing"
 
     const val MODE_NORM = 0

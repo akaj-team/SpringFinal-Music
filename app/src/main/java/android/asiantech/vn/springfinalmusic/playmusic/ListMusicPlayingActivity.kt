@@ -22,7 +22,7 @@ class ListMusicPlayingActivity : AppCompatActivity(), PlayingListAdapter.OnAdapt
         initViews()
     }
 
-    private fun initViews(){
+    private fun initViews() {
         btnPlayingClose.setOnClickListener {
             onBackPressed()
         }
@@ -36,7 +36,7 @@ class ListMusicPlayingActivity : AppCompatActivity(), PlayingListAdapter.OnAdapt
 
     private fun extraData() {
         val list: List<Song>? = intent?.extras?.getParcelableArrayList(Constant.KEY_LIST_SONG)
-        val position: Int? = intent?.extras?.getInt(Constant.KEY_SONG)
+        val position: Int? = intent?.extras?.getInt(Constant.KEY_POSITION_SONG)
         if (list != null && position != null) {
             mAdapter = PlayingListAdapter(list, position, this, this)
             mAdapter?.notifyDataSetChanged()
