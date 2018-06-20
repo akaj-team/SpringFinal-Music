@@ -2,6 +2,7 @@ package android.asiantech.vn.springfinalmusic.home
 
 import android.asiantech.vn.springfinalmusic.R
 import android.asiantech.vn.springfinalmusic.library.LibraryActivity
+import android.asiantech.vn.springfinalmusic.online.ParseMusic
 import android.content.Context
 import android.content.Intent
 import android.support.constraint.ConstraintLayout
@@ -16,14 +17,14 @@ class HomeAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHold
     private val mContext = context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        when (viewType) {
+        return when (viewType) {
             HEADER_OFFLINE, HEADER_ONLINE -> {
                 val view = LayoutInflater.from(mContext).inflate(R.layout.fragment_item_header_home, parent, false)
-                return ViewholderHeader(view)
+                ViewholderHeader(view)
             }
             else -> {
                 val view = LayoutInflater.from(mContext).inflate(R.layout.fragment_item_home, parent, false)
-                return ViewholderItem(view)
+                ViewholderItem(view)
             }
         }
     }
@@ -33,11 +34,11 @@ class HomeAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     override fun getItemViewType(position: Int): Int {
-        when (position) {
-            0 -> return HEADER_OFFLINE
-            1, 2, 3 -> return ITEM_OFFLINE
-            4 -> return HEADER_ONLINE
-            else -> return ITEM_ONLINE
+        return when (position) {
+            0 -> HEADER_OFFLINE
+            1, 2, 3 -> ITEM_OFFLINE
+            4 -> HEADER_ONLINE
+            else -> ITEM_ONLINE
         }
     }
 
@@ -77,6 +78,10 @@ class HomeAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHold
                 ItemHome.SEARCH.value -> {
                     mImgIconItem.setImageResource(R.drawable.custom_icon_search)
                     mTvItemHome.text = mContext.getString(R.string.btn_home_search_text)
+                    mClItemHome.setOnClickListener {
+                        val parseMusic:ParseMusic=ParseMusic()
+                        parseMusic.searchSong("nguoi am phu",3)
+                    }
                 }
                 ItemHome.CHARTS.value -> {
                     mImgIconItem.setImageResource(R.drawable.custom_icon_star)
@@ -105,11 +110,11 @@ class HomeAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     companion object {
-        val HEADER_OFFLINE = 0
-        val ITEM_OFFLINE = 1
-        val HEADER_ONLINE = 2
-        val ITEM_ONLINE = 3
-        val NUM_OF_ITEM = 7
+        const val HEADER_OFFLINE = 0
+        const val ITEM_OFFLINE = 1
+        const val HEADER_ONLINE = 2
+        const val ITEM_ONLINE = 3
+        const val NUM_OF_ITEM = 7
     }
 
     enum class ItemHome constructor(val value: Int) {

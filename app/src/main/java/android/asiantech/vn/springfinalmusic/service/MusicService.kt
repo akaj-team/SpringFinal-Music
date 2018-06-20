@@ -2,23 +2,21 @@ package android.asiantech.vn.springfinalmusic.service
 
 import android.app.*
 import android.asiantech.vn.springfinalmusic.R
+import android.asiantech.vn.springfinalmusic.headphone.HeadPhoneChangerReceiver
+import android.asiantech.vn.springfinalmusic.home.HomeActivity
+import android.asiantech.vn.springfinalmusic.library.LibraryActivity
 import android.asiantech.vn.springfinalmusic.model.Constant
 import android.asiantech.vn.springfinalmusic.model.Song
 import android.asiantech.vn.springfinalmusic.playmusic.PlayMusicActivity
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.*
-import android.widget.RemoteViews
-import java.util.ArrayList
-
-import java.util.*
-import android.asiantech.vn.springfinalmusic.headphone.HeadPhoneChangerReceiver
-import android.asiantech.vn.springfinalmusic.home.HomeActivity
-import android.asiantech.vn.springfinalmusic.library.LibraryActivity
-import android.content.IntentFilter
 import android.support.v4.app.NotificationCompat
+import android.widget.RemoteViews
+import java.util.*
 
 
 @Suppress("DEPRECATION")

@@ -16,7 +16,7 @@ class ParseMusic {
 
     init {
         mRetrofit = Retrofit.Builder()
-                .baseUrl(Constant.API_URL)
+                .baseUrl("API_BASE_URL")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 

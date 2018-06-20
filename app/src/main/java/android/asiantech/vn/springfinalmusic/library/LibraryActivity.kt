@@ -16,11 +16,14 @@ import kotlinx.android.synthetic.main.activity_library.*
 import android.view.inputmethod.InputMethodManager
 
 class LibraryActivity : AppCompatActivity() {
-    private lateinit var mPagerAdapter: LibraryPagerAdapter
+    private var mPagerAdapter: LibraryPagerAdapter?=null
     private var mIsShowSearch: Boolean = false
     private var mCurrentPage = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mPagerAdapter=null
+        mIsShowSearch=false
+        mCurrentPage=0
         setContentView(R.layout.activity_library)
         setListeners()
         initViews()
@@ -44,7 +47,7 @@ class LibraryActivity : AppCompatActivity() {
             showSearch(mIsShowSearch)
             showInputKeyboard(mIsShowSearch)
             if (!mIsShowSearch) {
-                mPagerAdapter.resetPage(mCurrentPage)
+                mPagerAdapter?.resetPage(mCurrentPage)
             }
         }
         edtToolBarSearch.addTextChangedListener(object : TextWatcher {
@@ -83,22 +86,22 @@ class LibraryActivity : AppCompatActivity() {
         when (vpMusicLibrary.currentItem) {
             LibraryType.SONGS -> {
                 if (mCurrentPage != LibraryType.SONGS) {
-                    mPagerAdapter.resetPage(mCurrentPage)
+                    mPagerAdapter?.resetPage(mCurrentPage)
                 }
             }
             LibraryType.PLAYLIST -> {
                 if (mCurrentPage != LibraryType.PLAYLIST) {
-                    mPagerAdapter.resetPage(mCurrentPage)
+                    mPagerAdapter?.resetPage(mCurrentPage)
                 }
             }
             LibraryType.ARSTIST -> {
                 if (mCurrentPage != LibraryType.ARSTIST) {
-                    mPagerAdapter.resetPage(mCurrentPage)
+                    mPagerAdapter?.resetPage(mCurrentPage)
                 }
             }
             LibraryType.ALBUM -> {
                 if (mCurrentPage != LibraryType.ALBUM) {
-                    mPagerAdapter.resetPage(mCurrentPage)
+                    mPagerAdapter?.resetPage(mCurrentPage)
                 }
             }
         }
@@ -107,16 +110,16 @@ class LibraryActivity : AppCompatActivity() {
     private fun loadDataSearch(s: CharSequence?) {
         when (vpMusicLibrary.currentItem) {
             LibraryType.SONGS -> {
-                mPagerAdapter.songsFragment.setListSong(ResourcesManager.getInstance().getDataSearchAll(s.toString()))
+                mPagerAdapter?.songsFragment?.setListSong(ResourcesManager.getInstance().getDataSearchAll(s.toString()))
             }
             LibraryType.PLAYLIST -> {
-                mPagerAdapter.playlistFragment.setListPlaylist(ResourcesManager.getInstance().getDataSearchPlayList(s.toString()))
+                mPagerAdapter?.playlistFragment?.setListPlaylist(ResourcesManager.getInstance().getDataSearchPlayList(s.toString()))
             }
             LibraryType.ARSTIST -> {
-                mPagerAdapter.artistFragment.setListArtist(ResourcesManager.getInstance().getDataSearchArtist(s.toString()))
+                mPagerAdapter?.artistFragment?.setListArtist(ResourcesManager.getInstance().getDataSearchArtist(s.toString()))
             }
             LibraryType.ALBUM -> {
-                mPagerAdapter.albumFragment.setListAlbum(ResourcesManager.getInstance().getDataSearchAlbum(s.toString()))
+                mPagerAdapter?.albumFragment?.setListAlbum(ResourcesManager.getInstance().getDataSearchAlbum(s.toString()))
             }
         }
     }

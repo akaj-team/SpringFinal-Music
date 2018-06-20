@@ -29,6 +29,7 @@
         <activity android:name=".library.CurrentMusicPlay" />
         <activity android:name=".playmusic.PlayMusicActivity" />
         <activity android:name=".playmusic.ListMusicPlayingActivity"/>
+        <activity android:name=".online.SearchKeywordActivity"/>
     </application>
 
 </manifest>
