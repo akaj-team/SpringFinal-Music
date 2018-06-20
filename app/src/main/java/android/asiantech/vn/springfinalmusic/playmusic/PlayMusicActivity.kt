@@ -13,6 +13,7 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.widget.SeekBar
 import android.widget.Toast
 import android.widget.Toast.makeText
@@ -26,6 +27,7 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     private lateinit var mToast: Toast
     private var mMinutesUntilFinished: Int? = 0
     private var mIsPause = false
+    private var mIsChangeProgress = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,9 +54,11 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         val duration = mCurrentSong.duration
         seekBarPlayMusic.max = 100
         tvPlayMusicTotalTime.text = miliSecondsToString(duration.toLong())
-        tvPlayMusicCurrentTime.text = miliSecondsToString(currentTime.toLong())
-        seekBarPlayMusic.progress = ((currentTime.toFloat() / duration) * 100).toInt()
-        viewCicleProgressBar.setProgress((currentTime.toFloat() / duration * 100))
+        if (!mIsChangeProgress) {
+            seekBarPlayMusic.progress = ((currentTime.toFloat() / duration) * 100).toInt()
+            tvPlayMusicCurrentTime.text = miliSecondsToString(currentTime.toLong())
+            viewCicleProgressBar.setProgress((currentTime.toFloat() / duration * 100))
+        }
         displayMode()
     }
 
@@ -256,13 +260,20 @@ class PlayMusicActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar?) {
+        mIsChangeProgress = true
     }
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+        if (seekBar != null) {
+            val currentTime = seekBar.progress * mCurrentSong.duration / 100
+            tvPlayMusicCurrentTime.text = miliSecondsToString(currentTime.toLong())
+            viewCicleProgressBar.setProgress((currentTime.toFloat() / mCurrentSong.duration * 100))
+        }
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
         if (seekBar != null) {
+            mIsChangeProgress = false
             val currentTime = seekBar.progress * mCurrentSong.duration / 100
             startService(Intent(this, MusicService::class.java)
                     .setAction(Constant.ACTION_SEEKBAR_CHANGED)
