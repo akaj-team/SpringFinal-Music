@@ -17,7 +17,7 @@ class HomeAdapter(context: Context, eventItemClick: IEventItemHomeClick) : Recyc
         return when (viewType) {
             HEADER_OFFLINE, HEADER_ONLINE -> {
                 val view = LayoutInflater.from(mContext).inflate(R.layout.fragment_item_header_home, parent, false)
-                ViewholderHeader(view)
+                ViewHolderHeader(view)
             }
             else -> {
                 val view = LayoutInflater.from(mContext).inflate(R.layout.fragment_item_home, parent, false)
@@ -43,7 +43,7 @@ class HomeAdapter(context: Context, eventItemClick: IEventItemHomeClick) : Recyc
         val type = getItemViewType(position)
         when (type) {
             HEADER_ONLINE, HEADER_OFFLINE -> {
-                holder as ViewholderHeader
+                holder as ViewHolderHeader
                 holder.onBind(position)
             }
             else -> {
@@ -94,11 +94,18 @@ class HomeAdapter(context: Context, eventItemClick: IEventItemHomeClick) : Recyc
                         mEventItemClick.onItemHomeClickDone(ItemHome.CHARTS)
                     }
                 }
+                ItemHome.TOP100.value -> {
+                    mImgIconItem.setImageResource(R.drawable.custom_icon_top100)
+                    mTvItemHome.text = mContext.getString(R.string.btn_home_top100_text)
+                    mClItemHome.setOnClickListener {
+                        mEventItemClick.onItemHomeClickDone(ItemHome.CHARTS)
+                    }
+                }
             }
         }
     }
 
-    inner class ViewholderHeader(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolderHeader(view: View) : RecyclerView.ViewHolder(view) {
         private var mTvHeaderText = view.findViewById<TextView>(R.id.tvItemHeaderHome)
         fun onBind(position: Int) {
             if (position == 0) {
@@ -114,7 +121,7 @@ class HomeAdapter(context: Context, eventItemClick: IEventItemHomeClick) : Recyc
         const val ITEM_OFFLINE = 1
         const val HEADER_ONLINE = 2
         const val ITEM_ONLINE = 3
-        const val NUM_OF_ITEM = 7
+        const val NUM_OF_ITEM = 8
     }
 
     enum class ItemHome constructor(val value: Int) {
@@ -122,6 +129,7 @@ class HomeAdapter(context: Context, eventItemClick: IEventItemHomeClick) : Recyc
         VIDEO(2),
         DOWNLOAD(3),
         SEARCH(5),
-        CHARTS(6)
+        CHARTS(6),
+        TOP100(7)
     }
 }
