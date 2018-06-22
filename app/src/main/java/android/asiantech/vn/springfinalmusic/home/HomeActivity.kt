@@ -159,6 +159,7 @@ class HomeActivity : AppCompatActivity(), IEventItemHomeClick {
         if (isShow) {
             clHomeMiniBar?.visibility = View.VISIBLE
             showSongInfo(mCurrentSong)
+            tvNameSongMiniBar.isSelected = true
         } else {
             clHomeMiniBar?.visibility = View.GONE
         }
