@@ -23,7 +23,7 @@ class PlaylistChoiceActivity : Activity(), IEventClosePlaylistChoice {
 
     private fun initRecycleView() {
         mLayoutwManager = LinearLayoutManager(this)
-        mAdapter = PlaylistChoiceAdapter(ResourcesManager.getInstance().getallSongFromDevice())
+        mAdapter = PlaylistChoiceAdapter(ResourcesManager.getInstance().getAllSongFromDevice())
         recycleViewPlaylistChoice.setHasFixedSize(true)
         recycleViewPlaylistChoice.layoutManager = mLayoutwManager
         recycleViewPlaylistChoice.adapter = mAdapter

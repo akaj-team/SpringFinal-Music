@@ -22,7 +22,7 @@ class ResourcesManager private constructor() {
     private var mListArtist = mutableListOf<String>()
     private var mListAlbum = mutableListOf<Album>()
     private var mListPlaylist = mutableListOf<Playlist>()
-    fun getallSongFromDevice(): MutableList<Song> {
+    fun getAllSongFromDevice(): MutableList<Song> {
         return mListSong
     }
 
@@ -68,7 +68,7 @@ class ResourcesManager private constructor() {
         initListAlbum(listAlbum)
         mListArtist = mListArtist.toSet().toMutableList()
         mListArtist.sort()
-        loadAllPlaylist(context)
+        loadAllPlayList(context)
     }
 
     private fun initListAlbum(listAlbum: List<String>) {
@@ -89,7 +89,7 @@ class ResourcesManager private constructor() {
         return mListAlbum
     }
 
-    fun loadAllPlaylist(context: Context) {
+    fun loadAllPlayList(context: Context) {
         mListPlaylist.clear()
         val sharePref = context.getSharedPreferences(context.resources.getString(R.string.library_text_playlist),
                 Context.MODE_PRIVATE)
