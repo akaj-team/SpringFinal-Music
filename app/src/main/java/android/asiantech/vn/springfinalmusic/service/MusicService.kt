@@ -20,13 +20,12 @@ import android.asiantech.vn.springfinalmusic.playmusic.ListMusicPlayingActivity
 import android.content.IntentFilter
 import android.support.v4.app.NotificationCompat
 
-
 @Suppress("DEPRECATION")
 class MusicService : Service(), MediaPlayer.OnCompletionListener
         , HeadPhoneChangerReceiver.IListenerHPhoneChanger {
     companion object {
         const val ID_NOTIFICATION = 1010
-        const val ID_NITIFICATION_CHANNEL = "2020"
+        const val ID_NOTIFICATION_CHANNEL = "2020"
     }
 
     private var mTaskStackBuilder: TaskStackBuilder? = null
@@ -151,7 +150,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
 
     private fun openActivityPlayMusic() {
         val intentPlayMusic = Intent(this, PlayMusicActivity::class.java)
-        intentPlayMusic.setAction(Constant.KEY_PLAYING)
+        intentPlayMusic.action = Constant.KEY_PLAYING
         intentPlayMusic.putExtra(Constant.KEY_SONG, mSongCurrent)
         intentPlayMusic.putExtra(Constant.KEY_PLAYING, mMediaPlayer?.isPlaying)
         intentPlayMusic.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -255,7 +254,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
 
         mNotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mNotificationManager?.createNotificationChannel(NotificationChannel(ID_NITIFICATION_CHANNEL
+            mNotificationManager?.createNotificationChannel(NotificationChannel(ID_NOTIFICATION_CHANNEL
                     , "Music Playing"
                     , NotificationManager.IMPORTANCE_LOW))
         }
@@ -265,7 +264,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
                 .setContentIntent(pendingIntent)
                 .setCustomContentView(mRemoteViews)
                 .setCustomBigContentView(mRemoteViewsExtends)
-                .setChannelId(ID_NITIFICATION_CHANNEL)
+                .setChannelId(ID_NOTIFICATION_CHANNEL)
                 .build()
         startForeground(ID_NOTIFICATION, mNotification)
         mNotificationManager?.notify(ID_NOTIFICATION, mNotification)
@@ -289,7 +288,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
         sendBroadcast(Intent()
                 .setAction(Constant.ACTION_SONG_IS_CHANGED)
                 .putExtra(Constant.KEY_POSITION_SONG, mPositionSong)
-                .putExtra(Constant.KEY_SONG, mSongList.get(mPositionSong)))
+                .putExtra(Constant.KEY_SONG, mSongList[mPositionSong]))
     }
 
     private fun isLastSong(positionCurrent: Int): Boolean {

@@ -31,7 +31,7 @@ class HomeActivity : AppCompatActivity(), IEventItemHomeClick {
     private lateinit var mReceiver: BroadcastReceiver
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        setContentView(R.layout.activity_home_new)
         initViews()
         initBroadcastReceiver()
         setListeners()
@@ -44,52 +44,52 @@ class HomeActivity : AppCompatActivity(), IEventItemHomeClick {
         mDialogTimer = AlarmDialog(this, 0)
         mToast = Toast.makeText(this, "", Toast.LENGTH_SHORT)
         mToast?.setText(Constant.HOME_TOAST_TEXT)
-        recycleViewHome.layoutManager = LinearLayoutManager(this)
-        recycleViewHome.adapter = mAdapter
-        recycleViewHome.setHasFixedSize(true)
+        recycleViewHome?.layoutManager = LinearLayoutManager(this)
+        recycleViewHome?.adapter = mAdapter
+        recycleViewHome?.setHasFixedSize(true)
     }
 
     private fun setListeners() {
-        btnMenuHomeTimer.setOnClickListener {
+        btnMenuHomeTimer?.setOnClickListener {
             showTimer()
         }
-        btnDrawerLayout.setOnClickListener {
+        btnDrawerLayout?.setOnClickListener {
             dlHomeDrawerLayout.openDrawer(Gravity.LEFT)
         }
-        clHomeMiniBar.setOnClickListener {
+        clHomeMiniBar?.setOnClickListener {
 
         }
-        btnPlayMiniBar.setOnClickListener {
+        btnPlayMiniBar?.setOnClickListener {
             mIsPause = !mIsPause
             val intent = Intent(this, MusicService::class.java)
             if (mIsPause) {
-                intent.setAction(Constant.ACTION_PAUSE_MUSIC)
+                intent.action = Constant.ACTION_PAUSE_MUSIC
             } else {
-                intent.setAction(Constant.ACTION_RESUME_MUSIC)
+                intent.action = Constant.ACTION_RESUME_MUSIC
             }
             startService(intent)
         }
-        btnNextMiniBar.setOnClickListener {
+        btnNextMiniBar?.setOnClickListener {
             val intent = Intent(this, MusicService::class.java)
-            intent.setAction(Constant.ACTION_NEXT_MUSIC)
+            intent.action = Constant.ACTION_NEXT_MUSIC
             startService(intent)
         }
 
-        btnPlayingListMiniBar.setOnClickListener {
+        btnPlayingListMiniBar?.setOnClickListener {
             val intent = Intent(this, MusicService::class.java)
-            intent.setAction(Constant.ACTION_SHOW_LIST_CURRENT_MUSIC)
+            intent.action = Constant.ACTION_SHOW_LIST_CURRENT_MUSIC
             startService(intent)
         }
-        clHomeMiniBar.setOnClickListener {
+        clHomeMiniBar?.setOnClickListener {
             startService(Intent(this, MusicService::class.java).setAction(Constant.ACTION_SHOW_CURRENT_MUSIC))
         }
     }
 
     fun showViews(isShow: Boolean = true) {
         if (isShow) {
-            dlHomeDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+            dlHomeDrawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
         } else {
-            dlHomeDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+            dlHomeDrawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         }
     }
 
@@ -102,10 +102,10 @@ class HomeActivity : AppCompatActivity(), IEventItemHomeClick {
             HomeAdapter.ItemHome.LIBRARY -> {
                 val libraryFragment = LibraryFragment()
                 val fragmentManager = supportFragmentManager
-                fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter, R.anim.out).replace(R.id.clFragment, libraryFragment)
+                fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter, R.anim.out).replace(R.id.drawerLayout, libraryFragment)
                         .addToBackStack(LibraryFragment::class.java.simpleName).commit()
                 showViews(false)
-                dlHomeDrawerLayout.requestLayout()
+                dlHomeDrawerLayout?.requestLayout()
             }
             else -> {
                 mToast?.show()
@@ -157,31 +157,32 @@ class HomeActivity : AppCompatActivity(), IEventItemHomeClick {
     private fun showMinibar(isShow: Boolean = true) {
         isShowMinibar = isShow
         if (isShow) {
-            clHomeMiniBar.visibility = View.VISIBLE
+            clHomeMiniBar?.visibility = View.VISIBLE
             showSongInfo(mCurrentSong)
+            tvNameSongMiniBar.isSelected = true
         } else {
-            clHomeMiniBar.visibility = View.INVISIBLE
+            clHomeMiniBar?.visibility = View.INVISIBLE
         }
     }
 
     private fun showMinibarInfo(currentTime: Int) {
         val duration = mCurrentSong.duration
-        progressBarMiniBar.progress = (currentTime.toFloat() / duration * 100).toInt()
-        tvCurrentTimeMiniBar.text = String.format("%02d:%02d", currentTime / 1000 / 60, currentTime / 1000 % 60)
+        progressBarMiniBar?.progress = (currentTime.toFloat() / duration * 100).toInt()
+        tvCurrentTimeMiniBar?.text = String.format("%02d:%02d", currentTime / 1000 / 60, currentTime / 1000 % 60)
     }
 
     private fun showSongInfo(song: Song) {
-        tvNameSingerMiniBar.text = song.artist
-        tvNameSongMiniBar.text = song.title
+        tvNameSingerMiniBar?.text = song.artist
+        tvNameSongMiniBar?.text = song.title
     }
 
     private fun changeImageButtonPlay(isPause: Boolean = false) {
         if (isPause) {
             mIsPause = true
-            btnPlayMiniBar.background = ContextCompat.getDrawable(this, R.drawable.ic_btn_minibar_play_normal)
+            btnPlayMiniBar?.background = ContextCompat.getDrawable(this, R.drawable.ic_btn_minibar_play_normal)
         } else {
             mIsPause = false
-            btnPlayMiniBar.background = ContextCompat.getDrawable(this, R.drawable.ic_btn_minibar_pause_normal)
+            btnPlayMiniBar?.background = ContextCompat.getDrawable(this, R.drawable.ic_btn_minibar_pause_normal)
         }
     }
 

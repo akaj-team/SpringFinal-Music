@@ -12,7 +12,6 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,7 +40,7 @@ class SongsFragment : Fragment() {
     }
 
     fun reset() {
-        mAdapter.setListSong(ResourcesManager.getInstance().getallSongFromDevice())
+        mAdapter.setListSong(ResourcesManager.getInstance().getAllSongFromDevice())
     }
 
     private fun initViewsAndEvent() {
@@ -67,7 +66,7 @@ class SongsFragment : Fragment() {
     }
 
     private fun initRecycleView() {
-        mListSong = ResourcesManager.getInstance().getallSongFromDevice()
+        mListSong = ResourcesManager.getInstance().getAllSongFromDevice()
         mViewManager = LinearLayoutManager(activity)
         mAdapter = SongsAdapter(mListSong, context)
         recycleViewSongs.setHasFixedSize(true)
