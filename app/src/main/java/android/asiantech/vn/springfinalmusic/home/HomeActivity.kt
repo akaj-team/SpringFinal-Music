@@ -102,7 +102,7 @@ class HomeActivity : AppCompatActivity(), IEventItemHomeClick {
             HomeAdapter.ItemHome.LIBRARY -> {
                 val libraryFragment = LibraryFragment()
                 val fragmentManager = supportFragmentManager
-                fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter, R.anim.out).replace(R.id.drawerLayout, libraryFragment)
+                fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter, R.anim.out).replace(R.id.coordinatorLayout, libraryFragment)
                         .addToBackStack(LibraryFragment::class.java.simpleName).commit()
                 showViews(false)
                 dlHomeDrawerLayout?.requestLayout()
@@ -160,7 +160,7 @@ class HomeActivity : AppCompatActivity(), IEventItemHomeClick {
             clHomeMiniBar?.visibility = View.VISIBLE
             showSongInfo(mCurrentSong)
         } else {
-            clHomeMiniBar?.visibility = View.INVISIBLE
+            clHomeMiniBar?.visibility = View.GONE
         }
     }
 

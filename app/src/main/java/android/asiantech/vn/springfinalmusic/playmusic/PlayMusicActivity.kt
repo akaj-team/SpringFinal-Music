@@ -2,10 +2,10 @@ package android.asiantech.vn.springfinalmusic.playmusic
 
 import android.annotation.SuppressLint
 import android.asiantech.vn.springfinalmusic.R
+import android.asiantech.vn.springfinalmusic.alarm.AlarmDialog
 import android.asiantech.vn.springfinalmusic.model.Constant
 import android.asiantech.vn.springfinalmusic.model.Song
 import android.asiantech.vn.springfinalmusic.service.MusicService
-import android.asiantech.vn.springfinalmusic.alarm.AlarmDialog
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -13,7 +13,6 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.widget.SeekBar
 import android.widget.Toast
 import android.widget.Toast.makeText
