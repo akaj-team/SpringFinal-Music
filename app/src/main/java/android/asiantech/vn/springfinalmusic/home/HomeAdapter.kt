@@ -1,10 +1,8 @@
 package android.asiantech.vn.springfinalmusic.home
 
 import android.asiantech.vn.springfinalmusic.R
-import android.asiantech.vn.springfinalmusic.library.LibraryActivity
 import android.asiantech.vn.springfinalmusic.online.ParseMusic
 import android.content.Context
-import android.content.Intent
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -13,14 +11,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 
-class HomeAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HomeAdapter(context: Context, eventItemClick: IEventItemHomeClick) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val mContext = context
-
+    private val mEventItemClick: IEventItemHomeClick = eventItemClick
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             HEADER_OFFLINE, HEADER_ONLINE -> {
                 val view = LayoutInflater.from(mContext).inflate(R.layout.fragment_item_header_home, parent, false)
-                ViewholderHeader(view)
+                ViewHolderHeader(view)
             }
             else -> {
                 val view = LayoutInflater.from(mContext).inflate(R.layout.fragment_item_home, parent, false)
@@ -46,7 +44,7 @@ class HomeAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHold
         val type = getItemViewType(position)
         when (type) {
             HEADER_ONLINE, HEADER_OFFLINE -> {
-                holder as ViewholderHeader
+                holder as ViewHolderHeader
                 holder.onBind(position)
             }
             else -> {
@@ -65,40 +63,52 @@ class HomeAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHold
                 ItemHome.LIBRARY.value -> {
                     mImgIconItem.setImageResource(R.drawable.custom_icon_library)
                     mTvItemHome.text = mContext.getString(R.string.home_button_text_library)
-                    initListener()
+                    mClItemHome.setOnClickListener {
+                        mEventItemClick.onItemHomeClickDone(ItemHome.LIBRARY)
+                    }
                 }
                 ItemHome.VIDEO.value -> {
                     mImgIconItem.setImageResource(R.drawable.custom_icon_video)
                     mTvItemHome.text = mContext.getString(R.string.btn_home_text)
+                    mClItemHome.setOnClickListener {
+                        mEventItemClick.onItemHomeClickDone(ItemHome.VIDEO)
+                    }
                 }
                 ItemHome.DOWNLOAD.value -> {
                     mImgIconItem.setImageResource(R.drawable.custom_icon_download)
                     mTvItemHome.text = mContext.getString(R.string.btn_home_download_text)
+                    mClItemHome.setOnClickListener {
+                        mEventItemClick.onItemHomeClickDone(ItemHome.DOWNLOAD)
+                    }
                 }
                 ItemHome.SEARCH.value -> {
                     mImgIconItem.setImageResource(R.drawable.custom_icon_search)
                     mTvItemHome.text = mContext.getString(R.string.btn_home_search_text)
                     mClItemHome.setOnClickListener {
-                        val parseMusic:ParseMusic=ParseMusic()
+                        mEventItemClick.onItemHomeClickDone(ItemHome.SEARCH)
+                        val parseMusic=ParseMusic()
                         parseMusic.searchSong("nguoi am phu",3)
                     }
                 }
                 ItemHome.CHARTS.value -> {
                     mImgIconItem.setImageResource(R.drawable.custom_icon_star)
                     mTvItemHome.text = mContext.getString(R.string.btn_home_ranker_text)
+                    mClItemHome.setOnClickListener {
+                        mEventItemClick.onItemHomeClickDone(ItemHome.CHARTS)
+                    }
                 }
-            }
-        }
-
-        private fun initListener() {
-            mClItemHome.setOnClickListener {
-                val intent = Intent(mContext, LibraryActivity::class.java)
-                mContext.startActivity(intent)
+                ItemHome.TOP100.value -> {
+                    mImgIconItem.setImageResource(R.drawable.custom_icon_top100)
+                    mTvItemHome.text = mContext.getString(R.string.btn_home_top100_text)
+                    mClItemHome.setOnClickListener {
+                        mEventItemClick.onItemHomeClickDone(ItemHome.CHARTS)
+                    }
+                }
             }
         }
     }
 
-    inner class ViewholderHeader(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolderHeader(view: View) : RecyclerView.ViewHolder(view) {
         private var mTvHeaderText = view.findViewById<TextView>(R.id.tvItemHeaderHome)
         fun onBind(position: Int) {
             if (position == 0) {
@@ -114,7 +124,7 @@ class HomeAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHold
         const val ITEM_OFFLINE = 1
         const val HEADER_ONLINE = 2
         const val ITEM_ONLINE = 3
-        const val NUM_OF_ITEM = 7
+        const val NUM_OF_ITEM = 8
     }
 
     enum class ItemHome constructor(val value: Int) {
@@ -122,6 +132,7 @@ class HomeAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHold
         VIDEO(2),
         DOWNLOAD(3),
         SEARCH(5),
-        CHARTS(6)
+        CHARTS(6),
+        TOP100(7)
     }
 }

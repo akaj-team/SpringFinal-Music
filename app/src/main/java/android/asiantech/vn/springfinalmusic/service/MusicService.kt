@@ -2,28 +2,28 @@ package android.asiantech.vn.springfinalmusic.service
 
 import android.app.*
 import android.asiantech.vn.springfinalmusic.R
-import android.asiantech.vn.springfinalmusic.headphone.HeadPhoneChangerReceiver
-import android.asiantech.vn.springfinalmusic.home.HomeActivity
-import android.asiantech.vn.springfinalmusic.library.LibraryActivity
 import android.asiantech.vn.springfinalmusic.model.Constant
 import android.asiantech.vn.springfinalmusic.model.Song
 import android.asiantech.vn.springfinalmusic.playmusic.PlayMusicActivity
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.*
 import android.support.v4.app.NotificationCompat
 import android.widget.RemoteViews
 import java.util.*
-
+import android.asiantech.vn.springfinalmusic.headphone.HeadPhoneChangerReceiver
+import android.asiantech.vn.springfinalmusic.home.HomeActivity
+import android.asiantech.vn.springfinalmusic.playmusic.ListMusicPlayingActivity
+import android.content.IntentFilter
 
 @Suppress("DEPRECATION")
 class MusicService : Service(), MediaPlayer.OnCompletionListener
         , HeadPhoneChangerReceiver.IListenerHPhoneChanger {
     companion object {
         const val ID_NOTIFICATION = 1010
+        const val ID_NOTIFICATION_CHANNEL = "2020"
     }
 
     private var mTaskStackBuilder: TaskStackBuilder? = null
@@ -50,7 +50,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
 
     private fun initBackStack() {
         mTaskStackBuilder?.addNextIntentWithParentStack(Intent(this, HomeActivity::class.java))
-        mTaskStackBuilder?.addNextIntentWithParentStack(Intent(this, LibraryActivity::class.java))
     }
 
     private fun isSongCurrent(song: Song): Boolean {
@@ -75,6 +74,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
                             resumeMusic()
                         }
                     }
+                    openActivityPlayMusic()
                 }
                 Constant.ACTION_RESUME_MUSIC -> {
                     resumeMusic()
@@ -122,9 +122,37 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
                     mCountDownTimer?.cancel()
                     sendTimerOnActivity(0)
                 }
+
+                Constant.ACTION_SHOW_LIST_CURRENT_MUSIC -> {
+                    val intentPlayingActivity = Intent(this, ListMusicPlayingActivity::class.java)
+                    intentPlayingActivity.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    intentPlayingActivity.putParcelableArrayListExtra(Constant.KEY_LIST_SONG, mSongList as ArrayList<out Parcelable>)
+                    intentPlayingActivity.putExtra(Constant.KEY_POSITION_SONG, mPositionSong)
+                    startActivity(intentPlayingActivity)
+                }
+
+                Constant.ACTION_SHOW_CURRENT_MUSIC -> {
+                    openActivityPlayMusic()
+                }
+
+                Constant.ACTION_GET_CURRENT_SONG -> {
+                    sendBroadcast(Intent()
+                            .setAction(Constant.ACTION_GET_CURRENT_SONG)
+                            .putExtra(Constant.KEY_SONG, mSongCurrent))
+                }
+
             }
         }
         return Service.START_NOT_STICKY
+    }
+
+    private fun openActivityPlayMusic() {
+        val intentPlayMusic = Intent(this, PlayMusicActivity::class.java)
+        intentPlayMusic.action = Constant.KEY_PLAYING
+        intentPlayMusic.putExtra(Constant.KEY_SONG, mSongCurrent)
+        intentPlayMusic.putExtra(Constant.KEY_PLAYING, mMediaPlayer?.isPlaying)
+        intentPlayMusic.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intentPlayMusic)
     }
 
     private fun changedImageBtnPlayNotification() {
@@ -209,10 +237,10 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
     }
 
     private fun initNotification() {
-        if ((mTaskStackBuilder?.intentCount as Int) < 3) {
+        if ((mTaskStackBuilder?.intentCount as Int) < 2) {
             mTaskStackBuilder?.addNextIntentWithParentStack(callBackDataToActivity())
         } else {
-            mTaskStackBuilder?.editIntentAt(2)?.replaceExtras(callBackDataToActivity())
+            mTaskStackBuilder?.editIntentAt(1)?.replaceExtras(callBackDataToActivity())
         }
 
         val pendingIntent = mTaskStackBuilder?.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -223,11 +251,18 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
         prepareExtendMusicNotification(mRemoteViewsExtends)
 
         mNotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mNotificationManager?.createNotificationChannel(NotificationChannel(ID_NOTIFICATION_CHANNEL
+                    , "Music Playing"
+                    , NotificationManager.IMPORTANCE_LOW))
+        }
+
         mNotification = NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_music_note_black_24dp)
                 .setContentIntent(pendingIntent)
                 .setCustomContentView(mRemoteViews)
                 .setCustomBigContentView(mRemoteViewsExtends)
+                .setChannelId(ID_NOTIFICATION_CHANNEL)
                 .build()
         startForeground(ID_NOTIFICATION, mNotification)
         mNotificationManager?.notify(ID_NOTIFICATION, mNotification)
@@ -250,7 +285,8 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener
     private fun sendChangerSong() {
         sendBroadcast(Intent()
                 .setAction(Constant.ACTION_SONG_IS_CHANGED)
-                .putExtra(Constant.KEY_POSITION_SONG, mPositionSong))
+                .putExtra(Constant.KEY_POSITION_SONG, mPositionSong)
+                .putExtra(Constant.KEY_SONG, mSongList[mPositionSong]))
     }
 
     private fun isLastSong(positionCurrent: Int): Boolean {

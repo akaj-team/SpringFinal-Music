@@ -1,5 +1,6 @@
 package android.asiantech.vn.springfinalmusic.online
 
+import android.asiantech.vn.springfinalmusic.BuildConfig
 import android.asiantech.vn.springfinalmusic.model.Constant
 import android.asiantech.vn.springfinalmusic.online.mode.SSData
 import android.asiantech.vn.springfinalmusic.online.mode.SongSearch
@@ -16,7 +17,7 @@ class ParseMusic {
 
     init {
         mRetrofit = Retrofit.Builder()
-                .baseUrl("API_BASE_URL")
+                .baseUrl(BuildConfig.API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
